@@ -2,6 +2,8 @@ package com.avenida.hazelcast.config;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.Validate;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +28,9 @@ public class HazelcastWebConsoleMVCConfiguration
 
   @Autowired
   @Bean public HazelcastWebConsoleController hzWebConsoleController(
-      final HazelcastInstance hz) {
-    return new HazelcastWebConsoleController(hz);
+      final HazelcastInstance hz, final SessionFactory sf) {
+    Validate.notNull(sf);
+    return new HazelcastWebConsoleController(hz, sf);
   }
 
   @Bean

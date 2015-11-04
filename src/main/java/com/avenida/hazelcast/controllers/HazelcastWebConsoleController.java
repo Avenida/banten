@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
+import org.hibernate.SessionFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,8 @@ public class HazelcastWebConsoleController {
    * @param hzInstance the Hazelcast instance, cannot be null.
    */
   @Autowired
-  public HazelcastWebConsoleController(final HazelcastInstance hzInstance) {
+  public HazelcastWebConsoleController(final HazelcastInstance hzInstance,
+      final SessionFactory sf) {
     Validate.notNull(hzInstance, "The client instance cannot be null");
     hazelcast = hzInstance;
     InputStream json;

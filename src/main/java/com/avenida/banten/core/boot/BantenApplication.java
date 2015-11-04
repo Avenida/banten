@@ -42,7 +42,7 @@ public class BantenApplication {
    * @param modules the list of modules to bootstrap, cannot be null.
    */
   @SafeVarargs
-  public BantenApplication(final Class<? extends Module> ... modules) {
+  BantenApplication(final Class<? extends Module> ... modules) {
     Validate.notNull(modules, "The modules cannot be null");
     moduleClasses = Arrays.asList(modules);
   }
@@ -54,16 +54,11 @@ public class BantenApplication {
     configurationClasses.addAll(Arrays.asList(configurations));
   }
 
-  /** Run the Spring application.
-   * This action creates and refresh the new application context.
-   *
-   * @param mainClass the root class for the component scanning.
-   * @param args the command line arguments.
-   *
-   * @return the new Spring's ApplicationContext.
+  /** Creates the Spring's Application.
+   * @param mainClass the main class.
+   * @return the Spring Application, never null.
    */
-  public ConfigurableApplicationContext run(
-      final Class<?> mainClass, final String[] args) {
+  public SpringApplication createApplication(final Class<?> mainClass) {
     SpringApplication app = new SpringApplication(mainClass);
 
     app.addInitializers(
@@ -103,8 +98,20 @@ public class BantenApplication {
 
     log.info("Finish application configuration, starting Spring's context");
 
-    return app.run(args);
+    return app;
+  }
 
+  /** Run the Spring application.
+   * This action creates and refresh the new application context.
+   *
+   * @param mainClass the root class for the component scanning.
+   * @param args the command line arguments.
+   *
+   * @return the new Spring's ApplicationContext.
+   */
+  public ConfigurableApplicationContext run(
+      final Class<?> mainClass, final String[] args) {
+    return createApplication(mainClass).run(args);
   }
 
   /** Register the modules within the Spring's root application context.
@@ -113,8 +120,7 @@ public class BantenApplication {
    */
   private void registerModules(final BeanDefinitionRegistry registry)
       throws Error {
-
-    log.info("Registering Avenida Modules");
+    log.info("Registering Banten Modules");
 
     for(Class<? extends Module> moduleClass : moduleClasses) {
 
@@ -129,42 +135,83 @@ public class BantenApplication {
 
       log.info("Registering: {}" , module.getName());
 
-      // Register the Module.
-      BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
-          module.getModuleConfiguration());
-      registry.registerBeanDefinition(module.getName(), moduleDef);
+      registerModule(registry, module);
+      registerMVC(registry, module);
+      registerPersistenceUnits(registry, module);
 
-      // Register the MVC if any.
-      if (module.getMvcConfiguration() != null) {
+    }
 
-        String name = "mvc-" + module.getName();
+    log.info("Finish the registration of the Banten modules");
+  }
 
-        log.info("Registering mvc for: {}" , module.getName());
+  /** Register the Module.
+   * @param registry the bean definition registry.
+   * @param module the module.
+   */
+  private void registerModule(final BeanDefinitionRegistry registry,
+      final Module module) {
+    BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
+        module.getModuleConfiguration());
+    moduleDef.setLazyInit(true);
+    registry.registerBeanDefinition(module.getName(), moduleDef);
+  }
 
-        DispatcherServlet dispatcherServlet = new DispatcherServlet();
+  /** Register the MVC.
+   * @param registry the bean definition registry.
+   * @param module the module.
+   */
+  private void registerMVC(final BeanDefinitionRegistry registry,
+      final Module module) {
+    if (module.getMvcConfiguration() != null) {
+      String name = "mvc-" + module.getName();
 
-        AnnotationConfigWebApplicationContext ctx;
-        ctx = new AnnotationConfigWebApplicationContext();
-        ctx.register(module.getMvcConfiguration());
-        //ctx.setParent(parentContext); ??
+      log.info("Registering MVC for: {}", module.getName());
 
-        dispatcherServlet.setApplicationContext(ctx);
+      DispatcherServlet dispatcherServlet = new DispatcherServlet();
 
-        ConstructorArgumentValues args;
-        args = new ConstructorArgumentValues();
-        args.addIndexedArgumentValue(0, dispatcherServlet);
-        args.addIndexedArgumentValue(1,  module.getUrlMapping());
+      AnnotationConfigWebApplicationContext ctx;
+      ctx = new AnnotationConfigWebApplicationContext();
+      ctx.register(module.getMvcConfiguration());
+      // ctx.setParent(parentContext); ??
 
-        MutablePropertyValues mpv = new MutablePropertyValues();
-        mpv.add("name", name);
+      dispatcherServlet.setApplicationContext(ctx);
 
-        GenericBeanDefinition mvcDef = new GenericBeanDefinition();
-        mvcDef.setBeanClass(ServletRegistrationBean.class);
-        mvcDef.setConstructorArgumentValues(args);
-        mvcDef.setPropertyValues(mpv);
+      ConstructorArgumentValues args;
+      args = new ConstructorArgumentValues();
+      args.addIndexedArgumentValue(0, dispatcherServlet);
+      args.addIndexedArgumentValue(1, module.getUrlMapping());
 
-        registry.registerBeanDefinition(name , mvcDef);
-      }
+      MutablePropertyValues mpv = new MutablePropertyValues();
+      mpv.add("name", name);
+
+      GenericBeanDefinition mvcDef = new GenericBeanDefinition();
+      mvcDef.setBeanClass(ServletRegistrationBean.class);
+      mvcDef.setConstructorArgumentValues(args);
+      mvcDef.setPropertyValues(mpv);
+
+      registry.registerBeanDefinition(name, mvcDef);
+    }
+  }
+
+  /** Register the persistence units.
+   * @param registry the bean definition registry.
+   * @param module the module.
+   */
+  private void registerPersistenceUnits(final BeanDefinitionRegistry registry,
+      final Module module) {
+    if(module.getPersistenceUnits() != null) {
+      String name = "persistence-units-" + module.getName();
+
+      ConstructorArgumentValues args;
+      args = new ConstructorArgumentValues();
+      args.addIndexedArgumentValue(0, "persistenceUnitList");
+      args.addIndexedArgumentValue(1, module.getPersistenceUnits());
+
+      GenericBeanDefinition bean = new GenericBeanDefinition();
+      bean.setBeanClass(ListFactoryAppender.class);
+      bean.setConstructorArgumentValues(args);
+
+      registry.registerBeanDefinition(name, bean);
     }
   }
 
@@ -186,8 +233,8 @@ public class BantenApplication {
       final BeanDefinitionRegistry registry) {
     for (Class<?> klass : configurationClasses) {
       log.info("Registering: {}" , klass.getName());
-      BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(klass);
-      registry.registerBeanDefinition(klass.getName(), moduleDef);
+      BeanDefinition configBean = new AnnotatedGenericBeanDefinition(klass);
+      registry.registerBeanDefinition(klass.getName(), configBean);
     }
   }
 

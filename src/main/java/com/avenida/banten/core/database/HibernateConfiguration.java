@@ -106,7 +106,7 @@ public class HibernateConfiguration {
    * @param tm the transaction manager.
    * @return the transaction handler, it's never null.
    */
-  @Bean(name = "avenida.transaction")
+  @Bean(name = "banten.transaction")
   public Transaction transaction(final HibernateTransactionManager tm) {
     return new Transaction(tm);
   }
