@@ -27,6 +27,11 @@ public class Repository {
     sf.getCurrentSession().saveOrUpdate(entity);
   }
 
+  public void save(final MockEntityWithCollectionWithTuplizers entity) {
+    sf.getCurrentSession().saveOrUpdate(entity);
+  }
+
+
   public MockEntity byName(final String name) {
     Criteria criteria = sf.getCurrentSession().createCriteria(MockEntity.class);
     criteria.add(Restrictions.eq("name", name));
@@ -37,6 +42,14 @@ public class Repository {
   public List<MockEntityWithTuplizer> all() {
     Criteria criteria = sf.getCurrentSession()
         .createCriteria(MockEntityWithTuplizer.class);
+    return criteria.list();
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<MockEntityWithCollectionWithTuplizers> allWithTuplizers() {
+    Criteria criteria = sf.getCurrentSession()
+        .createCriteria(MockEntityWithCollectionWithTuplizers.class);
+    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     return criteria.list();
   }
 

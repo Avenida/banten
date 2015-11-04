@@ -34,6 +34,7 @@ public class DatabaseTestModule implements Module {
     list.add(new PersistenceUnit(MockEntity.class));
     list.add(new PersistenceUnit(MockEntityWithTuplizer.class,
         MockEntityWithTuplizerFactory.class));
+    list.add(new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class));
     return list;
   }
 

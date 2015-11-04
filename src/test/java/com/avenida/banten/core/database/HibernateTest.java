@@ -3,6 +3,7 @@ package com.avenida.banten.core.database;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,7 +41,26 @@ public class HibernateTest {
     tx.commit();
     tx.start();
     List<MockEntityWithTuplizer> mocks = repository.all();
-    mocks.get(0).getDependency();
+    assertThat(mocks.get(0).getDependency(), is("foo"));
+    tx.commit();
+  }
+
+  @Test public void testCollectionTuplizer() {
+    tx.start();
+    MockEntityWithCollectionWithTuplizers a;
+    a = new MockEntityWithCollectionWithTuplizers(
+        "foo",
+        Arrays.asList(
+            new MockEntityWithTuplizer("pepe", true),
+            new MockEntityWithTuplizer("pepe 2", true)
+        )
+    );
+    repository.save(a);
+    tx.commit();
+    tx.start();
+    MockEntityWithTuplizer b = repository.allWithTuplizers().get(0)
+        .getWithTuplizers().get(0);
+    assertThat(b.getDependency(), is("foo"));
     tx.commit();
   }
 
