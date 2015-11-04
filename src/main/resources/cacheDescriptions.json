@@ -1,0 +1,34 @@
+[
+  {
+    "name" : "category",
+    "readOnly" : "true"
+  },
+  {
+    "name" : "catalog-app-menu",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "catalog-app-static-content",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "catalog-app-merchant",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "catalog-api-recommendations",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "catalog-api-crossell",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "hibernate-user-region",
+    "readOnly" : "false"
+  },
+  {
+    "name" : "default",
+    "readOnly" : "true"
+  }
+]
