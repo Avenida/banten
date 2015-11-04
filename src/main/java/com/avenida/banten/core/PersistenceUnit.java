@@ -14,7 +14,7 @@ public class PersistenceUnit {
   private final Class<?> persistenceClass;
 
   /** The factory class for this persistence class, can be null.*/
-  private final Class<?> factory;
+  private final Class<? extends Factory> factory;
 
   /** Creates a new instance of the persistence unit with an empty factory.
    * @param thePersistenceClass the persistence class, cannot be null.
@@ -31,7 +31,7 @@ public class PersistenceUnit {
    *  cannot be null.
    */
   public PersistenceUnit(final Class<?> thePersistenceClass,
-      final Class<?> theFactory) {
+      final Class<? extends Factory> theFactory) {
     notNull(thePersistenceClass, "The persistence class cannot be null");
     notNull(theFactory, "The factory class cannot be null");
     persistenceClass = thePersistenceClass;
@@ -48,7 +48,7 @@ public class PersistenceUnit {
   /** Retrieves the factory for the current persistence class.
    * @return the factory or null.
    */
-  public Class<?> getFactory() {
+  public Class<? extends Factory> getFactory() {
     return factory;
   }
 

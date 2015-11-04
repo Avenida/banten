@@ -1,5 +1,7 @@
 package com.avenida.banten.core.database;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -21,10 +23,21 @@ public class Repository {
     sf.getCurrentSession().saveOrUpdate(entity);
   }
 
+  public void save(final MockEntityWithTuplizer entity) {
+    sf.getCurrentSession().saveOrUpdate(entity);
+  }
+
   public MockEntity byName(final String name) {
     Criteria criteria = sf.getCurrentSession().createCriteria(MockEntity.class);
     criteria.add(Restrictions.eq("name", name));
     return (MockEntity) criteria.uniqueResult();
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<MockEntityWithTuplizer> all() {
+    Criteria criteria = sf.getCurrentSession()
+        .createCriteria(MockEntityWithTuplizer.class);
+    return criteria.list();
   }
 
 }

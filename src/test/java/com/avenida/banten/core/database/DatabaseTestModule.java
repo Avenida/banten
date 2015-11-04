@@ -32,6 +32,8 @@ public class DatabaseTestModule implements Module {
   public List<PersistenceUnit> getPersistenceUnits() {
     List<PersistenceUnit> list = new LinkedList<>();
     list.add(new PersistenceUnit(MockEntity.class));
+    list.add(new PersistenceUnit(MockEntityWithTuplizer.class,
+        MockEntityWithTuplizerFactory.class));
     return list;
   }
 

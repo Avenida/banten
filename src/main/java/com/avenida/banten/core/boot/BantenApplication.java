@@ -199,6 +199,7 @@ public class BantenApplication {
    */
   private void registerPersistenceUnits(final BeanDefinitionRegistry registry,
       final Module module) {
+
     if(module.getPersistenceUnits() != null) {
       String name = "persistence-units-" + module.getName();
 
@@ -212,6 +213,18 @@ public class BantenApplication {
       bean.setConstructorArgumentValues(args);
 
       registry.registerBeanDefinition(name, bean);
+
+      // Register the factory for each persistence unit.
+      for(PersistenceUnit pu : module.getPersistenceUnits()) {
+        if (pu.hasCustomFactory()) {
+          BeanDefinition factory = new AnnotatedGenericBeanDefinition(
+              pu.getFactory());
+          factory.setLazyInit(true);
+          registry.registerBeanDefinition(
+              "factory-" + pu.getFactory().getName(), factory);
+        }
+      }
+
     }
   }
 
