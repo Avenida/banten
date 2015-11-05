@@ -24,6 +24,7 @@
 
   <modules>
     <module>banten-core</module>
+    <module>banten-sample</module>
   </modules>
 
   <properties>
