@@ -1,12 +1,10 @@
 package com.avenida.banten.core.beans;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.context.annotation.Bean;
 
-import com.avenida.banten.core.ModuleServiceLocator;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 
 /** Core bean configuration.
  * @author waabox (emi[at]avenida[dot]com)
@@ -27,5 +25,4 @@ public class CoreBeansConfiguration {
   public List<PersistenceUnit> persistenceUnitList() {
     return new LinkedList<>();
   }
-
 }

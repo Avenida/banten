@@ -1,6 +1,6 @@
 package com.avenida.banten.core.database;
 
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 
 import org.springframework.orm.hibernate4.*;
 
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 
 /** Hibernate configuration.
  *
@@ -63,7 +63,8 @@ public class HibernateConfiguration {
   private Environment environment;
 
   /** The Hibernate's configurator, null until the method getConfigurator()
-   * is called. Do not access this field directly.
+   * is called. Do not access this field directly,
+   * use {@link #getConfigurator()} instead
    */
   private HibernateConfigurator hibernateConfigurator;
 
