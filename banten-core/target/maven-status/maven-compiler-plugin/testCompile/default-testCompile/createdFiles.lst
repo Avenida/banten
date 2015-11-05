@@ -1,0 +1,11 @@
+com/avenida/banten/core/database/Repository.class
+com/avenida/banten/core/database/MockEntityWithCollectionWithTuplizers.class
+com/avenida/banten/core/ListFactoryAppenderTest.class
+com/avenida/banten/core/database/DatabaseTestModuleConfiguration.class
+com/avenida/banten/core/database/MockEntityWithTuplizerFactory.class
+com/avenida/banten/core/database/DatabaseTestModuleApplicationFactory.class
+com/avenida/banten/core/database/MockEntity.class
+com/avenida/banten/core/database/HibernateTest.class
+com/avenida/banten/core/database/MockEntityWithTuplizer.class
+com/avenida/banten/core/database/DatabaseTestModule.class
+com/avenida/banten/core/ListFactoryAppenderTest$ListFactoryAppenderContext.class
