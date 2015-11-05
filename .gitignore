@@ -1,0 +1,41 @@
+*.iml
+*.pid
+*.ipr
+*.iws
+*.idea
+*.pid
+.project
+.classpath
+.settings/
+target/
+.idea/
+*.sw?
+
+#ignore folder created by eclipse or for eclipse
+*/bin/
+*.metadata/
+
+# Ignore avtive mq data store locally.
+*/activemq-data/
+
+# Ignore data folder for elasticsearch
+avenida-admin/data/
+avenida-customer-service-admin/data/
+catalog/data/
+checkout-api/data/
+payment/data/
+core/data/
+
+# Ignore folder for generated client for Swagger
+checkout-api/generated/
+user-api/generated/
+
+# Ignore local application configuration.
+application-local.properties
+application-os-slave.properties
+application-admin-master.properties
+rd-admin-master.properties
+
+# Ignore generated logs.
+*/logs/
+
