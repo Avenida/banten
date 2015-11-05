@@ -1,10 +1,14 @@
 package com.avenida.banten.core;
 
-/**
+/** Base factory interface.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public interface Factory {
+public interface Factory<T> {
 
-  Object create();
+  /** Creates an object.
+   * @return the new object.
+   */
+  T create();
 
 }
