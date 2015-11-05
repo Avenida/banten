@@ -12,7 +12,7 @@ import org.springframework.boot.test.*;
 
 import org.springframework.context.*;
 
-import org.springframework.core.annotation.AnnotationUtils;
+import static org.springframework.core.annotation.AnnotationUtils.*;
 import org.springframework.core.env.*;
 
 import org.springframework.core.io.FileSystemResourceLoader;
@@ -29,27 +29,25 @@ import org.springframework.util.*;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import com.avenida.banten.core.boot.BantenApplicationFactory;
-import com.avenida.banten.core.database.DatabaseTestModuleApplicationFactory;
-import com.avenida.banten.core.database.HibernateTest;
 
 /** Spring application loader.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
 public class BantenApplicationContextLoader extends AbstractContextLoader {
 
-  private static final String LINE_SEPARATOR =
-      System.getProperty("line.separator");
-
-  @SuppressWarnings("unchecked")
   @Override
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public ApplicationContext loadContext(
       final MergedContextConfiguration config) throws Exception {
 
-    Class klass = config.getTestClass();
-    BantenTest bantenTest = (BantenTest) klass.getAnnotation(BantenTest.class);
-    BantenApplicationFactory factory =  bantenTest.factoryClass().newInstance();
+    Class testClass = config.getTestClass();
+    BantenTest test = (BantenTest) testClass.getAnnotation(BantenTest.class);
+    Class<? extends BantenApplicationFactory> factoryClass;
+    factoryClass = test.factoryClass();
 
-    SpringApplication application = factory.create(bantenTest.factoryClass());
+    BantenApplicationFactory factory =  factoryClass.newInstance();
+    SpringApplication application = factory.create(factoryClass);
 
     ConfigurableEnvironment environment = new StandardEnvironment();
     if (!ObjectUtils.isEmpty(config.getActiveProfiles())) {
@@ -84,7 +82,8 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
       final MergedContextConfiguration config) {
     Map<String, Object> properties = new LinkedHashMap<String, Object>();
     disableJmx(properties);
-    properties.putAll(extractEnvironmentProperties(config.getPropertySourceProperties()));
+    properties.putAll(extractEnvironmentProperties(
+        config.getPropertySourceProperties()));
     if (!isIntegrationTest(config.getTestClass())) {
       properties.putAll(getDefaultEnvironmentProperties());
     }
@@ -95,12 +94,14 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
     properties.put("spring.jmx.enabled", "false");
   }
 
-  final Map<String, Object> extractEnvironmentProperties(final String[] values) {
+  final Map<String, Object> extractEnvironmentProperties(
+      final String[] values) {
     // Instead of parsing the keys ourselves, we rely on standard handling
     if (values == null) {
       return Collections.emptyMap();
     }
-    String content = StringUtils.arrayToDelimitedString(values, LINE_SEPARATOR);
+    String content = StringUtils.arrayToDelimitedString(values,
+        System.getProperty("line.separator"));
     Properties properties = new Properties();
     try {
       properties.load(new StringReader(content));
@@ -126,20 +127,26 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
 
   private void addProperties(final ConfigurableEnvironment environment,
       final Map<String, Object> properties) {
-    // @IntegrationTest properties go before external configuration and after system
+    /* @IntegrationTest properties go before external
+     * configuration and after system
+     */
     environment.getPropertySources().addAfter(
         StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME,
         new MapPropertySource("integrationTest", properties));
   }
 
   private List<ApplicationContextInitializer<?>> getInitializers(
-      final MergedContextConfiguration mergedConfig, final SpringApplication application) {
-    List<ApplicationContextInitializer<?>> initializers = new ArrayList<ApplicationContextInitializer<?>>();
-    initializers.add(new PropertySourceLocationsInitializer(mergedConfig.getPropertySourceLocations()));
+      final MergedContextConfiguration cfg,
+      final SpringApplication application) {
+    List<ApplicationContextInitializer<?>> initializers;
+    initializers = new ArrayList<ApplicationContextInitializer<?>>();
+    initializers.add(new PropertySourceLocationsInitializer(
+        cfg.getPropertySourceLocations()));
     initializers.add(new ServerPortInfoApplicationContextInitializer());
     initializers.addAll(application.getInitializers());
-    for (Class<? extends ApplicationContextInitializer<?>> initializerClass : mergedConfig
-        .getContextInitializerClasses()) {
+    for (
+        Class<? extends ApplicationContextInitializer<?>> initializerClass :
+          cfg.getContextInitializerClasses()) {
       initializers.add(BeanUtils.instantiate(initializerClass));
     }
     return initializers;
@@ -156,21 +163,27 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
   }
 
   /**
-   * Detect the default configuration classes for the supplied test class. By default
-   * simply delegates to
-   * {@link AnnotationConfigContextLoaderUtils#detectDefaultConfigurationClasses} .
-   * @param declaringClass the test class that declared {@code @ContextConfiguration}
-   * @return an array of default configuration classes, potentially empty but never
-   * {@code null}
+   * Detect the default configuration classes for the supplied test class. By
+   * default simply delegates to
+   * {@link AnnotationConfigContextLoaderUtils
+   *  #detectDefaultConfigurationClasses}
+   * .
+   *
+   * @param declaringClass
+   *          the test class that declared {@code @ContextConfiguration}
+   * @return an array of default configuration classes, potentially empty but
+   *         never {@code null}
    * @see AnnotationConfigContextLoaderUtils
    */
-  protected Class<?>[] detectDefaultConfigurationClasses(final Class<?> declaringClass) {
+  protected Class<?>[] detectDefaultConfigurationClasses(
+      final Class<?> declaringClass) {
     return AnnotationConfigContextLoaderUtils
         .detectDefaultConfigurationClasses(declaringClass);
   }
 
   @Override
-  public ApplicationContext loadContext(final String... locations) throws Exception {
+  public ApplicationContext loadContext(
+      final String... locations) throws Exception {
     throw new UnsupportedOperationException("SpringApplicationContextLoader "
         + "does not support the loadContext(String...) method");
   }
@@ -185,12 +198,14 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
    */
   private static class WebConfigurer {
 
-    private static final Class<GenericWebApplicationContext> WEB_CONTEXT_CLASS = GenericWebApplicationContext.class;
+    private static final Class<GenericWebApplicationContext>
+      WEB_CONTEXT_CLASS = GenericWebApplicationContext.class;
 
     void configure(final MergedContextConfiguration configuration,
         final SpringApplication application,
         final List<ApplicationContextInitializer<?>> initializers) {
-      WebMergedContextConfiguration webConfiguration = (WebMergedContextConfiguration) configuration;
+      WebMergedContextConfiguration webConfiguration;
+      webConfiguration = (WebMergedContextConfiguration) configuration;
       if (!isIntegrationTest(webConfiguration.getTestClass())) {
         addMockServletContext(initializers, webConfiguration);
         application.setApplicationContextClass(WEB_CONTEXT_CLASS);
@@ -210,27 +225,29 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
   }
 
   private static boolean isIntegrationTest(final Class<?> testClass) {
-    return ((AnnotationUtils.findAnnotation(testClass, IntegrationTest.class) != null)
-        || (AnnotationUtils.findAnnotation(testClass,
-            WebIntegrationTest.class) != null));
+    return ((findAnnotation(testClass, IntegrationTest.class) != null)
+        || (findAnnotation(testClass, WebIntegrationTest.class) != null));
   }
 
-  /**
-   * {@link ApplicationContextInitializer} to setup test property source locations.
+  /** {@link ApplicationContextInitializer} to setup test property
+   *  source locations.
    */
   private static class PropertySourceLocationsInitializer
-      implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+      implements
+      ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private final String[] propertySourceLocations;
 
-    public PropertySourceLocationsInitializer(final String[] propertySourceLocations) {
-      this.propertySourceLocations = propertySourceLocations;
+    public PropertySourceLocationsInitializer(
+        final String[] aPropertySourceLocations) {
+      propertySourceLocations = aPropertySourceLocations;
     }
 
     @Override
-    public void initialize(final ConfigurableApplicationContext applicationContext) {
-      TestPropertySourceUtils.addPropertiesFilesToEnvironment(applicationContext,
-          this.propertySourceLocations);
+    public void initialize(
+        final ConfigurableApplicationContext ctx) {
+      TestPropertySourceUtils.addPropertiesFilesToEnvironment(ctx,
+          propertySourceLocations);
     }
 
   }
