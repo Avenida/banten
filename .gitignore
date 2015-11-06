@@ -10,6 +10,7 @@
 target/
 .idea/
 *.sw?
+*.jar
 
 #ignore folder created by eclipse or for eclipse
 */bin/
