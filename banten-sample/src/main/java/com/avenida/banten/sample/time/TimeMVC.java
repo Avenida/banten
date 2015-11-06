@@ -43,8 +43,10 @@ public class TimeMVC {
       TemplateException {
     FreeMarkerConfigurationFactory factory;
     factory = new FreeMarkerConfigurationFactory();
-    factory.setTemplateLoaderPaths("classpath:templates",
-        "src/main/resource/templates");
+
+    factory.setTemplateLoaderPaths(
+        "classpath:com/avenida/banten/sample/time/templates");
+
     factory.setDefaultEncoding("UTF-8");
     FreeMarkerConfigurer result = new FreeMarkerConfigurer();
     result.setConfiguration(factory.createConfiguration());

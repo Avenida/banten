@@ -2,10 +2,12 @@
 <html lang="en">
 
   <head>
+
+    <title>Time</title>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Time</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   </head>
 
@@ -13,11 +15,11 @@
 
     <div class="container theme-showcase" role="main">
       <div class="jumbotron">
-        <h1>List of stored Times</h1>
+        <h1>Timezones</h1>
 
         <#list times as time>
           <div>
-            ${time.gmt} - ${time.getTime()}
+            ${time.getTime()} ~ <b> ${time.gmt} </b> 
           </div>
         </#list>
 
@@ -25,7 +27,7 @@
 
       <form role="form" action="save" method="post">
         <div class="form-group">
-          <label for="gmt">GMT:</label>
+          <label for="gmt">Add new Time in GMT</label>
           <input type="text" class="form-control" name="gmt" id="gmt">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
