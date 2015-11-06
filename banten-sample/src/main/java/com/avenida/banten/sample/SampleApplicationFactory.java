@@ -2,7 +2,7 @@ package com.avenida.banten.sample;
 
 import com.avenida.banten.core.boot.BantenApplicationFactory;
 import com.avenida.banten.core.database.HibernateConfiguration;
-import com.avenida.banten.sample.calendar.CalendarModule;
+import com.avenida.banten.sample.time.TimeModule;
 
 /** The Sample application Factory.
  *
@@ -14,7 +14,7 @@ public class SampleApplicationFactory extends BantenApplicationFactory {
   @Override
   public Class[] modules() {
     return new Class[] {
-        CalendarModule.class
+        TimeModule.class
     };
   }
 

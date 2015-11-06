@@ -11,4 +11,8 @@ public class DatabaseTestModuleConfiguration {
     return new Repository(sf);
   }
 
+  @Bean public MockEntityWithTuplizerFactory mockEntityWithTuplizerFactory() {
+    return new MockEntityWithTuplizerFactory();
+  }
+
 }

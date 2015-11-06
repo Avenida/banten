@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.avenida.banten.core.database.HibernateTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.55 sec - in com.avenida.banten.core.database.HibernateTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.038 sec - in com.avenida.banten.core.database.HibernateTest
