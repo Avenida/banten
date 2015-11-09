@@ -8,11 +8,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /** The user configuration.
  * @author waabox (efinal mi[at]avenida[dot]com)
  */
 @Configuration
+@PropertySource("classpath:user.properties")
 public class UserConfiguration {
 
   @Bean(name = "user.userFactory")
