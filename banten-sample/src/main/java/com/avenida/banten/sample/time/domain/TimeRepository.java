@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /** The time repository.
@@ -28,6 +29,17 @@ public class TimeRepository {
   @SuppressWarnings("unchecked")
   public List<Time> getTimes() {
     Criteria criteria = session.getCurrentSession().createCriteria(Time.class);
+    return criteria.list();
+  }
+
+  /** Finds a time given by its GMT.
+   * @param gmt the gmt.
+   * @return the list of times for that GMT.
+   */
+  @SuppressWarnings("unchecked")
+  public List<Time> find(final String gmt) {
+    Criteria criteria = session.getCurrentSession().createCriteria(Time.class);
+    criteria.add(Restrictions.eq("gmt", gmt));
     return criteria.list();
   }
 

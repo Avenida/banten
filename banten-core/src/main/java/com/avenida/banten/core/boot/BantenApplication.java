@@ -35,9 +35,6 @@ public class BantenApplication {
   /** The list of modules to bootstrap the application, it's never null.*/
   private final List<Class<? extends Module>> moduleClasses;
 
-  /** The list of extra configuration classes, it's never null.*/
-  private final List<Class<?>> configurationClasses = new LinkedList<>();
-
   /** Creates a new Application with the given modules.
    * @param modules the list of modules to bootstrap, cannot be null.
    */
@@ -45,13 +42,6 @@ public class BantenApplication {
   BantenApplication(final Class<? extends Module> ... modules) {
     Validate.notNull(modules, "The modules cannot be null");
     moduleClasses = Arrays.asList(modules);
-  }
-
-  /** Add extra Spring configuration classes.
-   * @param configurations the configuration classes.
-   */
-  public void with(final Class<?>... configurations) {
-    configurationClasses.addAll(Arrays.asList(configurations));
   }
 
   /** Creates the Spring's Application.
@@ -88,7 +78,6 @@ public class BantenApplication {
               throws BeansException {
 
             registerCoreModule(registry);
-            registerConfigurationClasses(registry);
             registerModules(registry);
 
           }
@@ -238,18 +227,6 @@ public class BantenApplication {
     BeanDefinition coreBean = new GenericBeanDefinition();
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);
-  }
-
-  /** Register the configuration classes.
-   * @param registry the bean definition registry.
-   */
-  private void registerConfigurationClasses(
-      final BeanDefinitionRegistry registry) {
-    for (Class<?> klass : configurationClasses) {
-      log.info("Registering: {}" , klass.getName());
-      BeanDefinition configBean = new AnnotatedGenericBeanDefinition(klass);
-      registry.registerBeanDefinition(klass.getName(), configBean);
-    }
   }
 
 }

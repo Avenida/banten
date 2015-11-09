@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.*;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import org.springframework.core.env.Environment;
 
@@ -52,6 +53,7 @@ import com.avenida.banten.core.*;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
+@Configuration
 public class HibernateConfiguration {
 
   /** The list of persistence units, it's never null. */

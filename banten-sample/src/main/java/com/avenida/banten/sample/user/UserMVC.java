@@ -1,32 +1,33 @@
-package com.avenida.banten.sample.time;
+package com.avenida.banten.sample.user;
 
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
-import org.springframework.transaction.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.freemarker.*;
-
-import org.springframework.web.servlet.*;
-
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.freemarker.*;
 
-import com.avenida.banten.sample.time.controllers.TimeController;
-import com.avenida.banten.sample.time.domain.TimeRepository;
+import com.avenida.banten.sample.user.controllers.UserController;
+import com.avenida.banten.sample.user.domain.UserFactory;
+import com.avenida.banten.sample.user.domain.UserRepository;
 
 import freemarker.template.TemplateException;
 
-/** The MVC configuration.
- *
+/** The user MVC.
  * @author waabox (emi[at]avenida[dot]com)
  */
 @Configuration
 @EnableTransactionManagement
-public class TimeMVC {
+public class UserMVC {
 
   @Autowired
-  @Bean public TimeController timeController(final TimeRepository repository) {
-    return new TimeController(repository);
+  @Bean
+  public UserController userController(final UserRepository repository,
+      final UserFactory userFactory) {
+    return new UserController(repository, userFactory);
   }
 
   @Bean public ViewResolver viewResolver() {
@@ -44,7 +45,7 @@ public class TimeMVC {
     factory = new FreeMarkerConfigurationFactory();
 
     factory.setTemplateLoaderPaths(
-        "classpath:com/avenida/banten/sample/time/templates");
+        "classpath:com/avenida/banten/sample/user/templates");
 
     factory.setDefaultEncoding("UTF-8");
     FreeMarkerConfigurer result = new FreeMarkerConfigurer();
