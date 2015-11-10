@@ -1,6 +1,6 @@
 package com.avenida.banten.core;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
+import java.util.*;
 
 import org.apache.commons.lang3.*;
 
@@ -107,5 +107,6 @@ public class Configurator {
   protected void remove(final String key) {
     properties.remove(key);
   }
+
 }
 
