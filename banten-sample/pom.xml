@@ -21,8 +21,7 @@
   <name>Banten Sample</name>
   <description>Banten sample</description>
 
- <dependencies>
-
+  <dependencies>
     <dependency>
       <groupId>com.avenida.banten</groupId>
       <artifactId>banten-core</artifactId>
@@ -31,8 +30,10 @@
   </dependencies>
 
   <build>
+
     <pluginManagement>
       <plugins>
+
         <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
@@ -44,14 +45,58 @@
             </webApp>
           </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
+
     <plugins>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <phase>pre-integration-test</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <classifier>boot</classifier>
+          <folders>
+            <folder>
+              src/test/resources
+            </folder>
+          </folders>
+        </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-source-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/${project.build.finalName}-boot.jar</file>
+                  <type>jar</type>
+                  <classifier>boot</classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
+
   </build>
 
 </project>
