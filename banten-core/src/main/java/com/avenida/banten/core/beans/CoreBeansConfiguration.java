@@ -5,6 +5,8 @@ import java.util.*;
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.web.WebletContainer;
+import com.avenida.banten.core.web.WebletRenderer;
 
 /** Core bean configuration.
  * @author waabox (emi[at]avenida[dot]com)
@@ -25,4 +27,14 @@ public class CoreBeansConfiguration {
   public List<PersistenceUnit> persistenceUnitList() {
     return new LinkedList<>();
   }
+
+  /** Creates the weblet dispatcher.
+   *
+   * @return the weblet dispatcher.
+   */
+  @Bean(name = "bantenWebletDispatcher")
+  public WebletRenderer webletDispatcher() {
+    return new WebletRenderer(WebletContainer.instance());
+  }
+
 }

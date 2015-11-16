@@ -3,8 +3,7 @@ package com.avenida.banten.sample.user;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.avenida.banten.core.Module;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
 
@@ -21,8 +20,8 @@ public class UserModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getUrlMapping() {
-    return "/users/*";
+  public String getNamespace() {
+    return "users";
   }
 
   /** {@inheritDoc}.*/
@@ -43,6 +42,14 @@ public class UserModule implements Module {
     List<PersistenceUnit> pu = new LinkedList<>();
     pu.add(new PersistenceUnit(User.class, UserFactory.class));
     return pu;
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public List<Weblet> getWeblets() {
+    List<Weblet> weblets = new LinkedList<>();
+    weblets.add(new Weblet("samplepicture", "users/samplePicture.html"));
+    return weblets;
   }
 
 }

@@ -11,6 +11,8 @@ import org.springframework.web.servlet.*;
 
 import org.springframework.web.servlet.view.freemarker.*;
 
+import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
+
 import com.avenida.banten.sample.time.controllers.TimeController;
 import com.avenida.banten.sample.time.domain.TimeRepository;
 
@@ -35,6 +37,8 @@ public class TimeMVC {
     resolver.setPrefix("");
     resolver.setSuffix(".ftl");
     resolver.setContentType("text/html; charset=UTF-8");
+    resolver.setExposeRequestAttributes(true);
+    resolver.setExposeSpringMacroHelpers(true);
     return resolver;
   }
 

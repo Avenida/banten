@@ -66,7 +66,7 @@ public class HibernateConfiguration {
 
   /** The Hibernate's configurator, null until the method getConfigurator()
    * is called. Do not access this field directly,
-   * use {@link #getConfigurator()} instead
+   * use {@link #getConfigurator()} instead.
    */
   private HibernateConfigurator hibernateConfigurator;
 

@@ -8,15 +8,16 @@ import java.util.List;
  */
 public interface Module {
 
-  /** Retrieves the name.
-   * @return the name
+  /** Retrieves the Module's name.
+   * @return the name, never null.
    */
   String getName();
 
-  /** Retrieves the mapping URL for this module.
-   * @return the URL mapping, can be null.
+  /** Retrieves the module namespace, typically this will be the Servlet's
+   * context path.
+   * @return the name-space, can be null.
    */
-  String getUrlMapping();
+  String getNamespace();
 
   /** Retrieves the MVC configuration.
    * @return the configuration, can be null.
@@ -32,5 +33,11 @@ public interface Module {
    * @return the list of persistence units, can be null or empty-
    */
   List<PersistenceUnit> getPersistenceUnits();
+
+  /** Retrieves the list of weblets for this module.
+   *
+   * @return the list of weblets.
+   */
+  List<Weblet> getWeblets();
 
 }

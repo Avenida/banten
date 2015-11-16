@@ -1,8 +1,9 @@
 package com.avenida.banten.sample;
 
-import com.avenida.banten.core.Module;
+import com.avenida.banten.core.*;
 import com.avenida.banten.core.boot.BantenApplicationFactory;
 import com.avenida.banten.core.database.HibernateModule;
+import com.avenida.banten.core.web.WebModule;
 import com.avenida.banten.core.web.sitemesh.SitemeshModule;
 
 import com.avenida.banten.sample.time.TimeModule;
@@ -21,6 +22,7 @@ public class SampleApplicationFactory extends BantenApplicationFactory {
     return new Class[] {
         HibernateModule.class,
         SitemeshModule.class,
+        WebModule.class,
         TimeModule.class,
         UserModule.class
     };

@@ -3,8 +3,7 @@ package com.avenida.banten.core.database;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.avenida.banten.core.Module;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 
 public class DatabaseTestModule implements Module {
 
@@ -14,7 +13,7 @@ public class DatabaseTestModule implements Module {
   }
 
   @Override
-  public String getUrlMapping() {
+  public String getNamespace() {
     return null;
   }
 
@@ -36,6 +35,12 @@ public class DatabaseTestModule implements Module {
         MockEntityWithTuplizerFactory.class));
     list.add(new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class));
     return list;
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public List<Weblet> getWeblets() {
+    return null;
   }
 
 }

@@ -2,8 +2,7 @@ package com.avenida.banten.core.web.sitemesh;
 
 import java.util.List;
 
-import com.avenida.banten.core.Module;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 
 /** Sitemesh's configuration Module.
  *
@@ -19,7 +18,7 @@ public class SitemeshModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getUrlMapping() {
+  public String getNamespace() {
     return null;
   }
 
@@ -38,6 +37,12 @@ public class SitemeshModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public List<PersistenceUnit> getPersistenceUnits() {
+    return null;
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public List<Weblet> getWeblets() {
     return null;
   }
 

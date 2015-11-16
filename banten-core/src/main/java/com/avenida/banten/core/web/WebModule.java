@@ -1,48 +1,44 @@
-package com.avenida.banten.core.database;
+package com.avenida.banten.core.web;
 
 import java.util.List;
 
-import com.avenida.banten.core.*;
+import com.avenida.banten.core.Module;
+import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.Weblet;
 
-/** Hibernate's Module.
+/** Web Module.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class HibernateModule implements Module {
+public class WebModule implements Module {
 
-  /** {@inheritDoc}.*/
   @Override
   public String getName() {
-    return "Hibernate-Module";
+    return "Web-Module";
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public String getNamespace() {
     return null;
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public Class<?> getMvcConfiguration() {
     return null;
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public Class<?> getModuleConfiguration() {
-    return HibernateConfiguration.class;
+    return WebModuleConfiguration.class;
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public List<PersistenceUnit> getPersistenceUnits() {
     return null;
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public List<Weblet> getWeblets() {
     return null;
   }
-
 }

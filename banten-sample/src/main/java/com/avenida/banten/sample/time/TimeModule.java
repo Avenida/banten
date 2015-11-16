@@ -3,8 +3,7 @@ package com.avenida.banten.sample.time;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.avenida.banten.core.Module;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.*;
 import com.avenida.banten.sample.time.domain.Time;
 
 /** A simple time module.
@@ -20,8 +19,8 @@ public class TimeModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getUrlMapping() {
-    return "/time/*";
+  public String getNamespace() {
+    return "time";
   }
 
   /** {@inheritDoc}.*/
@@ -42,6 +41,12 @@ public class TimeModule implements Module {
     List<PersistenceUnit> units = new LinkedList<>();
     units.add(new PersistenceUnit(Time.class));
     return units;
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public List<Weblet> getWeblets() {
+    return null;
   }
 
 }

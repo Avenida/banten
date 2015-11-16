@@ -157,7 +157,6 @@ public class MenuNode implements Comparable<MenuNode> {
     parent = theParent;
     parent.childNodes.add(this);
     parent.setHome(this);
-
     displayName = theDisplayName;
     name = theName;
     position = thePosition;

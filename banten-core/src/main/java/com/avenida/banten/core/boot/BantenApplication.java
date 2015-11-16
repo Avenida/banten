@@ -16,14 +16,35 @@ import org.springframework.boot.*;
 import org.springframework.boot.context.embedded.*;
 
 import org.springframework.context.*;
+import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.context.support.*;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.avenida.banten.core.*;
 import com.avenida.banten.core.beans.CoreBeansConfiguration;
+import com.avenida.banten.core.web.WebletContainer;
 
 /** Bootstrap the Banten's Application.
+ *
+ * The application creates a {@link SpringApplication} using the {@link Module}
+ * as {@link Configuration} as entry points.
+ *
+ * Each {@link Module} defines public beans within the
+ * {@link Module#getModuleConfiguration}, those one will be merge into the
+ * main application context. However, configuration declared within the
+ * {@link Module#getMvcConfiguration()} will be isolated; The main or
+ * parent {@link ApplicationContext} is the same where {@link Module}s has
+ * been declared.
+ *
+ * The {@link ApplicationContext} looks like:
+ *
+ *               <Parent Context>
+ *               |              |
+ *          [Module A]     [Module B] ...
+ *              |              |
+ *         [MVC Context] [MVC Context]
+ *
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
@@ -127,6 +148,7 @@ public class BantenApplication {
       registerModule(registry, module);
       registerMVC(registry, module);
       registerPersistenceUnits(registry, module);
+      registerWeblets(module);
 
     }
 
@@ -168,7 +190,7 @@ public class BantenApplication {
       ConstructorArgumentValues args;
       args = new ConstructorArgumentValues();
       args.addIndexedArgumentValue(0, dispatcherServlet);
-      args.addIndexedArgumentValue(1, module.getUrlMapping());
+      args.addIndexedArgumentValue(1, "/" + module.getNamespace() + "/*");
 
       MutablePropertyValues mpv = new MutablePropertyValues();
       mpv.add("name", name);
@@ -203,6 +225,16 @@ public class BantenApplication {
       bean.setConstructorArgumentValues(args);
 
       registry.registerBeanDefinition(name, bean);
+    }
+  }
+
+  /** Register the weblets into the WebletContainer.
+   *
+   * @param module the module.
+   */
+  private void registerWeblets(final Module module) {
+    if (module.getWeblets() != null) {
+      WebletContainer.instance().register(module, module.getWeblets());
     }
   }
 

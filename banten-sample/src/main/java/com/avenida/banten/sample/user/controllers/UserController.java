@@ -49,4 +49,11 @@ public class UserController {
     repository.save(user);
     return new ModelAndView("redirect:list.html");
   }
+
+  @RequestMapping(value = "/samplePicture", method = RequestMethod.GET)
+  public ModelAndView samplePicture() {
+    ModelAndView mav = new ModelAndView("samplePicture");
+    return mav;
+  }
+
 }

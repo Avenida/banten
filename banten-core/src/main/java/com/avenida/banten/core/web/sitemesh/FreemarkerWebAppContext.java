@@ -78,6 +78,8 @@ public class FreemarkerWebAppContext extends WebAppContext {
     model.put(KEY_SESSION, sessionModel(request, response));
     model.put(KEY_REQUEST, requestModel(request, response));
     model.put(KEY_REQUEST_PARAMETERS, requestParametersModel(request));
+    model.put("request", request);
+    model.put("response", response);
 
     return model;
   }

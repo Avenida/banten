@@ -1,36 +1,37 @@
-package com.avenida.banten.core.database;
+package com.avenida.banten.core.web.menu;
 
 import java.util.List;
 
 import com.avenida.banten.core.*;
 
-/** Hibernate's Module.
+/** The Menu module.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class HibernateModule implements Module {
+public class MenuModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
   public String getName() {
-    return "Hibernate-Module";
+    return "Menu-Module";
   }
 
   /** {@inheritDoc}.*/
   @Override
   public String getNamespace() {
-    return null;
+    return "banten-menu";
   }
 
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getMvcConfiguration() {
-    return null;
+    return MenuMVC.class;
   }
 
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getModuleConfiguration() {
-    return HibernateConfiguration.class;
+    return MenuConfiguration.class;
   }
 
   /** {@inheritDoc}.*/
