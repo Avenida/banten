@@ -26,6 +26,9 @@ public class WebletRendererRegistrationFilter implements Filter {
   /** The {@link WebletRenderer} parameter name. */
   public final static String WEBLET_RENDERER_PARAMETER = "::webletRenderer";
 
+  /** Parameter that indicates if a page should be decorated or not. */
+  public static final String DECORATE_PAGE = "::decoratePage";
+
   /** Creates a new instance of the Filter.
    *
    * @param aRenderer the {@link WebletRenderer}, cannot be null.
@@ -62,6 +65,7 @@ public class WebletRendererRegistrationFilter implements Filter {
 
     HttpServletRequest request = (HttpServletRequest) servletRequest;
     request.setAttribute(WEBLET_RENDERER_PARAMETER, renderer);
+    request.setAttribute(DECORATE_PAGE, false);
 
     chain.doFilter(servletRequest, servletResponse);
 

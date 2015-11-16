@@ -37,10 +37,26 @@ public class BantenSitemeshDecoratorSelector
   @Override
   public String[] selectDecoratorPaths(
       final Content content, final WebAppContext context) throws IOException {
-    if (isAjax(context) || isModal(context) || isApiCall(context)) {
+    if (isAjax(context) || isModal(context) || isApiCall(context)
+        || explicitNoDecorate(context)) {
       return new String[0];
     }
     return selector.selectDecoratorPaths(content, context);
+  }
+
+  /** Use a request attribute called: "::decoratePage" and checks that its
+   * value is false in the scenario that the requested page does not need
+   * decoration. If not present, will return false.
+   *
+   * @param context the Sitemesh's context.
+   * @return true if should not decorate the page.
+   */
+  private boolean explicitNoDecorate(final WebAppContext context) {
+    Object value = context.getRequest().getAttribute("::decoratePage");
+    if (value != null) {
+      return ((Boolean) value == false);
+    }
+    return false;
   }
 
   /** Checks whether or not the given context's path matches with "api".
