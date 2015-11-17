@@ -129,11 +129,7 @@ public class WebletContainer {
      * @return the endpoint.
      */
     public String endpoint() {
-      String urlMapping = module.getNamespace();
-      if (urlMapping.endsWith("/*")) {
-        urlMapping = urlMapping.replace("/*", "");
-      }
-      return urlMapping + "/" + weblet.endpoint();
+      return "/" + module.getNamespace() + "/" + weblet.endpoint();
     }
 
   }

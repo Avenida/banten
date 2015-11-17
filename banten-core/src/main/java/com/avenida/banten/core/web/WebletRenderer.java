@@ -42,7 +42,7 @@ public class WebletRenderer {
    */
   public String render(final String webletName, final String moduleName,
     final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
+      throws Exception {
 
     WebletContainer.ModuleWeblet moduleWeblet;
     moduleWeblet = container.get(webletName, moduleName);

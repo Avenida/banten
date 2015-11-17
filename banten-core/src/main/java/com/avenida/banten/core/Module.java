@@ -19,15 +19,15 @@ public interface Module {
    */
   String getNamespace();
 
-  /** Retrieves the MVC configuration.
+  /** Retrieves the private Module configuration.
    * @return the configuration, can be null.
    */
-  Class<?> getMvcConfiguration();
+  Class<?> getPrivateConfiguration();
 
-  /** Retrieves the moduleConfiguration.
-   * @return the moduleConfiguration
+  /** Retrieves the public Module configuration.
+   * @return the public configuration, never null.
    */
-  Class<?> getModuleConfiguration();
+  Class<?> getPublicConfiguration();
 
   /** Retrieves the list of persistence units.
    * @return the list of persistence units, can be null or empty-

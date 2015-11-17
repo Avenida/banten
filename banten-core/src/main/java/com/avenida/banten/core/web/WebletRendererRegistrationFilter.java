@@ -65,7 +65,7 @@ public class WebletRendererRegistrationFilter implements Filter {
 
     HttpServletRequest request = (HttpServletRequest) servletRequest;
     request.setAttribute(WEBLET_RENDERER_PARAMETER, renderer);
-    request.setAttribute(DECORATE_PAGE, false);
+    //request.setAttribute(DECORATE_PAGE, false);
 
     chain.doFilter(servletRequest, servletResponse);
 

@@ -24,13 +24,13 @@ public class HazelcastModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return HazelcastConfiguration.class;
   }
 

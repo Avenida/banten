@@ -20,8 +20,8 @@ public class WebletRendererRegistrationFilterTest {
     request.setAttribute(
         WebletRendererRegistrationFilter.WEBLET_RENDERER_PARAMETER, renderer);
 
-    request.setAttribute(
-        WebletRendererRegistrationFilter.DECORATE_PAGE, false);
+//    request.setAttribute(
+//        WebletRendererRegistrationFilter.DECORATE_PAGE, false);
 
     chain.doFilter(request, response);
 

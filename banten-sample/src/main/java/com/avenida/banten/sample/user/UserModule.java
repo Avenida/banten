@@ -26,13 +26,13 @@ public class UserModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return UserMVC.class;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return UserConfiguration.class;
   }
 

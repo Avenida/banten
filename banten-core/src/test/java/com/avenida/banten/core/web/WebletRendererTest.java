@@ -43,7 +43,7 @@ public class WebletRendererTest {
     RequestDispatcher rd = createMock(RequestDispatcher.class);
     rd.include(EasyMock.eq(request), isA(WebletResponseWrapper.class));
 
-    expect(request.getRequestDispatcher("sample/test.html")).andReturn(rd);
+    expect(request.getRequestDispatcher("/sample/test.html")).andReturn(rd);
 
     replay(request, response);
 
@@ -72,12 +72,12 @@ public class WebletRendererTest {
     }
 
     @Override
-    public Class<?> getMvcConfiguration() {
+    public Class<?> getPrivateConfiguration() {
       return null;
     }
 
     @Override
-    public Class<?> getModuleConfiguration() {
+    public Class<?> getPublicConfiguration() {
       return null;
     }
 

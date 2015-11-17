@@ -23,13 +23,13 @@ public class HibernateModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return HibernateConfiguration.class;
   }
 

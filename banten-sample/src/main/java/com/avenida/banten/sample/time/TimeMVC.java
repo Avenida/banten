@@ -5,13 +5,12 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.*;
-import org.springframework.ui.freemarker.*;
 
 import org.springframework.web.servlet.*;
 
 import org.springframework.web.servlet.view.freemarker.*;
 
-import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
+import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
 
 import com.avenida.banten.sample.time.controllers.TimeController;
 import com.avenida.banten.sample.time.domain.TimeRepository;
@@ -32,28 +31,13 @@ public class TimeMVC {
   }
 
   @Bean public ViewResolver viewResolver() {
-    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-    resolver.setCache(true);
-    resolver.setPrefix("");
-    resolver.setSuffix(".ftl");
-    resolver.setContentType("text/html; charset=UTF-8");
-    resolver.setExposeRequestAttributes(true);
-    resolver.setExposeSpringMacroHelpers(true);
-    return resolver;
+    return FreemarkerFactory.viewResolver();
   }
 
   @Bean public FreeMarkerConfigurer freemarkerConfig() throws IOException,
       TemplateException {
-    FreeMarkerConfigurationFactory factory;
-    factory = new FreeMarkerConfigurationFactory();
-
-    factory.setTemplateLoaderPaths(
+    return FreemarkerFactory.freemarkerConfigurer(
         "classpath:com/avenida/banten/sample/time/templates");
-
-    factory.setDefaultEncoding("UTF-8");
-    FreeMarkerConfigurer result = new FreeMarkerConfigurer();
-    result.setConfiguration(factory.createConfiguration());
-    return result;
   }
 
 }

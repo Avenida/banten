@@ -1,7 +1,7 @@
 <html>
 
   <head>
-    <title>Time</title>
+    <title>Time with chuck!</title>
   </head>
 
   <body role="document">
@@ -27,6 +27,8 @@
       </form>
 
     </div>
+
+    <@weblet name = "samplepicture" module = "User-Module"/>
 
   </body>
 

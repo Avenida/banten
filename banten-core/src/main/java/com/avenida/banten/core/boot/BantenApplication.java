@@ -33,7 +33,7 @@ import com.avenida.banten.core.web.WebletContainer;
  * Each {@link Module} defines public beans within the
  * {@link Module#getModuleConfiguration}, those one will be merge into the
  * main application context. However, configuration declared within the
- * {@link Module#getMvcConfiguration()} will be isolated; The main or
+ * {@link Module#getPrivateConfiguration()} will be isolated; The main or
  * parent {@link ApplicationContext} is the same where {@link Module}s has
  * been declared.
  *
@@ -145,8 +145,8 @@ public class BantenApplication {
 
       log.info("Registering: {}" , module.getName());
 
-      registerModule(registry, module);
-      registerMVC(registry, module);
+      registerPublicConfiguration(registry, module);
+      registerPrivateConfiguration(registry, module);
       registerPersistenceUnits(registry, module);
       registerWeblets(module);
 
@@ -159,30 +159,32 @@ public class BantenApplication {
    * @param registry the bean definition registry.
    * @param module the module.
    */
-  private void registerModule(final BeanDefinitionRegistry registry,
-      final Module module) {
-    BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
-        module.getModuleConfiguration());
-    moduleDef.setLazyInit(true);
-    registry.registerBeanDefinition(module.getName(), moduleDef);
+  private void registerPublicConfiguration(
+      final BeanDefinitionRegistry registry, final Module module) {
+    if (module.getPublicConfiguration() != null) {
+      BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
+          module.getPublicConfiguration());
+      moduleDef.setLazyInit(true);
+      registry.registerBeanDefinition(module.getName(), moduleDef);
+    }
   }
 
   /** Register the MVC.
    * @param registry the bean definition registry.
    * @param module the module.
    */
-  private void registerMVC(final BeanDefinitionRegistry registry,
-      final Module module) {
-    if (module.getMvcConfiguration() != null) {
-      String name = "mvc-" + module.getName();
+  private void registerPrivateConfiguration(
+      final BeanDefinitionRegistry registry, final Module module) {
+    if (module.getPrivateConfiguration() != null) {
+      String name = "private-" + module.getName();
 
-      log.info("Registering MVC for: {}", module.getName());
+      log.info("Registering Private configuration for: {}", module.getName());
 
       DispatcherServlet dispatcherServlet = new DispatcherServlet();
 
       AnnotationConfigWebApplicationContext ctx;
       ctx = new AnnotationConfigWebApplicationContext();
-      ctx.register(module.getMvcConfiguration());
+      ctx.register(module.getPrivateConfiguration());
       // ctx.setParent(parentContext); ??
 
       dispatcherServlet.setApplicationContext(ctx);

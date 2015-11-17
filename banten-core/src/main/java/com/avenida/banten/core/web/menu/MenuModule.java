@@ -24,13 +24,13 @@ public class MenuModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return MenuMVC.class;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return MenuConfiguration.class;
   }
 

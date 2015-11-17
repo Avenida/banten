@@ -18,12 +18,12 @@ public class DatabaseTestModule implements Module {
   }
 
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return null;
   }
 
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return DatabaseTestModuleConfiguration.class;
   }
 

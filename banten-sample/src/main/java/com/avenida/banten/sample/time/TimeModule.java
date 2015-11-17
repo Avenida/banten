@@ -25,13 +25,13 @@ public class TimeModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getMvcConfiguration() {
+  public Class<?> getPrivateConfiguration() {
     return TimeMVC.class;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getModuleConfiguration() {
+  public Class<?> getPublicConfiguration() {
     return TimeConfiguration.class;
   }
 

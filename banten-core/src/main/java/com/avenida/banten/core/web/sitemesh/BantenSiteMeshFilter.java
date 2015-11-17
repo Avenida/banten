@@ -14,7 +14,7 @@ import org.sitemesh.content.ContentProcessor;
 import org.sitemesh.webapp.*;
 import org.sitemesh.webapp.contentfilter.*;
 
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
+import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
 
 import freemarker.template.*;
 
@@ -45,13 +45,9 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
     useFreemarker = configuration.useFreemarker();
 
     if (useFreemarker) {
-      FreeMarkerConfigurationFactory factory;
-      factory = new FreeMarkerConfigurationFactory();
-      factory.setTemplateLoaderPaths(configuration.templateLoaderPath());
-      factory.setDefaultEncoding("UTF-8");
-
       try {
-        freemarkerConfiguration = factory.createConfiguration();
+        freemarkerConfiguration = FreemarkerFactory.freemarkerConfigurer(
+            configuration.templateLoaderPath()).getConfiguration();
       } catch (IOException e) {
         throw new RuntimeException(e);
       } catch (TemplateException e) {
