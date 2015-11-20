@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.test.context.ContextConfiguration;
 
-import com.avenida.banten.core.boot.BantenApplicationFactory;
+import com.avenida.banten.core.BantenApplicationFactory;
 
 /** Annotation that handles the Banten Application.
  *

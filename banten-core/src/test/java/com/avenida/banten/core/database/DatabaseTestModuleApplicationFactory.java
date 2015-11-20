@@ -1,7 +1,7 @@
 package com.avenida.banten.core.database;
 
+import com.avenida.banten.core.BantenApplicationFactory;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.boot.BantenApplicationFactory;
 
 /** Database test module application factory.
  * @author waabox (emi[at]avenida[dot]com)

@@ -1,9 +1,10 @@
 package com.avenida.banten.sample.time;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.database.HibernateConfigurationApi;
 import com.avenida.banten.sample.time.domain.Time;
 
 /** A simple time module.
@@ -37,16 +38,25 @@ public class TimeModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<PersistenceUnit> getPersistenceUnits() {
-    List<PersistenceUnit> units = new LinkedList<>();
-    units.add(new PersistenceUnit(Time.class));
-    return units;
+  public List<Weblet> getWeblets() {
+    return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
+  public ConfigurationApi getConfigurationApi() {
     return null;
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public void init(final ModuleApiRegistry registry) {
+    registry.get(HibernateConfigurationApi.class)
+      .persistenceUnits(
+          Arrays.asList(
+              new PersistenceUnit(Time.class)
+          )
+      );
   }
 
 }

@@ -28,7 +28,7 @@ import org.springframework.util.*;
 
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-import com.avenida.banten.core.boot.BantenApplicationFactory;
+import com.avenida.banten.core.BantenApplicationFactory;
 
 /** Spring application loader.
  *

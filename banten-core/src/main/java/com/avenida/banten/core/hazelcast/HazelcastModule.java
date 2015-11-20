@@ -36,13 +36,18 @@ public class HazelcastModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<PersistenceUnit> getPersistenceUnits() {
+  public List<Weblet> getWeblets() {
     return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
+  public void init(final ModuleApiRegistry registry) {
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public ConfigurationApi getConfigurationApi() {
     return null;
   }
 

@@ -14,8 +14,9 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.PersistenceUnit;
+import com.avenida.banten.core.ModuleApiRegistry;
 import com.avenida.banten.core.Weblet;
 
 public class WebletRendererTest {
@@ -82,13 +83,17 @@ public class WebletRendererTest {
     }
 
     @Override
-    public List<PersistenceUnit> getPersistenceUnits() {
-      return null;
+    public List<Weblet> getWeblets() {
+      return new LinkedList<>();
     }
 
     @Override
-    public List<Weblet> getWeblets() {
-      return new LinkedList<>();
+    public void init(final ModuleApiRegistry registry) {
+    }
+
+    @Override
+    public ConfigurationApi getConfigurationApi() {
+      return null;
     }
 
   }

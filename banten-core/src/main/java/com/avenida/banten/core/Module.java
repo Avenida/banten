@@ -29,15 +29,20 @@ public interface Module {
    */
   Class<?> getPublicConfiguration();
 
-  /** Retrieves the list of persistence units.
-   * @return the list of persistence units, can be null or empty-
-   */
-  List<PersistenceUnit> getPersistenceUnits();
-
   /** Retrieves the list of weblets for this module.
    *
    * @return the list of weblets.
    */
   List<Weblet> getWeblets();
+
+  /** Retrieves the configuration API.
+   * @return the configuration API or null.
+   */
+  ConfigurationApi getConfigurationApi();
+
+  /** Register within the context this module.
+   * @param registry the {@link ModuleApiRegistry}, never null.
+   */
+  void init(final ModuleApiRegistry registry);
 
 }

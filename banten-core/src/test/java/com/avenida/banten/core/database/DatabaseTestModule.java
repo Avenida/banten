@@ -1,6 +1,6 @@
 package com.avenida.banten.core.database;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.avenida.banten.core.*;
@@ -27,19 +27,28 @@ public class DatabaseTestModule implements Module {
     return DatabaseTestModuleConfiguration.class;
   }
 
+  /** {@inheritDoc}.*/
   @Override
-  public List<PersistenceUnit> getPersistenceUnits() {
-    List<PersistenceUnit> list = new LinkedList<>();
-    list.add(new PersistenceUnit(MockEntity.class));
-    list.add(new PersistenceUnit(MockEntityWithTuplizer.class,
-        MockEntityWithTuplizerFactory.class));
-    list.add(new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class));
-    return list;
+  public List<Weblet> getWeblets() {
+    return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
+  public void init(final ModuleApiRegistry registry) {
+    HibernateConfigurationApi api;
+    api = registry.get(HibernateConfigurationApi.class);
+    api.persistenceUnits(
+        Arrays.asList(
+            new PersistenceUnit(MockEntity.class),
+            new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class),
+            new PersistenceUnit(MockEntityWithTuplizer.class,
+                MockEntityWithTuplizerFactory.class)
+    ));
+  }
+
+  @Override
+  public ConfigurationApi getConfigurationApi() {
     return null;
   }
 

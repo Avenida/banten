@@ -35,14 +35,18 @@ public class HibernateModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<PersistenceUnit> getPersistenceUnits() {
+  public List<Weblet> getWeblets() {
     return null;
+  }
+
+  @Override
+  public void init(final ModuleApiRegistry registry) {
   }
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
-    return null;
+  public ConfigurationApi getConfigurationApi() {
+    return new HibernateConfigurationApi();
   }
 
 }

@@ -1,9 +1,11 @@
 package com.avenida.banten.sample.user;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.database.HibernateConfigurationApi;
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
 
@@ -38,18 +40,25 @@ public class UserModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<PersistenceUnit> getPersistenceUnits() {
-    List<PersistenceUnit> pu = new LinkedList<>();
-    pu.add(new PersistenceUnit(User.class, UserFactory.class));
-    return pu;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public List<Weblet> getWeblets() {
     List<Weblet> weblets = new LinkedList<>();
     weblets.add(new Weblet("samplepicture", "users/samplePicture.html"));
     return weblets;
+  }
+
+  @Override
+  public ConfigurationApi getConfigurationApi() {
+    return null;
+  }
+
+  @Override
+  public void init(final ModuleApiRegistry registry) {
+    registry.get(HibernateConfigurationApi.class)
+      .persistenceUnits(
+        Arrays.asList(
+            new PersistenceUnit(User.class, UserFactory.class)
+        )
+     );
   }
 
 }

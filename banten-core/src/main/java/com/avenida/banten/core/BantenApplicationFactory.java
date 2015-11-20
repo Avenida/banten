@@ -1,8 +1,7 @@
-package com.avenida.banten.core.boot;
+package com.avenida.banten.core;
 
 import org.springframework.boot.SpringApplication;
 
-import com.avenida.banten.core.Module;
 
 /** Factory for Banten Applications.
  *

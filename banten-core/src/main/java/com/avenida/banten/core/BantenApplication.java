@@ -1,4 +1,4 @@
-package com.avenida.banten.core.boot;
+package com.avenida.banten.core;
 
 import java.util.*;
 
@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.support.*;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.avenida.banten.core.*;
 import com.avenida.banten.core.beans.CoreBeansConfiguration;
 import com.avenida.banten.core.web.WebletContainer;
 
@@ -55,6 +54,9 @@ public class BantenApplication {
 
   /** The list of modules to bootstrap the application, it's never null.*/
   private final List<Class<? extends Module>> moduleClasses;
+
+  /** The module registry, it's never null. */
+  private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
 
   /** Creates a new Application with the given modules.
    * @param modules the list of modules to bootstrap, cannot be null.
@@ -132,25 +134,36 @@ public class BantenApplication {
       throws Error {
     log.info("Registering Banten Modules");
 
-    for(Class<? extends Module> moduleClass : moduleClasses) {
+    InitContext.registerBeandefinitionRegistry(registry);
 
-      Module module;
+    List<Module> modulesInitialized = new LinkedList<>();
+
+    for(Class<? extends Module> moduleClass : moduleClasses) {
       try {
-        module = moduleClass.newInstance();
+        modulesInitialized.add(moduleClass.newInstance());
       } catch (Exception e) {
         log.error("Cannot instantiate the module: {}", moduleClass);
         log.error("{} should have an empty constructor", moduleClass);
         throw new Error(e);
       }
-
-      log.info("Registering: {}" , module.getName());
-
-      registerPublicConfiguration(registry, module);
-      registerPrivateConfiguration(registry, module);
-      registerPersistenceUnits(registry, module);
-      registerWeblets(module);
-
     }
+
+    // Register the beans into the Application Context.
+    for (Module aModule : modulesInitialized) {
+      log.info("Registering: {}" , aModule.getName());
+      registerPublicConfiguration(registry, aModule);
+      registerPrivateConfiguration(registry, aModule);
+      registerAPI(registry, aModule);
+      registerWeblets(aModule);
+    }
+
+    // Initializes the modules
+    for (Module aModule : modulesInitialized) {
+      log.info("Initializing the module: {}" , aModule.getName());
+      aModule.init(moduleRegistry);
+    }
+
+    InitContext.cleanup();
 
     log.info("Finish the registration of the Banten modules");
   }
@@ -166,6 +179,18 @@ public class BantenApplication {
           module.getPublicConfiguration());
       moduleDef.setLazyInit(true);
       registry.registerBeanDefinition(module.getName(), moduleDef);
+    }
+  }
+
+  /** Register the Module's configuration API if any.
+   * @param registry the bean definition registry.
+   * @param module the module.
+   */
+  private void registerAPI(
+      final BeanDefinitionRegistry registry, final Module module) {
+    ConfigurationApi api = module.getConfigurationApi();
+    if (api != null) {
+      ModuleApiRegistry.register(api);
     }
   }
 
@@ -204,29 +229,6 @@ public class BantenApplication {
       mvcDef.setLazyInit(true);
 
       registry.registerBeanDefinition(name, mvcDef);
-    }
-  }
-
-  /** Register the persistence units.
-   * @param registry the bean definition registry.
-   * @param module the module.
-   */
-  private void registerPersistenceUnits(final BeanDefinitionRegistry registry,
-      final Module module) {
-
-    if(module.getPersistenceUnits() != null) {
-      String name = "persistence-units-" + module.getName();
-
-      ConstructorArgumentValues args;
-      args = new ConstructorArgumentValues();
-      args.addIndexedArgumentValue(0, "persistenceUnitList");
-      args.addIndexedArgumentValue(1, module.getPersistenceUnits());
-
-      GenericBeanDefinition bean = new GenericBeanDefinition();
-      bean.setBeanClass(ListFactoryAppender.class);
-      bean.setConstructorArgumentValues(args);
-
-      registry.registerBeanDefinition(name, bean);
     }
   }
 
