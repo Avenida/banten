@@ -153,7 +153,7 @@ public class BantenApplication {
       log.info("Registering: {}" , aModule.getName());
       registerPublicConfiguration(registry, aModule);
       registerPrivateConfiguration(registry, aModule);
-      registerAPI(registry, aModule);
+      registerApi(registry, aModule);
       registerWeblets(aModule);
     }
 
@@ -186,7 +186,7 @@ public class BantenApplication {
    * @param registry the bean definition registry.
    * @param module the module.
    */
-  private void registerAPI(
+  private void registerApi(
       final BeanDefinitionRegistry registry, final Module module) {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {

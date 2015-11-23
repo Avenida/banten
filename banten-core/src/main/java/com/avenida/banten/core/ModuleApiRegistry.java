@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ModuleApiRegistry {
 
-  /** The static instance. */
+  /** The static inistance. */
   private static ModuleApiRegistry instance = new ModuleApiRegistry();
 
   /** Map that holds the class and implementation of the

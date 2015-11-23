@@ -46,11 +46,13 @@ public class UserModule implements Module {
     return weblets;
   }
 
+  /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
     return null;
   }
 
+  /** {@inheritDoc}.*/
   @Override
   public void init(final ModuleApiRegistry registry) {
     registry.get(HibernateConfigurationApi.class)

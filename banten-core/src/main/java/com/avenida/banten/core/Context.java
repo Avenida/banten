@@ -28,16 +28,22 @@ public class Context {
   }
 
   /** Retrieves the current {@link HttpServletRequest}
-   * @return the request, never null.
+   * @return the request or null if it has been destroyed or not initialized.
    */
   public static HttpServletRequest request() {
+    if (context.get() == null) {
+      return null;
+    }
     return context.get().getRequest();
   }
 
   /** Retrieves the current {@link HttpServletResponse}
-   * @return the response, never null.
+   * @return the response or null if it has been destroyed or not initialized.
    */
   public static HttpServletResponse response() {
+    if (context.get() == null) {
+      return null;
+    }
     return context.get().getResponse();
   }
 

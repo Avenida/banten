@@ -12,7 +12,7 @@ import javax.servlet.http.*;
 public class ContextFilter implements Filter {
 
   /** Request attribute that indicates that the context has been initialized.*/
-  private static final String ALREADY_FILTERED = "::bantenContentInitialized";
+  public static final String ALREADY_FILTERED = "::bantenContentInitialized";
 
   /** {@inheritDoc}.*/
   @Override
