@@ -38,12 +38,15 @@ import com.avenida.banten.core.web.WebletContainer;
  *
  * The {@link ApplicationContext} looks like:
  *
- *               <Parent Context>
- *               |              |
- *          [Module A]     [Module B] ...
- *              |              |
- *         [MVC Context] [MVC Context]
+ *<code>
+ *                /[>>>Parent Context<<<]\
+ *               |                        |
+ *               |                        |
+ *       [Module A(public)]       [Module B (public)] ...
+ *           |                                  |
+ *  [MVC Context (private)]            [MVC Context (private)]
  *
+ *</code>
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
@@ -134,7 +137,7 @@ public class BantenApplication {
       throws Error {
     log.info("Registering Banten Modules");
 
-    InitContext.registerBeandefinitionRegistry(registry);
+    InitContext.init(registry);
 
     List<Module> modulesInitialized = new LinkedList<>();
 
@@ -163,7 +166,7 @@ public class BantenApplication {
       aModule.init(moduleRegistry);
     }
 
-    InitContext.cleanup();
+    InitContext.destroy();
 
     log.info("Finish the registration of the Banten modules");
   }

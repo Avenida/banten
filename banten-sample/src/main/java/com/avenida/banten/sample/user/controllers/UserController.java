@@ -2,6 +2,7 @@ package com.avenida.banten.sample.user.controllers;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,7 +52,8 @@ public class UserController {
   }
 
   @RequestMapping(value = "/samplePicture", method = RequestMethod.GET)
-  public ModelAndView samplePicture() {
+  public ModelAndView samplePicture(
+      @Value("#{request.getAttribute('quote')}") final String quote) {
     ModelAndView mav = new ModelAndView("samplePicture");
     return mav;
   }

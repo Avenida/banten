@@ -20,7 +20,7 @@ public class InitContext {
   /** Register the {@link BeanDefinitionRegistry} within the context.
    * @param aRegistry the {@link BeanDefinitionRegistry}, cannot be null.
    */
-  public static void registerBeandefinitionRegistry(
+  public static void init(
       final BeanDefinitionRegistry aRegistry) {
     Validate.notNull(aRegistry, "the registry cannot be null");
     registry.set(aRegistry);
@@ -34,7 +34,7 @@ public class InitContext {
   }
 
   /** Cleans up the context.*/
-  public static void cleanup() {
+  public static void destroy() {
     registry.remove();
   }
 

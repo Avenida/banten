@@ -28,7 +28,7 @@
 
     </div>
 
-    <@weblet name = "samplepicture" module = "User-Module"/>
+    <@weblet name = "samplepicture" module = "User-Module" quote = "Chuck Norris CAN get bacon from a cow"/>
 
   </body>
 
