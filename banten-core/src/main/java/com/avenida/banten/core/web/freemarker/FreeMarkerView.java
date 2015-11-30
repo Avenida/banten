@@ -18,7 +18,7 @@ public class FreeMarkerView extends
    *
    *  {@inheritDoc}
    */
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   protected void exposeModelAsRequestAttributes(final Map model,
       final HttpServletRequest request) throws Exception {

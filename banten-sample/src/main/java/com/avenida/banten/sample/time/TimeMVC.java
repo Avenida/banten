@@ -7,9 +7,9 @@ import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.*;
 
 import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import org.springframework.web.servlet.view.freemarker.*;
-
+import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
 import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
 
 import com.avenida.banten.sample.time.controllers.TimeController;
@@ -31,7 +31,7 @@ public class TimeMVC {
   }
 
   @Bean public ViewResolver viewResolver() {
-    return FreemarkerFactory.viewResolver();
+    return new FreeMarkerViewResolver();
   }
 
   @Bean public FreeMarkerConfigurer freemarkerConfig() throws IOException,

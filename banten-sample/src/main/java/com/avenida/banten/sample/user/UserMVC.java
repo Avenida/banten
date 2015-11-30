@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
 import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
 import com.avenida.banten.sample.user.controllers.UserController;
 import com.avenida.banten.sample.user.domain.UserFactory;
@@ -32,7 +33,7 @@ public class UserMVC {
   }
 
   @Bean public ViewResolver viewResolver() {
-    return FreemarkerFactory.viewResolver();
+    return new FreeMarkerViewResolver();
   }
 
   @Bean public FreeMarkerConfigurer freemarkerConfig() throws IOException,

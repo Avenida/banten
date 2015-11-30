@@ -1,11 +1,9 @@
 package com.avenida.banten.core.web.freemarker;
 
-/** View resolver that, by default, uses katari's FreemarkerView class.
+/** View resolver that uses banten FreeMarkerView class.
  *
- * This resolver is configured to use, by default, text/html in utf-8.
- *
- * The original freemarker view copies all model objects to the request, and
- * makes weblets fail. This resolver fixes this problem.
+ * By default, this view resolver sets the content type to text/html in utf-8,
+ * exposes the request attributes to the template, and expects .ftl sufix.
  */
 public class FreeMarkerViewResolver extends
     org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver {
@@ -13,6 +11,8 @@ public class FreeMarkerViewResolver extends
   /** FreeMarkerViewResolver constructor.
    */
   public FreeMarkerViewResolver() {
+    setSuffix(".ftl");
+    setExposeRequestAttributes(true);
     setContentType("text/html; charset=utf-8");
   }
 
@@ -23,3 +23,4 @@ public class FreeMarkerViewResolver extends
     return FreeMarkerView.class;
   }
 }
+

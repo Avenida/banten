@@ -65,7 +65,7 @@ public class BantenApplication {
    * @param modules the list of modules to bootstrap, cannot be null.
    */
   @SafeVarargs
-  BantenApplication(final Class<? extends Module> ... modules) {
+  protected BantenApplication(final Class<? extends Module> ... modules) {
     Validate.notNull(modules, "The modules cannot be null");
     moduleClasses = Arrays.asList(modules);
   }
@@ -87,27 +87,8 @@ public class BantenApplication {
       public void initialize(
           final ConfigurableApplicationContext parentContext) {
 
-        parentContext.addBeanFactoryPostProcessor(
-            new BeanDefinitionRegistryPostProcessor() {
-
-          /** {@inheritDoc}.*/
-          @Override
-          public void postProcessBeanFactory(
-              final ConfigurableListableBeanFactory beanFactory)
-              throws BeansException {
-          }
-
-          /** {@inheritDoc}.*/
-          @Override
-          public void postProcessBeanDefinitionRegistry(
-              final BeanDefinitionRegistry registry)
-              throws BeansException {
-
-            registerCoreModule(registry);
-            registerModules(registry);
-
-          }
-        });
+        registerCoreModule((BeanDefinitionRegistry) parentContext);
+        registerModules((BeanDefinitionRegistry)parentContext);
       }
     });
 
@@ -119,14 +100,12 @@ public class BantenApplication {
   /** Run the Spring application.
    * This action creates and refresh the new application context.
    *
-   * @param mainClass the root class for the component scanning.
    * @param args the command line arguments.
    *
    * @return the new Spring's ApplicationContext.
    */
-  public ConfigurableApplicationContext run(
-      final Class<?> mainClass, final String[] args) {
-    return createApplication(mainClass).run(args);
+  public ConfigurableApplicationContext run(final String[] args) {
+    return createApplication(getClass()).run(args);
   }
 
   /** Register the modules within the Spring's root application context.
