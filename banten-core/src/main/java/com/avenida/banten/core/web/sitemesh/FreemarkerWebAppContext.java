@@ -2,6 +2,7 @@ package com.avenida.banten.core.web.sitemesh;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
@@ -39,12 +40,13 @@ public class FreemarkerWebAppContext extends WebAppContext {
       final String contentType,
       final HttpServletRequest request,
       final HttpServletResponse response,
+      final ServletContext context,
       final ContentProcessor contentProcessor,
       final ResponseMetaData metaData,
       final boolean includeErrorPages,
       final Configuration configuration) {
 
-    super(contentType, request, response, null, contentProcessor,
+    super(contentType, request, response, context, contentProcessor,
         metaData, includeErrorPages);
 
     freemarkerConfig = configuration;

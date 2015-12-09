@@ -75,6 +75,7 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
   }
 
   /** {@inheritDoc}.*/
+  @Override
   protected Filter setup() throws ServletException {
 
     if (!useFreemarker) {
@@ -109,6 +110,7 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
                 contentType,
                 request,
                 response,
+                request.getServletContext(),
                 processor,
                 metaData,
                 includeErrorPages,
@@ -127,5 +129,4 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
 
     return builder.create();
   }
-
 }

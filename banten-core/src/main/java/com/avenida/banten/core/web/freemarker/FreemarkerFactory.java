@@ -32,6 +32,7 @@ public class FreemarkerFactory {
     HashMap<String, Object> variables = new HashMap<>();
     variables.put("weblet", new WebletDirective());
     cfg.setFreemarkerVariables(variables);
+    cfg.afterPropertiesSet();
     return cfg;
   }
 }

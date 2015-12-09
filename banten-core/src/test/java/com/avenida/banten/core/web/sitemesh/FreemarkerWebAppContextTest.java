@@ -56,7 +56,8 @@ public class FreemarkerWebAppContextTest {
 
     FreemarkerWebAppContext ctx;
     ctx = new FreemarkerWebAppContext(MediaType.TEXT_HTML_VALUE,
-        request, response, contentProcessor, metaData, true, freemarkerConfig);
+        request, response, null, contentProcessor, metaData, true,
+        freemarkerConfig);
     ctx.dispatch(request, response, "default.html");
 
     verify(contentProcessor, request, response, metaData, session);

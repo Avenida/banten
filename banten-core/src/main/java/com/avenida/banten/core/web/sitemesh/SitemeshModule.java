@@ -50,5 +50,4 @@ public class SitemeshModule implements Module {
   public ConfigurationApi getConfigurationApi() {
     return null;
   }
-
 }

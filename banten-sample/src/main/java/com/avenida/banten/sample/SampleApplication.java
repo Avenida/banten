@@ -1,22 +1,31 @@
 package com.avenida.banten.sample;
 
-import org.springframework.boot.context.embedded.jetty.*;
+import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 
+import com.avenida.banten.core.BantenApplication;
+import com.avenida.banten.core.database.HibernateModule;
+import com.avenida.banten.core.web.WebModule;
 import com.avenida.banten.core.web.sitemesh.SitemeshDecoratorConfiguration;
-import com.avenida.banten.core.web.sitemesh.SitemeshDecoratorConfiguration.*;
+import com.avenida.banten.core.web.sitemesh.SitemeshModule;
+import com.avenida.banten.core.web.sitemesh.SitemeshDecoratorConfiguration.Builder;
 
-/** The Sample Application entry point.
+import com.avenida.banten.sample.time.TimeModule;
+import com.avenida.banten.sample.user.UserModule;
+
+/** The Sample application Factory.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class SampleApplication {
+public class SampleApplication extends BantenApplication {
 
-  /** The executor.
-   * @param args the command line arguments.
-   */
-  public static void main(final String[] args) {
-    SampleApplicationFactory factory = new SampleApplicationFactory();
-    factory.create(SampleApplication.class).run(args);
+  public SampleApplication() {
+    super(
+        HibernateModule.class,
+        SitemeshModule.class,
+        WebModule.class,
+        TimeModule.class,
+        UserModule.class);
   }
 
   /** Retrieves the Jetty Factory. This factory can be used to configure the
@@ -24,14 +33,13 @@ public class SampleApplication {
    * @return the factory, never null.
    */
   @Bean public JettyEmbeddedServletContainerFactory jetty() {
-    return new JettyEmbeddedServletContainerFactory("", 8080);
+    return new JettyEmbeddedServletContainerFactory("", 8888);
   }
 
   /** The Sitemesh's decorator configuration.
    * @return the Sitemesh's decorator configuration.
    */
   @Bean public SitemeshDecoratorConfiguration sitemeshConfig() {
-    return new Builder(true).build();
+    return new Builder().build();
   }
-
 }

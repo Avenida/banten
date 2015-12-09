@@ -44,5 +44,5 @@ public class CoreBeansConfiguration {
     filterBean.addUrlPatterns("/*");
     return filterBean;
   }
-
 }
+

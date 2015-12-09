@@ -118,7 +118,7 @@ public class BantenSitemeshDecoratorSelectorTest {
 
     assertThat(out.length, is(1));
 
-    verify(parent, content, context, request);
+    verify(content, context, request);
   }
 
 }

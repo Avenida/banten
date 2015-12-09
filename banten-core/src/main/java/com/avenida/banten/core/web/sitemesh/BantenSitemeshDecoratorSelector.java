@@ -3,6 +3,8 @@ package com.avenida.banten.core.web.sitemesh;
 import java.io.IOException;
 
 import org.apache.commons.lang3.Validate;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
 
 import org.sitemesh.*;
 import org.sitemesh.content.*;
@@ -41,7 +43,29 @@ public class BantenSitemeshDecoratorSelector
         || explicitNoDecorate(context)) {
       return new String[0];
     }
-    return selector.selectDecoratorPaths(content, context);
+
+    boolean isSecurityConfigured = false;
+
+    try {
+      SecurityUtils.getSecurityManager();
+      isSecurityConfigured = true;
+    } catch (UnavailableSecurityManagerException e) {
+      // The UnavailableSecurityManagerException when shiro is not
+      // configured.
+      isSecurityConfigured = false;
+    }
+
+    if (!isSecurityConfigured) {
+      // No security configured, use the default decorator always.
+      return new String[] {"decorator.ftl"};
+    }
+
+    if (SecurityUtils.getSubject().isAuthenticated()) {
+      return new String[] {"decorator.ftl"};
+    } else {
+      return new String[] {"decoratorAnonymous.ftl"};
+    }
+    //return selector.selectDecoratorPaths(content, context);
   }
 
   /** Use a request attribute called: "::decoratePage" and checks that its
@@ -82,5 +106,4 @@ public class BantenSitemeshDecoratorSelector
   private boolean isAjax(final WebAppContext context) {
     return context.getContentType().equals(MediaType.APPLICATION_JSON_VALUE);
   }
-
 }

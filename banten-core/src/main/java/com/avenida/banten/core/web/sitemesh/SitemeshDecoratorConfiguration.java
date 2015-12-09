@@ -60,11 +60,8 @@ public class SitemeshDecoratorConfiguration {
     /** Creates a new instance of the Builder.
      * @param addDefaultDecorator if should add into "/*" a default decorator.
      */
-    public Builder(final boolean addDefaultDecorator) {
+    public Builder() {
       configuration = new SitemeshDecoratorConfiguration();
-      if (addDefaultDecorator) {
-        addDecorator("/*", "default.html");
-      }
     }
 
     /** Disable the Freemarker decorator discovery.
@@ -100,7 +97,6 @@ public class SitemeshDecoratorConfiguration {
     public SitemeshDecoratorConfiguration build() {
       return configuration;
     }
-
   }
-
 }
+

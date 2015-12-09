@@ -33,5 +33,4 @@ public class SitemeshConfiguration {
 
     return filterBean;
   }
-
 }
