@@ -4,17 +4,21 @@
 *.iws
 *.idea
 *.pid
-.project
-.classpath
-.settings/
-target/
 .idea/
 *.sw?
 *.jar
 
+# maven generated files
+pom.xml.releaseBackup
+release.properties
+target/
+
 #ignore folder created by eclipse or for eclipse
 */bin/
 *.metadata/
+.project
+.classpath
+.settings/
 
 # Ignore avtive mq data store locally.
 */activemq-data/
