@@ -1,11 +1,10 @@
-package com.avenida.banten.core.boot.test;
+package com.avenida.banten.core;
 
 import java.io.*;
 import java.util.*;
 
 import org.springframework.beans.BeanUtils;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.web.*;
 
 import org.springframework.boot.test.*;
@@ -28,9 +27,13 @@ import org.springframework.util.*;
 
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-import com.avenida.banten.core.BantenApplicationFactory;
+import com.avenida.banten.core.boot.test.BantenTest;
 
 /** Spring application loader.
+ *
+ * See BantenTest for more information.
+ *
+ * This is used only during testing. Do not use this in your production code.
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
@@ -43,11 +46,10 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
 
     Class testClass = config.getTestClass();
     BantenTest test = (BantenTest) testClass.getAnnotation(BantenTest.class);
-    Class<? extends BantenApplicationFactory> factoryClass;
-    factoryClass = test.factoryClass();
+    Class<? extends BantenApplication> applicationClass;
+    applicationClass = test.applicationClass();
 
-    BantenApplicationFactory factory =  factoryClass.newInstance();
-    SpringApplication application = factory.create(factoryClass);
+    BantenApplication application =  applicationClass.newInstance();
 
     ConfigurableEnvironment environment = new StandardEnvironment();
     if (!ObjectUtils.isEmpty(config.getActiveProfiles())) {
@@ -63,11 +65,13 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
     if (config instanceof WebMergedContextConfiguration) {
       new WebConfigurer().configure(config, application, initializers);
     } else {
-      application.setWebEnvironment(false);
+      application.getApplication().setWebEnvironment(false);
     }
 
-    application.setInitializers(initializers);
-    ConfigurableApplicationContext applicationContext = application.run();
+    application.getApplication().setInitializers(
+        initializers);
+    ConfigurableApplicationContext applicationContext;
+    applicationContext = application.getApplication().run();
 
     return applicationContext;
   }
@@ -137,13 +141,14 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
 
   private List<ApplicationContextInitializer<?>> getInitializers(
       final MergedContextConfiguration cfg,
-      final SpringApplication application) {
+      final BantenApplication application) {
     List<ApplicationContextInitializer<?>> initializers;
     initializers = new ArrayList<ApplicationContextInitializer<?>>();
     initializers.add(new PropertySourceLocationsInitializer(
         cfg.getPropertySourceLocations()));
     initializers.add(new ServerPortInfoApplicationContextInitializer());
-    initializers.addAll(application.getInitializers());
+    initializers.addAll(application.getApplication()
+        .getInitializers());
     for (
         Class<? extends ApplicationContextInitializer<?>> initializerClass :
           cfg.getContextInitializerClasses()) {
@@ -202,13 +207,14 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
       WEB_CONTEXT_CLASS = GenericWebApplicationContext.class;
 
     void configure(final MergedContextConfiguration configuration,
-        final SpringApplication application,
+        final BantenApplication application,
         final List<ApplicationContextInitializer<?>> initializers) {
       WebMergedContextConfiguration webConfiguration;
       webConfiguration = (WebMergedContextConfiguration) configuration;
       if (!isIntegrationTest(webConfiguration.getTestClass())) {
         addMockServletContext(initializers, webConfiguration);
-        application.setApplicationContextClass(WEB_CONTEXT_CLASS);
+        application.getApplication()
+          .setApplicationContextClass(WEB_CONTEXT_CLASS);
       }
     }
 
@@ -249,6 +255,5 @@ public class BantenApplicationContextLoader extends AbstractContextLoader {
       TestPropertySourceUtils.addPropertiesFilesToEnvironment(ctx,
           propertySourceLocations);
     }
-
   }
 }

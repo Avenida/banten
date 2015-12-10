@@ -19,7 +19,7 @@ import com.avenida.banten.core.boot.test.BantenTest;
  * @author waabox (emi[at]avenida[dot]com)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@BantenTest(factoryClass = DatabaseTestModuleApplicationFactory.class)
+@BantenTest(applicationClass = DatabaseTestModuleApplication.class)
 public class HibernateTest {
 
   @Autowired Repository repository;

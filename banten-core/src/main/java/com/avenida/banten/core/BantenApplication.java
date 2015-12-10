@@ -58,7 +58,7 @@ import com.avenida.banten.core.web.WebletContainer;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class BantenApplication {
+public abstract class BantenApplication {
 
   /** The log. */
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
@@ -69,6 +69,8 @@ public class BantenApplication {
   /** The module registry, it's never null. */
   private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
 
+  private SpringApplication application = null;
+
   /** Creates a new Application with the given modules.
    * @param modules the list of modules to bootstrap, cannot be null.
    */
@@ -78,14 +80,24 @@ public class BantenApplication {
     moduleClasses = Arrays.asList(modules);
   }
 
-  /** Creates the Spring's Application.
-   * @param mainClass the main class.
+  /** Gets the currently wrapped spring boot application, creating one if not
+   * yet created.
+   *
+   * This is not serialized, so don't attempt to call these from a
+   * multi-thread context. This is package access so that it can be used from
+   * BantenApplicationContextLoader, a test utility.
+   *
    * @return the Spring Application, never null.
    */
-  public SpringApplication createApplication(final Class<?> mainClass) {
-    SpringApplication app = new SpringApplication(mainClass);
+  SpringApplication getApplication() {
 
-    app.addInitializers(
+    if (application != null) {
+      return application;
+    }
+
+    application = new SpringApplication(getClass());
+
+    application.addInitializers(
         new ApplicationContextInitializer<ConfigurableApplicationContext>() {
 
       /** Initializes the application context.
@@ -102,7 +114,7 @@ public class BantenApplication {
 
     log.info("Finish application configuration, starting Spring's context");
 
-    return app;
+    return application;
   }
 
   /** Run the Spring application.
@@ -112,8 +124,8 @@ public class BantenApplication {
    *
    * @return the new Spring's ApplicationContext.
    */
-  public ConfigurableApplicationContext run(final String[] args) {
-    return createApplication(getClass()).run(args);
+  public final ConfigurableApplicationContext run(final String[] args) {
+    return getApplication().run(args);
   }
 
   /** Register the modules within the Spring's root application context.
