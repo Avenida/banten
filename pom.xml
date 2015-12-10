@@ -13,7 +13,7 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Banten</name>
