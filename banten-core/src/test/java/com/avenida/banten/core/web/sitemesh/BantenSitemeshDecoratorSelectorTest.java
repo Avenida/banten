@@ -27,8 +27,10 @@ public class BantenSitemeshDecoratorSelectorTest {
     request = createMock(HttpServletRequest.class);
   }
 
-  @Test public void selectDecoratorPaths_isAjax() throws Exception {
+  @Test public void selectDecoratorPaths_isAjaxContentType() throws Exception {
 
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn(null);
     expect(context.getContentType()).andReturn(
         MediaType.APPLICATION_JSON_VALUE);
 
@@ -43,8 +45,26 @@ public class BantenSitemeshDecoratorSelectorTest {
     verify(parent, content, context, request);
   }
 
+  @Test public void selectDecoratorPaths_isAjaxHeader() throws Exception {
+
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn("XMLHttpRequest");
+
+    replay(parent, content, context, request);
+
+    BantenSitemeshDecoratorSelector selector;
+    selector = new BantenSitemeshDecoratorSelector(parent);
+    String[] out = selector.selectDecoratorPaths(content, context);
+
+    assertThat(out.length, is(0));
+
+    verify(parent, content, context, request);
+  }
+
   @Test public void selectDecoratorPaths_isModal() throws Exception {
 
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn(null);
     expect(context.getContentType()).andReturn(
         MediaType.TEXT_HTML_VALUE);
 
@@ -63,6 +83,8 @@ public class BantenSitemeshDecoratorSelectorTest {
 
   @Test public void selectDecoratorPaths_isApi() throws Exception {
 
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn(null);
     expect(context.getContentType()).andReturn(
         MediaType.TEXT_HTML_VALUE);
 
@@ -81,6 +103,8 @@ public class BantenSitemeshDecoratorSelectorTest {
 
   @Test public void selectDecoratorPaths_explicitNotDecorate() throws Exception {
 
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn(null);
     expect(context.getContentType()).andReturn(
         MediaType.TEXT_HTML_VALUE);
 
@@ -101,6 +125,8 @@ public class BantenSitemeshDecoratorSelectorTest {
 
   @Test public void selectDecoratorPaths_decorate() throws Exception {
 
+    expect(context.getRequest()).andReturn(request);
+    expect(request.getHeader("X-Requested-With")).andReturn(null);
     expect(context.getContentType()).andReturn(
         MediaType.TEXT_HTML_VALUE);
     expect(context.getPath()).andReturn("/hours.html").anyTimes();
@@ -120,5 +146,4 @@ public class BantenSitemeshDecoratorSelectorTest {
 
     verify(content, context, request);
   }
-
 }

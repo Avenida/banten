@@ -1,3 +1,5 @@
+/* vim: set et ts=2 sw=2 cindent fo=qroca: */
+
 package com.avenida.banten.core.web.sitemesh;
 
 import java.io.IOException;
@@ -99,11 +101,22 @@ public class BantenSitemeshDecoratorSelector
     return context.getPath().contains("/modal/");
   }
 
-  /** Checks whether or not the current request's media type is json.
-   * @param context the Sitemesh's context.
-   * @return true if matches.
-   */
+  /** Checks whether or not the request came from an ajax call.
+  *
+  * We consider an ajax call when the response is of type json, or the request
+  * contains the header "X-Requested-With: XMLHttpRequest".
+  *
+  * @param context the Sitemesh's context.
+  *
+  * @return true if matches.
+  */
   private boolean isAjax(final WebAppContext context) {
-    return context.getContentType().equals(MediaType.APPLICATION_JSON_VALUE);
+    String requestedWith = context.getRequest().getHeader("X-Requested-With");
+    if ("XMLHttpRequest".equals(requestedWith)) {
+      return true;
+    } else {
+      return context.getContentType().equals(MediaType.APPLICATION_JSON_VALUE);
+    }
   }
 }
+
