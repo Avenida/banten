@@ -19,11 +19,11 @@ public class FreeMarkerConfigurer extends
     org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer {
 
   private boolean debugMode;
+
   private String relativePath;
+
   private String[] templatePaths;
 
-  /** FreeMarkerViewResolver constructor.
-   */
   public FreeMarkerConfigurer(final boolean theDebugMode,
       final String relativePath, final String ... theTemplatePaths) {
     Validate.notNull(theTemplatePaths, "The template paths cannot be null.");

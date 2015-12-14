@@ -37,8 +37,14 @@ public abstract class ConfigurationApi {
     GenericBeanDefinition bean = new GenericBeanDefinition();
     bean.setBeanClass(ListFactoryAppender.class);
     bean.setConstructorArgumentValues(args);
+    bean.setLazyInit(true);
 
     InitContext.beanDefinitionRegistry().registerBeanDefinition(name, bean);
   }
+
+  /** Initialize the configuration API.*/
+  protected void init() {
+  }
+
 }
 

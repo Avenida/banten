@@ -45,13 +45,10 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
       final boolean theDebugMode,
       final FreeMarkerConfigurer theFreeMarkerConfigurer,
       final BantenSitemeshDecoratorSelector selector) {
-
     Validate.notNull(selector, "The bantenSelector cannot be null");
     Validate.notNull(theFreeMarkerConfigurer,
         "The freemarker configuration cannot be null");
-
     debugMode = theDebugMode;
-
     try {
       freemarkerConfiguration = theFreeMarkerConfigurer.createConfiguration();
     } catch (IOException | TemplateException e) {

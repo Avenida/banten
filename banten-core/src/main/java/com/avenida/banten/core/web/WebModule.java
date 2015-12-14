@@ -2,10 +2,7 @@ package com.avenida.banten.core.web;
 
 import java.util.List;
 
-import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.Module;
-import com.avenida.banten.core.ModuleApiRegistry;
-import com.avenida.banten.core.Weblet;
+import com.avenida.banten.core.*;
 
 /** Web Module.
  *

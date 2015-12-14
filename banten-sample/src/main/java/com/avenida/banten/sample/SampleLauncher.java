@@ -11,4 +11,5 @@ public class SampleLauncher {
   public static void main(final String[] args) {
     new SampleApplication().run(args);
   }
+
 }

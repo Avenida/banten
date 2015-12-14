@@ -36,7 +36,7 @@ public interface Module {
   Class<?> getPrivateConfiguration();
 
   /** Retrieves the public Module configuration.
-   * @return the public configuration, never null.
+   * @return the public configuration, can be null.
    */
   Class<?> getPublicConfiguration();
 

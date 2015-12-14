@@ -5,11 +5,11 @@ import org.springframework.boot.context.embedded.jetty
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.hibernate.HibernateModule;
 import com.avenida.banten.core.web.WebModule;
+import com.avenida.banten.core.web.menu.MenuModule;
 import com.avenida.banten.core.web.sitemesh.SitemeshConfiguration;
 import com.avenida.banten.core.web.sitemesh.SitemeshModule;
-
+import com.avenida.banten.hibernate.HibernateModule;
 import com.avenida.banten.sample.time.TimeModule;
 import com.avenida.banten.sample.user.UserModule;
 
@@ -19,13 +19,16 @@ import com.avenida.banten.sample.user.UserModule;
  */
 public class SampleApplication extends BantenApplication {
 
+  /** Creates a new instance of the Sample Application.*/
   public SampleApplication() {
     super(
         HibernateModule.class,
         SitemeshModule.class,
         WebModule.class,
+        MenuModule.class,
         TimeModule.class,
-        UserModule.class);
+        UserModule.class
+    );
   }
 
   /** Retrieves the Jetty Factory. This factory can be used to configure the
@@ -33,7 +36,7 @@ public class SampleApplication extends BantenApplication {
    * @return the factory, never null.
    */
   @Bean public JettyEmbeddedServletContainerFactory jetty() {
-    return new JettyEmbeddedServletContainerFactory("", 8888);
+    return new JettyEmbeddedServletContainerFactory("", 8080);
   }
 
   /** The Sitemesh's decorator configuration.
@@ -42,5 +45,6 @@ public class SampleApplication extends BantenApplication {
   @Bean public SitemeshConfiguration sitemeshConfig() {
     return new SitemeshConfiguration("xx", "classpath:decorators/");
   }
+
 }
 

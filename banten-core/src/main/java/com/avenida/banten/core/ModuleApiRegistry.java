@@ -1,7 +1,6 @@
 package com.avenida.banten.core;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** Holds the {@link ConfigurationApi} implementations for each {@link Module}.
  *
@@ -36,6 +35,14 @@ public class ModuleApiRegistry {
    */
   static void register(final ConfigurationApi api) {
     instance.apis.put(api.getClass(), api);
+  }
+
+  /** Initializes the APIs.*/
+  void initApi() {
+    Collection<ConfigurationApi> cfgApis = instance.apis.values();
+    for(ConfigurationApi cfg : cfgApis) {
+      cfg.init();
+    }
   }
 
   /** Retrieves the configuration API instance.

@@ -2,45 +2,20 @@
 
 package com.avenida.banten.core;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import org.apache.commons.lang3.Validate;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slf4j.*;
 import org.springframework.beans.MutablePropertyValues;
-
-import org.springframework.beans.factory.FactoryBean;
-
-import org.springframework.beans.factory.annotation
-    .AnnotatedGenericBeanDefinition;
-
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.*;
-
 import org.springframework.boot.*;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
-
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.*;
 import org.springframework.context.annotation.Configuration;
-
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
-
-import org.springframework.web.context.support
-    .AnnotationConfigWebApplicationContext;
-
+import org.springframework.core.env.*;
+import org.springframework.web.context.support.*;
 import org.springframework.web.servlet.DispatcherServlet;
-
 import com.avenida.banten.core.beans.CoreBeansConfiguration;
 import com.avenida.banten.core.web.WebletContainer;
 
@@ -140,10 +115,10 @@ public abstract class BantenApplication {
       @Override
       public void initialize(
           final ConfigurableApplicationContext parentContext) {
-
         registerCoreBeans((BeanDefinitionRegistry)parentContext);
         registerModules((BeanDefinitionRegistry)parentContext);
       }
+
     });
 
     log.info("Finish application configuration, starting Spring's context");
@@ -199,6 +174,8 @@ public abstract class BantenApplication {
       aModule.init(moduleRegistry);
     }
 
+    moduleRegistry.initApi();
+
     InitContext.destroy();
 
     log.info("Finish the registration of the Banten modules");
@@ -229,62 +206,6 @@ public abstract class BantenApplication {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
       ModuleApiRegistry.register(api);
-    }
-  }
-
-  /** Utility class to add a concrete instance of an object as a bean in a bean
-   * factory.
-   *
-   * This is used, for example, to make module information available to the
-   * private spring application context (see ModuleDescription) and to create
-   * a bean with the web application root context.
-   */
-  public static class ObjectFactoryBean implements FactoryBean<Object> {
-
-    /** The instance of the module description to expose as a spring bean.
-     */
-    private Object instance;
-
-    private Class<?> type;
-
-    private static void register(final BeanDefinitionRegistry registry,
-        final Class<?> type, final Object instance, final String beanName) {
-
-      MutablePropertyValues descriptionValues = new MutablePropertyValues();
-      descriptionValues.add("instance", instance);
-      descriptionValues.add("type", type);
-
-      GenericBeanDefinition descriptionDefinition;
-      descriptionDefinition = new GenericBeanDefinition();
-      descriptionDefinition.setBeanClass(ObjectFactoryBean.class);
-      descriptionDefinition.setPropertyValues(descriptionValues);
-      descriptionDefinition.setLazyInit(true);
-
-      registry.registerBeanDefinition(beanName,
-          descriptionDefinition);
-    }
-
-    public void setInstance(final Object theInstance) {
-      instance = theInstance;
-    }
-
-    public void setType(final Class<?> theType) {
-      type = theType;
-    }
-
-    @Override
-    public Object getObject() throws Exception {
-      return instance;
-    }
-
-    @Override
-    public Class<?> getObjectType() {
-      return type;
-    }
-
-    @Override
-    public boolean isSingleton() {
-      return true;
     }
   }
 

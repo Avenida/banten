@@ -1,5 +1,6 @@
 package com.avenida.banten.core.web.menu;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.avenida.banten.core.*;
@@ -31,19 +32,19 @@ public class MenuModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPrivateConfiguration() {
-    return MenuMVC.class;
+    return MenuMvc.class;
   }
 
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPublicConfiguration() {
-    return MenuConfiguration.class;
+    return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
   public List<Weblet> getWeblets() {
-    return null;
+    return Arrays.asList(new Weblet("menu", "menu/index.html"));
   }
 
   /** {@inheritDoc}.*/
@@ -54,7 +55,7 @@ public class MenuModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return null;
+    return new MenuConfigurationApi();
   }
 
 }

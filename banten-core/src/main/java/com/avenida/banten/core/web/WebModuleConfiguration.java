@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.*;
 
-
 /** Web Module configuration.
  *
  * @author waabox (emi[at]avenida[dot]com)
@@ -12,6 +11,10 @@ import org.springframework.context.annotation.*;
 @Configuration
 public class WebModuleConfiguration {
 
+  /** Retrieves the {@link WebletRendererRegistrationFilter}.
+   * @param renderer the {@link WebletRenderer}, cannot be null.
+   * @return a {@link FilterRegistrationBean} instance, never null.
+   */
   @Bean(name = "banten.webletRenderer")
   @Autowired
   public FilterRegistrationBean webletRendererFilter(
@@ -21,4 +24,5 @@ public class WebModuleConfiguration {
     filterBean.addUrlPatterns("/*");
     return filterBean;
   }
+
 }
