@@ -44,5 +44,4 @@ public interface Module {
    * @param registry the {@link ModuleApiRegistry}, never null.
    */
   void init(final ModuleApiRegistry registry);
-
 }

@@ -69,7 +69,17 @@ public abstract class BantenApplication {
   /** The module registry, it's never null. */
   private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
 
+  /** The spring boot application, null if not yet created.
+   *
+   * This is initialized with getApplication().
+   */
   private SpringApplication application = null;
+
+  /** The application-wise landing url, null if not configured.
+   *
+   * See HomeServlet for more information.
+   */
+  private String landingUrl = null;
 
   /** Creates a new Application with the given modules.
    * @param modules the list of modules to bootstrap, cannot be null.
@@ -80,11 +90,24 @@ public abstract class BantenApplication {
     moduleClasses = Arrays.asList(modules);
   }
 
+
+  /** Sets the landing url.
+   *
+   * If called, you must pass a non-null value. If not called, the web
+   * application container will define how to handle requests to the root of
+   * the web context.
+   *
+   * @param theLandingUrl the landing url. It cannot be null.
+   */
+  protected void setLandingUrl(final String theLandingUrl) {
+    landingUrl = theLandingUrl;
+  }
+
   /** Gets the currently wrapped spring boot application, creating one if not
    * yet created.
    *
-   * This is not serialized, so don't attempt to call these from a
-   * multi-thread context. This is package access so that it can be used from
+   * This is not serialized, so don't attempt to call this from a
+   * multi-threaded context. This is package access so that it can be used from
    * BantenApplicationContextLoader, a test utility.
    *
    * @return the Spring Application, never null.
@@ -171,8 +194,10 @@ public abstract class BantenApplication {
   }
 
   /** Register the Module.
-   * @param registry the bean definition registry.
-   * @param module the module.
+   *
+   * @param registry the bean definition registry. It cannot be null.
+   *
+   * @param module the module to register. It cannot be null.
    */
   private void registerPublicConfiguration(
       final BeanDefinitionRegistry registry, final Module module) {
@@ -232,37 +257,60 @@ public abstract class BantenApplication {
     }
   }
 
-  /** A factory bean to create the module description.
+  /** Utility class to add a concrete instance of an object as a bean in a
+   * bean factory.
    *
-   * This is used to make module information available to the private spring
-   * application context. See ModuleDescription.
+   * This is used, for example, to make module information available to the
+   * private spring application context (see ModuleDescription) and to create
+   * a bean with the web application root context.
    */
-  public static class ModuleDescriptionFactoryBean
-      implements FactoryBean<ModuleDescription>{
+  public static class ObjectFactoryBean implements FactoryBean<Object> {
 
     /** The instance of the module description to expose as a spring bean.
      */
-    private ModuleDescription instance;
+    private Object instance;
 
-    public void setInstance(final ModuleDescription theInstance) {
+    private Class<?> type;
+
+    private static void register(final BeanDefinitionRegistry registry,
+        final Class<?> type, final Object instance, final String beanName) {
+
+      MutablePropertyValues descriptionValues = new MutablePropertyValues();
+      descriptionValues.add("instance", instance);
+      descriptionValues.add("type", type);
+
+      GenericBeanDefinition descriptionDefinition;
+      descriptionDefinition = new GenericBeanDefinition();
+      descriptionDefinition.setBeanClass(ObjectFactoryBean.class);
+      descriptionDefinition.setPropertyValues(descriptionValues);
+      descriptionDefinition.setLazyInit(true);
+
+      registry.registerBeanDefinition(beanName,
+          descriptionDefinition);
+    }
+
+    public void setInstance(final Object theInstance) {
       instance = theInstance;
     }
 
+    public void setType(final Class<?> theType) {
+      type = theType;
+    }
+
     @Override
-    public ModuleDescription getObject() throws Exception {
+    public Object getObject() throws Exception {
       return instance;
     }
 
     @Override
     public Class<?> getObjectType() {
-      return ModuleDescription.class;
+      return type;
     }
 
     @Override
     public boolean isSingleton() {
       return true;
     }
-
   }
 
   /** The module description.
@@ -273,10 +321,24 @@ public abstract class BantenApplication {
    */
   public static class ModuleDescription {
 
+    /** The module name, never null. */
     private String name;
+
+    /** The module classpath, the package of the module class, never null. */
     private String classpath;
+
+    /** The module namespace, never null. */
     private String namespace;
 
+    /** Creates a module description.
+     *
+     * @param theName the module name. It cannot be null.
+     *
+     * @param theClasspath the module classpath, ie: the package of the module
+     * class. It cannot be null.
+     *
+     * @param theNamespace the module namespace. It cannot be null.
+     */
     ModuleDescription(final String theName, final String theClasspath,
         final String theNamespace) {
       name = theName;
@@ -284,14 +346,26 @@ public abstract class BantenApplication {
       namespace = theNamespace;
     }
 
+    /** Obtains the module name.
+     *
+     * @return the module name, never null.
+     */
     public String getName() {
       return name;
     }
 
+    /** Obtains the module classpath, the package of the module class.
+     *
+     * @return the module classpath, never null.
+     */
     public String getClasspath() {
       return classpath;
     }
 
+    /** Obtains the module namespace.
+     *
+     * @return the module namespace, never null.
+     */
     public String getNamespace() {
       return namespace;
     }
@@ -365,24 +439,15 @@ public abstract class BantenApplication {
       // description.
       ModuleDescription description = new ModuleDescription(module.getName(),
           moduleClasspath, module.getNamespace());
-
-      MutablePropertyValues descriptionValues = new MutablePropertyValues();
-      descriptionValues.add("instance", description);
-
-      GenericBeanDefinition descriptionDefinition;
-      descriptionDefinition = new GenericBeanDefinition();
-      descriptionDefinition.setBeanClass(ModuleDescriptionFactoryBean.class);
-      descriptionDefinition.setPropertyValues(descriptionValues);
-      descriptionDefinition.setLazyInit(true);
-
-      registry.registerBeanDefinition("banten.moduleDescription",
-          descriptionDefinition);
+      ObjectFactoryBean.register(registry, description.getClass(), description,
+          "banten.moduleDescription");
     }
   }
 
   /** Register the weblets into the WebletContainer.
    *
-   * @param module the module.
+   * @param module the module that has the weblets to register. It cannot be
+   * null.
    */
   private void registerWeblets(final Module module) {
     if (module.getWeblets() != null) {
@@ -396,6 +461,8 @@ public abstract class BantenApplication {
    */
   private void registerCoreModule(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
+    ObjectFactoryBean.register(registry, String.class, landingUrl,
+        "banten.landingUrl");
     BeanDefinition coreBean = new GenericBeanDefinition();
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);

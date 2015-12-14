@@ -22,8 +22,7 @@ public abstract class ConfigurationApi {
    * @param resourceName the resource name, cannot be null.
    * @param list the list to append to the given resource, cannot be null.
    */
-  protected void appendToList(final String resourceName,
-      final List<?> list) {
+  protected void appendToList(final String resourceName, final List<?> list) {
 
     Validate.notNull(resourceName, "The resource name cannot be null");
     Validate.notNull(list, "The list cannot be null");
@@ -41,5 +40,5 @@ public abstract class ConfigurationApi {
 
     InitContext.beanDefinitionRegistry().registerBeanDefinition(name, bean);
   }
-
 }
+
