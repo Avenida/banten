@@ -1,4 +1,4 @@
-package com.avenida.banten.core.database;
+package com.avenida.banten.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

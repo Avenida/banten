@@ -22,7 +22,10 @@
     <dependency>
       <groupId>com.avenida.banten</groupId>
       <artifactId>banten-core</artifactId>
-      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-hibernate</artifactId>
     </dependency>
   </dependencies>
 

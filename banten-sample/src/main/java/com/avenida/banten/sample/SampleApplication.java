@@ -4,7 +4,7 @@ import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletConta
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.database.HibernateModule;
+import com.avenida.banten.hibernate.HibernateModule;
 import com.avenida.banten.core.web.WebModule;
 import com.avenida.banten.core.web.sitemesh.SitemeshDecoratorConfiguration;
 import com.avenida.banten.core.web.sitemesh.SitemeshModule;

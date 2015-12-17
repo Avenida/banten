@@ -461,8 +461,10 @@ public abstract class BantenApplication {
    */
   private void registerCoreModule(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
-    ObjectFactoryBean.register(registry, String.class, landingUrl,
-        "banten.landingUrl");
+    if (landingUrl != null) {
+      ObjectFactoryBean.register(registry, String.class, landingUrl,
+          "banten.landingUrl");
+    }
     BeanDefinition coreBean = new GenericBeanDefinition();
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);

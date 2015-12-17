@@ -1,19 +1,18 @@
-package com.avenida.banten.core.hazelcast;
+package com.avenida.banten.hibernate;
 
 import java.util.List;
 
 import com.avenida.banten.core.*;
 
-/** Hazelcast Module.
- *
+/** Hibernate's Module.
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class HazelcastModule implements Module {
+public class HibernateModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
   public String getName() {
-    return "Hazelcast-Module";
+    return "Hibernate-Module";
   }
 
   /** {@inheritDoc}.*/
@@ -31,7 +30,7 @@ public class HazelcastModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPublicConfiguration() {
-    return HazelcastConfiguration.class;
+    return HibernateConfiguration.class;
   }
 
   /** {@inheritDoc}.*/
@@ -40,7 +39,6 @@ public class HazelcastModule implements Module {
     return null;
   }
 
-  /** {@inheritDoc}.*/
   @Override
   public void init(final ModuleApiRegistry registry) {
   }
@@ -48,7 +46,7 @@ public class HazelcastModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return null;
+    return new HibernateConfigurationApi();
   }
 
 }

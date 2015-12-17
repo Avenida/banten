@@ -1,4 +1,4 @@
-package com.avenida.banten.core.hazelcast;
+package com.avenida.banten.hazelcast;
 
 import java.util.Arrays;
 

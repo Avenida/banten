@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 import org.hibernate.annotations.Tuplizer;
 
-import com.avenida.banten.core.database.PlatformTuplizer;
+import com.avenida.banten.hibernate.PlatformTuplizer;
 import com.avenida.banten.sample.time.domain.*;
 
 /** The user entity.

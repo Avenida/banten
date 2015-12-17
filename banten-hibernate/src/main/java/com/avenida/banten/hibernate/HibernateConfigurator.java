@@ -1,4 +1,4 @@
-package com.avenida.banten.core.database;
+package com.avenida.banten.hibernate;
 
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.*;

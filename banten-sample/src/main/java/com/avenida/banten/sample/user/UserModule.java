@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.avenida.banten.core.*;
-import com.avenida.banten.core.database.HibernateConfigurationApi;
+import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
 

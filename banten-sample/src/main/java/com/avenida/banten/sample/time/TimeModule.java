@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.avenida.banten.core.*;
-import com.avenida.banten.core.database.HibernateConfigurationApi;
+import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.time.domain.Time;
 
 /** A simple time module.

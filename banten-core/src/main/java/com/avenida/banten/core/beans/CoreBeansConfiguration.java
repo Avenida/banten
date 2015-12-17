@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -105,8 +106,6 @@ public class CoreBeansConfiguration {
 
   /** Creates the home servlet if the application-wise landing url is defined.
    *
-   * If the home servlet is not defined,
-   *
    * @param landingUrl the application-wise landing url. Null if not defined.
    * See BantenApplication.setLandingUrl() for more information.
    *
@@ -116,6 +115,7 @@ public class CoreBeansConfiguration {
    * will handle all requests to the root path.
    */
   @Bean(name = "banten.homeServlet")
+  @ConditionalOnBean(name = "banten.landingUrl")
   public ServletRegistrationBean homeServlet(
       @Qualifier("banten.landingUrl") final String landingUrl) {
 

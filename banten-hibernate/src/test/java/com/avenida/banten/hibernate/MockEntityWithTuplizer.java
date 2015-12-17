@@ -1,4 +1,4 @@
-package com.avenida.banten.core.database;
+package com.avenida.banten.hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
