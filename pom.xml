@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-  http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0   http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -16,7 +13,7 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten</artifactId>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.5</version>
   <packaging>pom</packaging>
 
   <name>Banten</name>
@@ -33,7 +30,7 @@
     <url>https://git.avenida.com/diffusion/AOS/</url>
     <connection>scm:git:ssh://git@git.avenida.com:22/diffusion/BANTEN/banten.git</connection>
     <developerConnection>scm:git:ssh://git@git.avenida.com:22/diffusion/BANTEN/banten.git</developerConnection>
-    <tag>banten-0.1</tag>
+    <tag>banten-0.5</tag>
   </scm>
 
   <distributionManagement>
