@@ -24,6 +24,12 @@ public class HazelcastModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
+  public String getRelativePath() {
+    return "../banten-hazelcast";
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
   public Class<?> getPrivateConfiguration() {
     return null;
   }

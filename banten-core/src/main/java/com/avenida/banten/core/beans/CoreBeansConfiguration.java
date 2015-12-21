@@ -43,7 +43,7 @@ public class CoreBeansConfiguration {
    *
    * @return the weblet dispatcher.
    */
-  @Bean(name = "bantenWebletDispatcher")
+  @Bean(name = "banten.webletDispatcher")
   public WebletRenderer webletDispatcher() {
     return new WebletRenderer(WebletContainer.instance());
   }

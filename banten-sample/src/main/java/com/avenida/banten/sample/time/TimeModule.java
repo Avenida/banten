@@ -26,6 +26,12 @@ public class TimeModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
+  public String getRelativePath() {
+    return "../banten-sample";
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
   public Class<?> getPrivateConfiguration() {
     return TimeMVC.class;
   }

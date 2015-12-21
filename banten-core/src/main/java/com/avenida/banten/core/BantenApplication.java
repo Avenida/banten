@@ -1,33 +1,45 @@
+/* vim: set et sw=2 cindent fo=qroca: */
+
 package com.avenida.banten.core;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.Validate;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.*;
+import org.springframework.beans.MutablePropertyValues;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.beans.factory.config.*;
+
+import org.springframework.beans.factory.annotation
+    .AnnotatedGenericBeanDefinition;
+
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConstructorArgumentValues;
+
 import org.springframework.beans.factory.support.*;
 
 import org.springframework.boot.*;
-import org.springframework.boot.context.embedded.*;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 
-import org.springframework.context.*;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import org.springframework.web.context.support.*;
+import org.springframework.web.context.support
+    .AnnotationConfigWebApplicationContext;
+
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.avenida.banten.core.beans.CoreBeansConfiguration;
 import com.avenida.banten.core.web.WebletContainer;
@@ -90,7 +102,6 @@ public abstract class BantenApplication {
     moduleClasses = Arrays.asList(modules);
   }
 
-
   /** Sets the landing url.
    *
    * If called, you must pass a non-null value. If not called, the web
@@ -130,7 +141,7 @@ public abstract class BantenApplication {
       public void initialize(
           final ConfigurableApplicationContext parentContext) {
 
-        registerCoreModule((BeanDefinitionRegistry) parentContext);
+        registerCoreBeans((BeanDefinitionRegistry) parentContext);
         registerModules((BeanDefinitionRegistry)parentContext);
       }
     });
@@ -221,44 +232,8 @@ public abstract class BantenApplication {
     }
   }
 
-  /** The banten base configuration for the module private spring
-   * application context.
-   *
-   * This configuration defines beans that are available in the dispatcher
-   * servlet application context.
-   */
-  @Configuration
-  static class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
-
-    @Autowired ModuleDescription moduleDescription;
-
-    /** Bean that supports ${property} in @Value annotations.
-     *
-     * @return the configurer that replaces ${property} with the corresponding
-     * environment values. Never returns null.
-     */
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer
-        propertySourcesPlaceholderConfigurer() {
-      return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    /** {@inheritDoc}
-     *
-     * This implementation makes the module serve static content from the
-     * module classpath.
-     */
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-      registry.addResourceHandler("/**")
-        .addResourceLocations(
-            "classpath:/" + moduleDescription.getClasspath() + "/static/");
-        //.setCachePeriod(cachePeriod);
-    }
-  }
-
-  /** Utility class to add a concrete instance of an object as a bean in a
-   * bean factory.
+  /** Utility class to add a concrete instance of an object as a bean in a bean
+   * factory.
    *
    * This is used, for example, to make module information available to the
    * private spring application context (see ModuleDescription) and to create
@@ -313,68 +288,11 @@ public abstract class BantenApplication {
     }
   }
 
-  /** The module description.
-   *
-   * Banten adds this to the module private spring application context. This
-   * description includes the module name, the module classpath and the module
-   * namespace.
-   */
-  public static class ModuleDescription {
-
-    /** The module name, never null. */
-    private String name;
-
-    /** The module classpath, the package of the module class, never null. */
-    private String classpath;
-
-    /** The module namespace, never null. */
-    private String namespace;
-
-    /** Creates a module description.
-     *
-     * @param theName the module name. It cannot be null.
-     *
-     * @param theClasspath the module classpath, ie: the package of the module
-     * class. It cannot be null.
-     *
-     * @param theNamespace the module namespace. It cannot be null.
-     */
-    ModuleDescription(final String theName, final String theClasspath,
-        final String theNamespace) {
-      name = theName;
-      classpath = theClasspath;
-      namespace = theNamespace;
-    }
-
-    /** Obtains the module name.
-     *
-     * @return the module name, never null.
-     */
-    public String getName() {
-      return name;
-    }
-
-    /** Obtains the module classpath, the package of the module class.
-     *
-     * @return the module classpath, never null.
-     */
-    public String getClasspath() {
-      return classpath;
-    }
-
-    /** Obtains the module namespace.
-     *
-     * @return the module namespace, never null.
-     */
-    public String getNamespace() {
-      return namespace;
-    }
-  }
-
   /** Register the module private configuration.
    *
-   * This creates a dispatcher servlet a spring context configured with the
-   * module private configuration, if any.
+   * This creates a dispatcher servlet with a spring context configured with
+   * the module private configuration if the module defines such private
+   * configuration.
    *
    * @param registry the bean definition registry. It cannot be null.
    *
@@ -383,12 +301,12 @@ public abstract class BantenApplication {
   private void registerPrivateConfiguration(
       final BeanDefinitionRegistry registry, final Module module) {
 
-    // Banten will prefix the classpaths of the module with this value. This
-    // creates a sort of 'namespace' for the module.
-    String moduleClasspath = module.getClass().getPackage().getName()
-        .replace(".", "/");
-
     if (module.getPrivateConfiguration() != null) {
+      // Banten will prefix the classpaths of the module with this value. This
+      // creates a sort of 'namespace' for the module.
+      String moduleClasspath = module.getClass().getPackage().getName()
+          .replace(".", "/");
+
       String name = "private-" + module.getName();
 
       log.info("Registering Private configuration for: {}", module.getName());
@@ -438,7 +356,7 @@ public abstract class BantenApplication {
       // Creates the bean definition for a factory bean that exposes the module
       // description.
       ModuleDescription description = new ModuleDescription(module.getName(),
-          moduleClasspath, module.getNamespace());
+          moduleClasspath, module.getNamespace(), module.getRelativePath());
       ObjectFactoryBean.register(registry, description.getClass(), description,
           "banten.moduleDescription");
     }
@@ -455,11 +373,15 @@ public abstract class BantenApplication {
     }
   }
 
-  /** Register the core module.
+  /** Register the banten core beans in the provided bean definition registry.
    *
-   * @param registry the bean definition registry.
+   * The provided registry should correspond to the public application context,
+   * so this operation adds the banten core beans to the public application
+   * context.
+   *
+   * @param registry the bean definition registry. It cannot be null.
    */
-  private void registerCoreModule(final BeanDefinitionRegistry registry) {
+  private void registerCoreBeans(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
     if (landingUrl != null) {
       ObjectFactoryBean.register(registry, String.class, landingUrl,

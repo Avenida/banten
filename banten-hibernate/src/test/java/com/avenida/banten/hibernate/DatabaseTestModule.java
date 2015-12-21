@@ -17,6 +17,12 @@ public class DatabaseTestModule implements Module {
     return null;
   }
 
+  /** {@inheritDoc}.*/
+  @Override
+  public String getRelativePath() {
+    return "../banten-hibernate";
+  }
+
   @Override
   public Class<?> getPrivateConfiguration() {
     return null;

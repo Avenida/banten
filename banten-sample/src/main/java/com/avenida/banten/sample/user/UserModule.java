@@ -28,6 +28,12 @@ public class UserModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
+  public String getRelativePath() {
+    return "../banten-sample";
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
   public Class<?> getPrivateConfiguration() {
     return UserMVC.class;
   }

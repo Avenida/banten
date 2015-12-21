@@ -27,6 +27,12 @@ public class WebModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
+  public String getRelativePath() {
+    return "../banten-core";
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
   public Class<?> getPrivateConfiguration() {
     return null;
   }

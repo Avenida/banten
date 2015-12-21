@@ -19,6 +19,17 @@ public interface Module {
    */
   String getNamespace();
 
+  /** Retrieves the file system relative path of this module.
+   *
+   * Modules should return a value of the form "../banten-sample". The banten
+   * application searches for resources exposed as static resources from the
+   * file system location: <relativePath>/src/main/resources. This makes
+   * it possible, for example, to refresh static content sent to the browser.
+   *
+   * @return the file systemn relative path, never null.
+   */
+  String getRelativePath();
+
   /** Retrieves the private Module configuration.
    * @return the configuration, can be null.
    */

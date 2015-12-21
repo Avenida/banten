@@ -72,6 +72,12 @@ public class WebletRendererTest {
       return "sample";
     }
 
+    /** {@inheritDoc}.*/
+    @Override
+    public String getRelativePath() {
+      return "../banten-core";
+    }
+
     @Override
     public Class<?> getPrivateConfiguration() {
       return null;

@@ -24,6 +24,12 @@ public class MenuModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
+  public String getRelativePath() {
+    return "../banten-core";
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
   public Class<?> getPrivateConfiguration() {
     return MenuMVC.class;
   }

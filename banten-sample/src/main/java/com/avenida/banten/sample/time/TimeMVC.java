@@ -1,21 +1,16 @@
 package com.avenida.banten.sample.time;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.*;
 
 import org.springframework.web.servlet.*;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.avenida.banten.core.web.freemarker.FreeMarkerConfigurer;
 import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
-import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
 
 import com.avenida.banten.sample.time.controllers.TimeController;
 import com.avenida.banten.sample.time.domain.TimeRepository;
-
-import freemarker.template.TemplateException;
 
 /** The MVC configuration.
  *
@@ -34,10 +29,8 @@ public class TimeMVC {
     return new FreeMarkerViewResolver();
   }
 
-  @Bean public FreeMarkerConfigurer freemarkerConfig() throws IOException,
-      TemplateException {
-    return FreemarkerFactory.freemarkerConfigurer(
+  @Bean public FreeMarkerConfigurer freemarkerConfig() {
+    return new FreeMarkerConfigurer(
         "classpath:com/avenida/banten/sample/time/templates");
   }
-
 }
