@@ -141,7 +141,7 @@ public abstract class BantenApplication {
       public void initialize(
           final ConfigurableApplicationContext parentContext) {
 
-        registerCoreBeans((BeanDefinitionRegistry) parentContext);
+        registerCoreBeans((BeanDefinitionRegistry)parentContext);
         registerModules((BeanDefinitionRegistry)parentContext);
       }
     });

@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.avenida.banten.core.*;
@@ -23,6 +24,18 @@ import com.avenida.banten.core.web.*;
  * @author waabox (emi[at]avenida[dot]com)
  */
 public class CoreBeansConfiguration {
+
+  /** Bean factory post processor to support @Value in spring beans.
+   *
+   * This lets modules use @Value in their global bean configuration.
+   *
+   * @return a post processor that can interpret @Value annotations,
+   * never null.
+   */
+  @Bean public PropertySourcesPlaceholderConfigurer
+      propertySourcesPlaceholderConfigurer() {
+    return new PropertySourcesPlaceholderConfigurer();
+  }
 
   /** Creates the Module Service locator.
    * @return the module service locator.

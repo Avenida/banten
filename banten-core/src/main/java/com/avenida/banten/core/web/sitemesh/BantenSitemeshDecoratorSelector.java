@@ -4,43 +4,51 @@ package com.avenida.banten.core.web.sitemesh;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 
-import org.sitemesh.*;
-import org.sitemesh.content.*;
-import org.sitemesh.webapp.*;
-
 import org.springframework.http.MediaType;
 
-/** Sitemesh decorator that ignores any request that:
+import org.sitemesh.DecoratorSelector;
+import org.sitemesh.content.Content;
+import org.sitemesh.webapp.WebAppContext;
+
+/** Sitemesh decorator selector that chooses a decorator based on four
+ * conditions:
  *
- * a) content type is {@link MediaType.APPLICATION_JSON_VALUE}.
- * b) matches the request path to "/modal/".
- * c) matches the request path to "/api/".
+ * 1- the user is anonymous.
+ * 2- the user is identified.
+ * 3- the application is rendering a modal page/dialog.
+ * 4- the client is hitting an api.
+ * 5- the controller that
+ *
+ * The intention is that anonymous and identified users see different
+ * decorators, and modals and api dont get decorated at all.
+ *
+ * To decide if a user is anonymous or identified, this module depends on
+ * apache shiro. If shiro is not configured, this selector will use
+ * decorator.ftl as the only decorator.
+ *
+ * This selector considers that the client is requesting a modal if the url
+ * contains the string '/modal/'.
+ *
+ * This selector considers that the client is hitting an api if:
+ *
+ * 1- the content type is json.
+ * 2- the client sends the header 'X-Requested-With' with the value
+ * 'XMLHttpRequest'.
+ * 3- the requested url contains the string '/api/'
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
 public class BantenSitemeshDecoratorSelector
   implements DecoratorSelector<WebAppContext> {
 
-  /** The decorator selector, it's never null. */
-  private final DecoratorSelector<WebAppContext> selector;
-
-  /** Creates a new instance of the decorator selector.
-   * @param parent the parent decorator, cannot be null.
-   */
-  public BantenSitemeshDecoratorSelector(
-      final DecoratorSelector<WebAppContext> parent) {
-    Validate.notNull(parent, "The selector cannot be null");
-    selector = parent;
-  }
-
   /** {@inheritDoc}.*/
   @Override
   public String[] selectDecoratorPaths(
       final Content content, final WebAppContext context) throws IOException {
+
     if (isAjax(context) || isModal(context) || isApiCall(context)
         || explicitNoDecorate(context)) {
       return new String[0];
@@ -67,7 +75,6 @@ public class BantenSitemeshDecoratorSelector
     } else {
       return new String[] {"decoratorAnonymous.ftl"};
     }
-    //return selector.selectDecoratorPaths(content, context);
   }
 
   /** Use a request attribute called: "::decoratePage" and checks that its

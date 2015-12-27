@@ -1,6 +1,7 @@
 package com.avenida.banten.sample.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -31,8 +32,9 @@ public class UserMVC {
     return new FreeMarkerViewResolver();
   }
 
-  @Bean public FreeMarkerConfigurer freemarkerConfig() {
-    return new FreeMarkerConfigurer(
+  @Bean public FreeMarkerConfigurer freemarkerConfig(
+    @Value("${debugMode:false}") final boolean debugMode) {
+    return new FreeMarkerConfigurer(debugMode, "../banten-sample",
         "classpath:com/avenida/banten/sample/user/templates");
   }
 }

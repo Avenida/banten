@@ -2,21 +2,25 @@ package com.avenida.banten.core.web.sitemesh;
 
 import java.io.IOException;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-
 import org.apache.commons.lang3.Validate;
+
+import javax.servlet.Filter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.sitemesh.config.ConfigurableSiteMeshFilter;
 import org.sitemesh.content.ContentProcessor;
 
-import org.sitemesh.webapp.*;
-import org.sitemesh.webapp.contentfilter.*;
+import org.sitemesh.webapp.SiteMeshFilter;
+import org.sitemesh.webapp.WebAppContext;
+import org.sitemesh.webapp.contentfilter.ResponseMetaData;
 
-import com.avenida.banten.core.web.freemarker.FreemarkerFactory;
+import com.avenida.banten.core.web.freemarker.FreeMarkerConfigurer;
 
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 
 /** Sitemesh filter configuration.
  *
@@ -24,11 +28,11 @@ import freemarker.template.*;
  */
 public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
 
+  /** The debug mode. */
+  private final boolean debugMode;
+
   /** The sitemesh's configuration, cannot be null.*/
   private final BantenSitemeshDecoratorSelector bantenSelector;
-
-  /** Whether or not should use freemarker. */
-  private final boolean useFreemarker;
 
   /** The freemarker configuration, can be null.*/
   private final Configuration freemarkerConfiguration;
@@ -37,25 +41,23 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
    * @param selector the decorator selector.
    * @param configuration the decorator configuration.
    */
-  public BantenSiteMeshFilter(final BantenSitemeshDecoratorSelector selector,
-      final SitemeshDecoratorConfiguration configuration) {
+  public BantenSiteMeshFilter(
+      final boolean theDebugMode,
+      final FreeMarkerConfigurer theFreeMarkerConfigurer,
+      final BantenSitemeshDecoratorSelector selector) {
 
     Validate.notNull(selector, "The bantenSelector cannot be null");
-    bantenSelector = selector;
-    useFreemarker = configuration.useFreemarker();
+    Validate.notNull(theFreeMarkerConfigurer,
+        "The freemarker configuration cannot be null");
 
-    if (useFreemarker) {
-      try {
-        freemarkerConfiguration = FreemarkerFactory.freemarkerConfigurer(
-            configuration.templateLoaderPath()).getConfiguration();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      } catch (TemplateException e) {
-        throw new RuntimeException(e);
-      }
-    } else {
-      freemarkerConfiguration = null;
+    debugMode = theDebugMode;
+
+    try {
+      freemarkerConfiguration = theFreeMarkerConfigurer.createConfiguration();
+    } catch (IOException | TemplateException e) {
+      throw new RuntimeException("Could not iniliaze freeMarker.", e);
     }
+    bantenSelector = selector;
   }
 
   /** {@inheritDoc}.*/
@@ -68,19 +70,12 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
   /** {@inheritDoc}.*/
   @Override
   protected boolean reloadRequired() {
-    if (!useFreemarker) {
-      return super.reloadRequired();
-    }
-    return false;
+    return debugMode;
   }
 
   /** {@inheritDoc}.*/
   @Override
   protected Filter setup() throws ServletException {
-
-    if (!useFreemarker) {
-      return super.setup();
-    }
 
     SiteMeshFilterBuilder builder;
     builder = new SiteMeshFilterBuilder() {
@@ -96,9 +91,9 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
             getSelector(),
             getContentProcessor(),
             getDecoratorSelector(),
-            isIncludeErrorPages())
-        // begin inner class of SiteMeshFilter
-        {
+            isIncludeErrorPages()) {
+
+          // begin inner class of SiteMeshFilter
           /** {@inheritDoc}.*/
           protected WebAppContext createContext(
               final String contentType,
@@ -116,7 +111,6 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
                 includeErrorPages,
                 freemarkerConfiguration
              );
-
           }
         };
         // end inner class of SiteMeshFilter
