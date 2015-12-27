@@ -13,7 +13,7 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten</artifactId>
-  <version>0.6</version>
+  <version>0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Banten</name>
@@ -30,7 +30,7 @@
     <url>https://git.avenida.com/diffusion/AOS/</url>
     <connection>scm:git:ssh://git@git.avenida.com:22/diffusion/BANTEN/banten.git</connection>
     <developerConnection>scm:git:ssh://git@git.avenida.com:22/diffusion/BANTEN/banten.git</developerConnection>
-    <tag>banten-0.6</tag>
+    <tag>banten-0.1</tag>
   </scm>
 
   <distributionManagement>
