@@ -80,11 +80,21 @@
       <artifactId>sitemesh</artifactId>
     </dependency>
 
-    <!-- Apache Shiro -->
-    <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-core</artifactId>
-    </dependency>
+     <!-- Shiro -->
+     <dependency>
+         <groupId>org.apache.shiro</groupId>
+         <artifactId>shiro-core</artifactId>
+     </dependency>
+
+     <dependency>
+         <groupId>org.apache.shiro</groupId>
+         <artifactId>shiro-web</artifactId>
+     </dependency>
+
+     <dependency>
+         <groupId>org.apache.shiro</groupId>
+         <artifactId>shiro-spring</artifactId>
+     </dependency>
 
     <!-- Test -->
     <dependency>
