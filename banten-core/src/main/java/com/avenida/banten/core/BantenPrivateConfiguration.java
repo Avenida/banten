@@ -2,6 +2,7 @@
 
 package com.avenida.banten.core;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.config.annotation
 import org.springframework.web.servlet.config.annotation
     .WebMvcConfigurationSupport;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /** The banten base configuration for the module private spring application
  * context.
  *
@@ -24,6 +27,9 @@ import org.springframework.web.servlet.config.annotation
  */
 @Configuration
 public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
+
+  /** The log. */
+  private static Logger log = getLogger(BantenPrivateConfiguration.class);
 
   /** The spring environment, never null.
    *
@@ -71,6 +77,8 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
     }
     registration.addResourceLocations("classpath:/"
         + moduleDescription.getClasspath() + "/static/");
+    log.info("classpath:/"
+            + moduleDescription.getClasspath() + "/static/");
     //registration.setCachePeriod(cachePeriod);
   }
 }
