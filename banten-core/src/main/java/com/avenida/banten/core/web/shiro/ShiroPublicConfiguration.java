@@ -16,10 +16,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.io.FileInputStream;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 
@@ -39,21 +39,8 @@ public class ShiroPublicConfiguration {
     /** Shiro external configuration. */
     private static final String SHIRO_EXTERNAL_CFG = "shiro.ini.path";
 
-    /** Map containing all valid endpoints with the appropriate permission,
-     *  never null. */
-    private static Map<String, String> endointPermissions
-            = new HashMap<String, String>();
-
-    static {
-        endointPermissions.put("/site-admin/mobile/notifications.html",
-                "admin");
-        endointPermissions.put("/site-admin/mobile/sendNotification",
-                "admin");
-    }
-
     /** Shiro filter order. */
     private static final int SHIRO_FILTER_ORDER = 1;
-
 
     /** Shiro filter.
      *
@@ -84,19 +71,23 @@ public class ShiroPublicConfiguration {
 
         ShiroFilterFactoryBean shiro = new ShiroFilterFactoryBean();
         shiro.setSecurityManager(securityManager(environment));
-        shiro.setLoginUrl(shiroConfig.getModuleName() + shiroConfig.getLoginUrl() + "test");
-        shiro.setUnauthorizedUrl(shiroConfig.getModuleName() + shiroConfig.getUnauthorizeUrl());
+        shiro.setLoginUrl(shiroConfig.getLoginUrl());
+        shiro.setUnauthorizedUrl(shiroConfig.getUnauthorizeUrl());
+        shiro.setSuccessUrl(shiroConfig.getSuccessUrl());
+        shiro.setFilterChainDefinitionMap(
+                configureAcls(shiroConfig.getEndpointPermissions()));
 
-        shiro.setFilterChainDefinitionMap(configureAcls());
         return shiro;
     }
 
     /** Configures the apache shiro ACLs.
      * @return the configuration.
      */
-    private Map<String, String> configureAcls() {
+    private Map<String, String> configureAcls(Map<String,
+            String> endointPermissions) {
         Map<String, String> acls = new LinkedHashMap<>();
-        Set<Map.Entry<String, String>> endpointEntries = endointPermissions.entrySet();
+        Set<Map.Entry<String, String>> endpointEntries =
+                endointPermissions.entrySet();
         for (Map.Entry<String, String> endpointPermission : endpointEntries) {
             String endpoint = endpointPermission.getKey();
             acls.put(endpoint, "authc");
