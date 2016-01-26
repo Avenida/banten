@@ -16,15 +16,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.io.FileInputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 
 /**
- * Created by lucas on 13/01/16.
+ * Shiro Public Configuration class.
+ *
+ * Created by (lucas.luduena) on 13/01/16.
  */
 @Configuration
 public class ShiroPublicConfiguration {
@@ -59,7 +59,6 @@ public class ShiroPublicConfiguration {
         return registrationBean;
     }
 
-
     /**Shiro filter factory for urls.
      * @param environment the Environment.
      * @return a shiro factory bean, never null.
@@ -75,7 +74,8 @@ public class ShiroPublicConfiguration {
         shiro.setUnauthorizedUrl(shiroConfig.getUnauthorizeUrl());
         shiro.setSuccessUrl(shiroConfig.getSuccessUrl());
         shiro.setFilterChainDefinitionMap(
-                configureAcls(shiroConfig.getEndpointPermissions()));
+                configureAclsMap(shiroConfig.getAclPermissions()));
+        log.info("HEY Acl Permmission size " + shiroConfig.getAclPermissions().size());
 
         return shiro;
     }
@@ -91,8 +91,32 @@ public class ShiroPublicConfiguration {
         for (Map.Entry<String, String> endpointPermission : endpointEntries) {
             String endpoint = endpointPermission.getKey();
             acls.put(endpoint, "authc");
+            log.info(endpoint);
         }
         return acls;
+    }
+
+    /** Configures the apache shiro ACL List.
+     * @return the configuration.
+     */
+    private Map<String, String> configureAclsMap(List<ShiroMenuAccess> permissions) {
+        List<ShiroMenuAccess> acls = new ArrayList<>();
+        Map<String, String> aclsMap = new LinkedHashMap<>();
+
+        for (ShiroMenuAccess permission : permissions) {
+            aclsMap.put(transformAcl(permission), "authc");
+            log.info(transformAcl(permission));
+        }
+        return aclsMap;
+    }
+
+    /**
+     * Gets ShiroMenuAccess URL to be accessed.
+     * @param acl
+     * @return Url string.
+     */
+    private String transformAcl(ShiroMenuAccess acl) {
+        return acl.getUrl();
     }
 
     /** Gets the security manager.
