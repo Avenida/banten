@@ -25,9 +25,11 @@ public class FreeMarkerConfigurer extends
   private String[] templatePaths;
 
   public FreeMarkerConfigurer(final boolean theDebugMode,
-      final String relativePath, final String ... theTemplatePaths) {
+      final String theRelativePath, final String ... theTemplatePaths) {
     Validate.notNull(theTemplatePaths, "The template paths cannot be null.");
     Validate.notEmpty(theTemplatePaths, "You must specify at least one path");
+    debugMode = theDebugMode;
+    relativePath = theRelativePath;
     templatePaths = theTemplatePaths;
   }
 
