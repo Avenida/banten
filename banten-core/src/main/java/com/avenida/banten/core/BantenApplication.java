@@ -222,65 +222,76 @@ public abstract class BantenApplication {
   private void registerPrivateConfiguration(
       final BeanDefinitionRegistry registry, final Module module) {
 
-    if (module.getPrivateConfiguration() != null) {
-      // Banten will prefix the classpaths of the module with this value. This
-      // creates a sort of 'namespace' for the module.
-      String moduleClasspath = module.getClass().getPackage().getName()
-          .replace(".", "/");
-
-      String name = "private-" + module.getName();
-
-      log.info("Registering Private configuration for: {}", module.getName());
-
-      AnnotationConfigWebApplicationContext privateContext;
-      privateContext = new AnnotationConfigWebApplicationContext();
-      privateContext.register(BantenPrivateConfiguration.class,
-          module.getPrivateConfiguration());
-
-      // Adds some module information as environment properties of the current
-      // environment.
-      ConfigurableEnvironment environment = privateContext.getEnvironment();
-      MutablePropertySources propertySources = environment.getPropertySources();
-      Map<String, Object> moduleProperties = new HashMap<String, Object>();
-      moduleProperties.put("banten.moduleClasspath", moduleClasspath);
-      propertySources.addFirst(new MapPropertySource(
-          "MODULE_PRIVATE_PROPERTIES", moduleProperties));
-
-      // Let the dispatcher servlet initialize the context. The dispatcher
-      // servlet will set the parent, do its magic on the context and call
-      // refresh.
-      DispatcherServlet dispatcherServlet;
-      dispatcherServlet = new DispatcherServlet(privateContext);
-
-      // Create a bean definition for a bean of type ServletRegistrationBean
-      // that registers the dispatcherServlet in the web context. We cannot
-      // add this to the BantenPrivateConfiguration because we manually create
-      // the dispatcher servlet.
-      ConstructorArgumentValues dispatcherMapping;
-      dispatcherMapping = new ConstructorArgumentValues();
-      dispatcherMapping.addIndexedArgumentValue(0, dispatcherServlet);
-      dispatcherMapping.addIndexedArgumentValue(1,
-          "/" + module.getNamespace() + "/*");
-
-      MutablePropertyValues beanNamePropertyValue = new MutablePropertyValues();
-      beanNamePropertyValue.add("name", name);
-
-      GenericBeanDefinition servletRegistrationBean;
-      servletRegistrationBean = new GenericBeanDefinition();
-      servletRegistrationBean.setBeanClass(ServletRegistrationBean.class);
-      servletRegistrationBean.setConstructorArgumentValues(dispatcherMapping);
-      servletRegistrationBean.setPropertyValues(beanNamePropertyValue);
-      servletRegistrationBean.setLazyInit(true);
-
-      registry.registerBeanDefinition(name, servletRegistrationBean);
-
-      // Creates the bean definition for a factory bean that exposes the module
-      // description.
-      ModuleDescription description = new ModuleDescription(module.getName(),
-          moduleClasspath, module.getNamespace(), module.getRelativePath());
-      ObjectFactoryBean.register(registry, description.getClass(), description,
-          "banten.moduleDescription");
+    if (module.getPrivateConfiguration() == null) {
+      // No private configuration, bail out.
+      return;
     }
+
+    // Banten will prefix the classpaths of the module with this value. This
+    // creates a sort of 'namespace' for the module.
+    final String moduleClasspath = module.getClass().getPackage().getName()
+        .replace(".", "/");
+
+    String name = "private-" + module.getName();
+
+    log.info("Registering Private configuration for: {}", module.getName());
+
+    AnnotationConfigWebApplicationContext privateContext;
+    privateContext = new AnnotationConfigWebApplicationContext() {
+      @Override
+      /**  Hack to create the banten module description.
+       *
+       * The AnnotationConfigWebApplicationContext is not a
+       * BeanDefinitionRegistry, so we override the loadDefinitions to create
+       * a singleton for the module description.
+       */
+      protected void loadBeanDefinitions(
+          final DefaultListableBeanFactory beanFactory) {
+        ModuleDescription description = new ModuleDescription(
+            module.getName(), moduleClasspath, module.getNamespace(),
+            module.getRelativePath());
+        beanFactory.registerSingleton("banten.moduleDescription", description);
+      }
+    };
+    privateContext.register(BantenPrivateConfiguration.class,
+        module.getPrivateConfiguration());
+
+    // Adds some module information as environment properties of the current
+    // environment.
+    ConfigurableEnvironment environment = privateContext.getEnvironment();
+    MutablePropertySources propertySources = environment.getPropertySources();
+    Map<String, Object> moduleProperties = new HashMap<String, Object>();
+    moduleProperties.put("banten.moduleClasspath", moduleClasspath);
+    propertySources.addFirst(new MapPropertySource(
+        "MODULE_PRIVATE_PROPERTIES", moduleProperties));
+
+    // Let the dispatcher servlet initialize the context. The dispatcher
+    // servlet will set the parent, do its magic on the context and call
+    // refresh.
+    DispatcherServlet dispatcherServlet;
+    dispatcherServlet = new DispatcherServlet(privateContext);
+
+    // Create a bean definition for a bean of type ServletRegistrationBean
+    // that registers the dispatcherServlet in the web context. We cannot
+    // add this to the BantenPrivateConfiguration because we manually create
+    // the dispatcher servlet.
+    ConstructorArgumentValues dispatcherMapping;
+    dispatcherMapping = new ConstructorArgumentValues();
+    dispatcherMapping.addIndexedArgumentValue(0, dispatcherServlet);
+    dispatcherMapping.addIndexedArgumentValue(1,
+        "/" + module.getNamespace() + "/*");
+
+    MutablePropertyValues beanNamePropertyValue = new MutablePropertyValues();
+    beanNamePropertyValue.add("name", name);
+
+    GenericBeanDefinition servletRegistrationBean;
+    servletRegistrationBean = new GenericBeanDefinition();
+    servletRegistrationBean.setBeanClass(ServletRegistrationBean.class);
+    servletRegistrationBean.setConstructorArgumentValues(dispatcherMapping);
+    servletRegistrationBean.setPropertyValues(beanNamePropertyValue);
+    servletRegistrationBean.setLazyInit(true);
+
+    registry.registerBeanDefinition(name, servletRegistrationBean);
   }
 
   /** Register the weblets into the WebletContainer.
