@@ -247,6 +247,7 @@ public abstract class BantenApplication {
        */
       protected void loadBeanDefinitions(
           final DefaultListableBeanFactory beanFactory) {
+        super.loadBeanDefinitions(beanFactory);
         ModuleDescription description = new ModuleDescription(
             module.getName(), moduleClasspath, module.getNamespace(),
             module.getRelativePath());
