@@ -17,84 +17,76 @@ public class ShiroConfiguration {
   /** The unauthorize url, never null. */
   private String unauthorizeUrl;
 
-  /** List containing all valid endpoints with the appropriate permission,
-   *  never null. */
-  private List<ShiroMenuAccess> aclPermissions
-    = new ArrayList<ShiroMenuAccess>();
+  /** List containing all valid endpoints with the appropriate roles. */
+  private List<ShiroUrlRoleMapping> urlRoleMappings;
 
   /**
-   * @return loginUrl
-   */
-  public String getLoginUrl() {
-      return loginUrl;
-  }
-
-  /**
-   * @return successUrl
-   */
-  public String getSuccessUrl() {
-      return successUrl;
-  }
-
-  /**
-   * @return unauthorizeUrl
-   */
-  public String getUnauthorizeUrl() {
-      return unauthorizeUrl;
-  }
-
-
-  /**
+   * ShiroConfiguration constructor.
    *
    * @param theLoginUrl
    * @param theSuccessUrl
    * @param theUnauthorizeUrl
-   * @param theEndpointPermissions
+   * @param theUrlRoleMappings
    */
   public ShiroConfiguration(String theLoginUrl, String theSuccessUrl,
                             String theUnauthorizeUrl,
-                            List<ShiroMenuAccess> theEndpointPermissions) {
+                            List<ShiroUrlRoleMapping> theUrlRoleMappings) {
     this.loginUrl = theLoginUrl;
     this.successUrl = theSuccessUrl;
     this.unauthorizeUrl = theUnauthorizeUrl;
-    this.aclPermissions = theEndpointPermissions;
+    this.urlRoleMappings = theUrlRoleMappings;
   }
 
-    /**
-     *
-     * @param theLoginUrl
-     * @param theSuccessUrl
-     * @param theUnauthorizeUrl
-     */
-    public ShiroConfiguration(String theLoginUrl, String theSuccessUrl,
-                              String theUnauthorizeUrl) {
-        this.loginUrl = theLoginUrl;
-        this.successUrl = theSuccessUrl;
-        this.unauthorizeUrl = theUnauthorizeUrl;
-    }
+  /**
+   * ShiroConfiguration constructor.
+   *
+   * @param theLoginUrl
+   * @param theSuccessUrl
+   * @param theUnauthorizeUrl
+   */
+  public ShiroConfiguration(String theLoginUrl, String theSuccessUrl,
+                            String theUnauthorizeUrl) {
+      this.loginUrl = theLoginUrl;
+      this.successUrl = theSuccessUrl;
+      this.unauthorizeUrl = theUnauthorizeUrl;
+      this.urlRoleMappings = new ArrayList<>();
+  }
 
-    /**
-     *
-     * @return
-     */
-    public List<ShiroMenuAccess> getAclPermissions() {
-        return aclPermissions;
-    }
 
-    /**
-     *
-     * @param aclPermissions
-     */
-    public void setAclPermissions(List<ShiroMenuAccess> aclPermissions) {
-        this.aclPermissions = aclPermissions;
-    }
+  /**
+   * @return loginUrl.
+   */
+  public String getLoginUrl() {
+    return loginUrl;
+  }
 
-    /**
-     *
-     * @param aclPermissions
-     */
-    public void addAclPermissions(List<ShiroMenuAccess> aclPermissions) {
-    this.aclPermissions.addAll(aclPermissions);
+  /**
+   * @return successUrl.
+   */
+  public String getSuccessUrl() {
+    return successUrl;
+  }
+
+  /**
+   * @return unauthorizeUrl.
+   */
+  public String getUnauthorizeUrl() {
+    return unauthorizeUrl;
+  }
+
+  /**
+   * @return urlRoleMappings.
+   */
+  public List<ShiroUrlRoleMapping> getUrlRoleMappings() {
+      return urlRoleMappings;
+  }
+
+  /**
+   * Adds urlRoleMappings to the existing list.
+   * @param urlRoleMappings
+   */
+  public void addUrlRoleMappings(List<ShiroUrlRoleMapping> urlRoleMappings) {
+  this.urlRoleMappings.addAll(urlRoleMappings);
   }
 
 }

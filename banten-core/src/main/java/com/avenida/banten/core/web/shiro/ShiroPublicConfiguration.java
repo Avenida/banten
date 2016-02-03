@@ -6,6 +6,10 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.config.WebIniSecurityManagerFactory;
+import org.apache.shiro.web.filter.authc.AnonymousFilter;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.filter.authc.LogoutFilter;
+import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -15,8 +19,12 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.env.Environment;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
+import javax.servlet.Filter;
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -68,55 +76,38 @@ public class ShiroPublicConfiguration {
             final Environment environment, ShiroConfiguration shiroConfig) {
         Validate.notNull(shiroConfig, "The ShiroConfiguration cannot be null");
 
+        log.info("Creating Shiro Filter Factory");
+
         ShiroFilterFactoryBean shiro = new ShiroFilterFactoryBean();
         shiro.setSecurityManager(securityManager(environment));
         shiro.setLoginUrl(shiroConfig.getLoginUrl());
         shiro.setUnauthorizedUrl(shiroConfig.getUnauthorizeUrl());
         shiro.setSuccessUrl(shiroConfig.getSuccessUrl());
         shiro.setFilterChainDefinitionMap(
-                configureAclsMap(shiroConfig.getAclPermissions()));
-        log.info("HEY Acl Permmission size " + shiroConfig.getAclPermissions().size());
+                createFilterChainDefinitionMap(
+                        shiroConfig.getUrlRoleMappings()));
 
         return shiro;
     }
 
-    /** Configures the apache shiro ACLs.
-     * @return the configuration.
+    /** Creates the apache shiro Filter Chain Definition Map.
+     * @param mappings the ShiroUrlRoleMapping.
+     * @return the FilterChainDefinitionMap.
      */
-    private Map<String, String> configureAcls(Map<String,
-            String> endointPermissions) {
-        Map<String, String> acls = new LinkedHashMap<>();
-        Set<Map.Entry<String, String>> endpointEntries =
-                endointPermissions.entrySet();
-        for (Map.Entry<String, String> endpointPermission : endpointEntries) {
-            String endpoint = endpointPermission.getKey();
-            acls.put(endpoint, "authc");
-            log.info(endpoint);
+    private Map<String, String> createFilterChainDefinitionMap(
+            List<ShiroUrlRoleMapping> mappings) {
+      Map<String, String> filterChainDefinition = new LinkedHashMap<>();
+
+      log.info("Creating Shiro FilterChainDefinitionMap, size: " +
+              mappings.size());
+
+      for (ShiroUrlRoleMapping mapping : mappings) {
+        filterChainDefinition.put(mapping.getUrl(),
+                  String.format("authc, roles[%s]", mapping.getRolesString()));
         }
-        return acls;
-    }
 
-    /** Configures the apache shiro ACL List.
-     * @return the configuration.
-     */
-    private Map<String, String> configureAclsMap(List<ShiroMenuAccess> permissions) {
-        List<ShiroMenuAccess> acls = new ArrayList<>();
-        Map<String, String> aclsMap = new LinkedHashMap<>();
 
-        for (ShiroMenuAccess permission : permissions) {
-            aclsMap.put(transformAcl(permission), "authc");
-            log.info(transformAcl(permission));
-        }
-        return aclsMap;
-    }
-
-    /**
-     * Gets ShiroMenuAccess URL to be accessed.
-     * @param acl
-     * @return Url string.
-     */
-    private String transformAcl(ShiroMenuAccess acl) {
-        return acl.getUrl();
+        return filterChainDefinition;
     }
 
     /** Gets the security manager.
@@ -148,7 +139,8 @@ public class ShiroPublicConfiguration {
             ini.load(fileInputStream);
         }else {
             log.info("Running shiro in dev environment");
-            ini.load(getClass().getClassLoader().getResourceAsStream(SHIRO_DEV_CFG));
+            ini.load(getClass().getClassLoader()
+                    .getResourceAsStream(SHIRO_DEV_CFG));
         }
 
         return new WebIniSecurityManagerFactory(ini).createInstance();
@@ -172,4 +164,3 @@ public class ShiroPublicConfiguration {
     }
 
 }
-
