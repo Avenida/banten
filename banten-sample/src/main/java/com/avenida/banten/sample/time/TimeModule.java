@@ -69,7 +69,8 @@ public class TimeModule implements Module {
       );
 
     registry.get(MenuConfigurationApi.class)
-      .node("Time", "/time/view.html", "/Time");
+      .root("Time", "/time")
+      .node("List", "/time/time/view.html", "/time");
 
   }
 

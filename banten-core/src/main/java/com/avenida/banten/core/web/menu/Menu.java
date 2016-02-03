@@ -127,6 +127,13 @@ public class Menu {
     return leaf;
   }
 
+  /** Retrieves the display name.
+   * @return the display name, never null.
+   */
+  public String getDisplayName() {
+    return displayName;
+  }
+
   /** {@inheritDoc}.*/
   @Override
   public String toString() {

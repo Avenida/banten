@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.web.menu.MenuConfigurationApi;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
@@ -61,12 +62,18 @@ public class UserModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public void init(final ModuleApiRegistry registry) {
+
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(
         Arrays.asList(
             new PersistenceUnit(User.class, UserFactory.class)
         )
      );
+
+    registry.get(MenuConfigurationApi.class)
+      .root("Users", "/users")
+      .node("List", "/users/users/list.html", "/users");
+
   }
 
 }
