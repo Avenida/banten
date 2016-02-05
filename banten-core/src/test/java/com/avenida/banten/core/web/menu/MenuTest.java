@@ -1,6 +1,10 @@
 package com.avenida.banten.core.web.menu;
 
+import java.util.List;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class MenuTest {
 
@@ -19,7 +23,26 @@ public class MenuTest {
     .init();
 
     Menu m = MenuConfigurationApi.get();
-    System.out.println(m.toString());
+    List<Menu> childNodes = m.getChildNodes();
+
+    Menu adminNodes = childNodes.get(0);
+    assertThat(childNodes.size(), is(2));
+    assertThat(adminNodes.getName(), is("Admin"));
+    assertThat(adminNodes.getChildNodes().size(), is(2));
+    assertThat(adminNodes.getChildNodes().get(0).getDisplayName(),
+        is("Time-Admin"));
+    assertThat(adminNodes.getChildNodes().get(1).getDisplayName(),
+        is("Users-Admin"));
+
+    assertThat(childNodes.size(), is(2));
+
+    Menu timeNodes = childNodes.get(1);
+    assertThat(timeNodes.getName(), is("Time"));
+    assertThat(timeNodes.getChildNodes().size(), is(2));
+    assertThat(timeNodes.getChildNodes().get(0).getDisplayName(),
+        is("Time View"));
+    assertThat(timeNodes.getChildNodes().get(1).getDisplayName(),
+        is("Time View 2"));
 
   }
 

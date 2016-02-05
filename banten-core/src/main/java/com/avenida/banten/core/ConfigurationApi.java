@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import org.jsoup.helper.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 
