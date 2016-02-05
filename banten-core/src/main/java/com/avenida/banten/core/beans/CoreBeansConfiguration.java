@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.helper.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -65,6 +66,20 @@ public class CoreBeansConfiguration {
   public FilterRegistrationBean bantenContextFilter() {
     FilterRegistrationBean filterBean = new FilterRegistrationBean();
     filterBean.setFilter(new ContextFilter());
+    filterBean.addUrlPatterns("/*");
+    return filterBean;
+  }
+
+  /** Retrieves the {@link WebletRendererRegistrationFilter}.
+   * @param renderer the {@link WebletRenderer}, cannot be null.
+   * @return a {@link FilterRegistrationBean} instance, never null.
+   */
+  @Bean(name = "banten.webletRenderer")
+  @Autowired
+  public FilterRegistrationBean webletRendererFilter(
+      final WebletRenderer renderer) {
+    FilterRegistrationBean filterBean = new FilterRegistrationBean();
+    filterBean.setFilter(new WebletRendererRegistrationFilter(renderer));
     filterBean.addUrlPatterns("/*");
     return filterBean;
   }

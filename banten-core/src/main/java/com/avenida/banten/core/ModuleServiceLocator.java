@@ -5,6 +5,11 @@ import org.springframework.context.*;
 
 /** Service locator that interacts with the Spring's root application context.
  *
+ * NEVER USE THIS IN YOUR CODE!!!!
+ *
+ * This is sometimes necessary when integrating a 3rd party that is not
+ * 'spring friendly'.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
 public class ModuleServiceLocator implements ApplicationContextAware {
