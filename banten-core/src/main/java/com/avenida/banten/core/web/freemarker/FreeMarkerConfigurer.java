@@ -13,17 +13,33 @@ import com.avenida.banten.core.web.WebletDirective;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 
-/** FreeMarker configurer that forces utf-8 encoding.
+/** Banten freemarker configurer.
  */
 public class FreeMarkerConfigurer extends
     org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer {
 
+  /** True when runnig in debug mode.
+   */
   private boolean debugMode;
 
+  /** The file system relative path of the templates, never null.
+   */
   private String relativePath;
 
+  /** The base path to look for templates.
+   */
   private String[] templatePaths;
 
+  /** Constructor, creates a FreeMarkerConfigurer.
+   *
+   * @param theDebugMode true if the application was run in debug mode.
+   *
+   * @param theRelativePath the file system relative path of the templates. It
+   * cannot be null.
+   *
+   * @param theTemplatePaths the base paths where to look for templates. It
+   * cannot be null.
+   */
   public FreeMarkerConfigurer(final boolean theDebugMode,
       final String theRelativePath, final String ... theTemplatePaths) {
     Validate.notNull(theTemplatePaths, "The template paths cannot be null.");

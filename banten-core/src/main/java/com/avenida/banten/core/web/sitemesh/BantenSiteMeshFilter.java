@@ -52,7 +52,7 @@ public class BantenSiteMeshFilter extends ConfigurableSiteMeshFilter {
     try {
       freemarkerConfiguration = theFreeMarkerConfigurer.createConfiguration();
     } catch (IOException | TemplateException e) {
-      throw new RuntimeException("Could not iniliaze freeMarker.", e);
+      throw new RuntimeException("Could not initialiaze freeMarker.", e);
     }
     bantenSelector = selector;
   }

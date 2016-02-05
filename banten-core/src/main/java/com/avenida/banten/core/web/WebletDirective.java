@@ -46,7 +46,7 @@ public class WebletDirective implements TemplateDirectiveModel {
     renderer = (WebletRenderer) request.getAttribute(WEBLET_RENDERER_PARAMETER);
 
     try {
-      String html = renderer.render(webletName, moduleName, request, response);
+      String html = renderer.render(moduleName, webletName, request, response);
       env.getOut().append(html);
     } catch (Exception e) {
       throw new RuntimeException(e);

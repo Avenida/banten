@@ -48,7 +48,7 @@ public class WebletRendererTest {
 
     replay(request, response);
 
-    renderer.render("test", "Sample-Module", request, response);
+    renderer.render("Sample-Module", "test", request, response);
 
     verify(request, response);
   }
@@ -101,7 +101,6 @@ public class WebletRendererTest {
     public ConfigurationApi getConfigurationApi() {
       return null;
     }
-
   }
-
 }
+
