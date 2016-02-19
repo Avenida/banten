@@ -1,4 +1,4 @@
-package com.avenida.banten.core.boot.test;
+package com.avenida.banten.testsupport;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.BantenApplicationContextLoader;
+import com.avenida.banten.core.BantenTestContextLoader;
 
 /** Annotation that initializes a banten application in a test case.
  *
@@ -24,7 +24,7 @@ import com.avenida.banten.core.BantenApplicationContextLoader;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-@ContextConfiguration(loader = BantenApplicationContextLoader.class)
+@ContextConfiguration(loader = BantenTestContextLoader.class)
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,3 +36,4 @@ public @interface BantenTest {
    */
   Class<? extends BantenApplication> applicationClass();
 }
+

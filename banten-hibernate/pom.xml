@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>com.avenida.banten</groupId>
@@ -12,7 +15,6 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten-hibernate</artifactId>
-  <version>0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Banten Hibernate</name>
@@ -20,18 +22,57 @@
 
   <dependencies>
 
-    <!-- Banten core. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Banten modules -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
       <groupId>com.avenida.banten</groupId>
       <artifactId>banten-core</artifactId>
     </dependency>
-
-    <!-- Database -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-test-support</artifactId>
     </dependency>
 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Logging dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Spring container related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Database related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-dbcp</artifactId>
@@ -54,117 +95,45 @@
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
 
-    <!-- Spring -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
+      <groupId>org.jboss.spec.javax.transaction</groupId>
+      <artifactId>jboss-transaction-api_1.2_spec</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jetty</artifactId>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Apache commons related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Test dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <!-- Apache commons -->
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.3.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>1.7.2</version>
-    </dependency>
-
-    <!-- Freemarker -->
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>2.3.21</version>
-    </dependency>
-
-    <!-- Sitemesh -->
-    <dependency>
-      <groupId>org.sitemesh</groupId>
-      <artifactId>sitemesh</artifactId>
-      <version>3.0.1</version>
-    </dependency>
-
-    <!-- Hibernate dependencies -->
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-client</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-cloud</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-hibernate4</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-spring</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-wm</artifactId>
-      <version>${hazelcast.version}</version>
-    </dependency>
-
-    <!-- Test -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.4</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>

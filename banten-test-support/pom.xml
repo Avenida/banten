@@ -11,11 +11,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.avenida.banten</groupId>
-  <artifactId>banten-hazelcast</artifactId>
+  <artifactId>banten-test-support</artifactId>
   <packaging>jar</packaging>
 
-  <name>Banten Hazelcast</name>
-  <description>Banten hazelcast</description>
+  <name>Banten Test Support</name>
 
   <dependencies>
 
@@ -28,14 +27,6 @@
     </dependency>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <!-- Logging dependencies. -->
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Spring container related dependencies -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
@@ -45,41 +36,39 @@
 
     <dependency>
       <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <!-- Hazelcast related dependencies -->
+    <!-- Web related dependencies (including spring) -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <!-- WARNING: according to mvn dependency:analyze banten-hazelcast does no
-         use all of these dependencies. -->
     <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast</artifactId>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-cloud</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-hibernate4</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-spring</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-wm</artifactId>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
     </dependency>
 
   </dependencies>
-
   <build>
 
     <plugins>

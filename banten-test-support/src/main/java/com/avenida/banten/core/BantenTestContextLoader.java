@@ -1,3 +1,5 @@
+/* vim: set et ts=2 sw=2 cindent fo=qroca: */
+
 package com.avenida.banten.core;
 
 import java.io.*;
@@ -27,17 +29,19 @@ import org.springframework.util.*;
 
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-import com.avenida.banten.core.boot.test.BantenTest;
+import com.avenida.banten.testsupport.BantenTest;
 
 /** Spring application loader.
  *
  * See BantenTest for more information.
  *
  * This is used only during testing. Do not use this in your production code.
+ * It is in com.avenida.banten.core so that BantenApplication.getApplication is
+ * kept package access.
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class BantenApplicationContextLoader extends AbstractContextLoader {
+public class BantenTestContextLoader extends AbstractContextLoader {
 
   @Override
   @SuppressWarnings({ "unchecked", "rawtypes" })

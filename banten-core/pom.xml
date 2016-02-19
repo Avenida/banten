@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>com.avenida.banten</groupId>
@@ -12,23 +15,42 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten-core</artifactId>
-  <version>0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Banten Core</name>
   <description>Banten core</description>
 
- <dependencies>
-    <!-- Spring -->
+  <dependencies>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Logging dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Spring container related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
     </dependency>
 
     <dependency>
@@ -38,16 +60,35 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jetty</artifactId>
+      <artifactId>spring-boot</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Web related dependencies (including spring) -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <optional>true</optional>
+      <artifactId>spring-web</artifactId>
     </dependency>
 
-    <!-- Apache commons -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Apache commons related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -58,10 +99,27 @@
       <artifactId>commons-io</artifactId>
     </dependency>
 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Apache shiro dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Misc. dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
 
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -80,38 +138,32 @@
       <artifactId>sitemesh</artifactId>
     </dependency>
 
-     <!-- Shiro -->
-     <dependency>
-         <groupId>org.apache.shiro</groupId>
-         <artifactId>shiro-core</artifactId>
-     </dependency>
-
-     <dependency>
-         <groupId>org.apache.shiro</groupId>
-         <artifactId>shiro-web</artifactId>
-     </dependency>
-
-     <dependency>
-         <groupId>org.apache.shiro</groupId>
-         <artifactId>shiro-spring</artifactId>
-     </dependency>
-
-    <!-- Test -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Test dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
     </dependency>
 
   </dependencies>
-  <build>
 
+  <build>
     <plugins>
 
       <plugin>
