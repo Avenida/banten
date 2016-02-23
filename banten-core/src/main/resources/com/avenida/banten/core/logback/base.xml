@@ -46,12 +46,25 @@
     </encoder>
   </appender>
 
+  <!-- A console appender that will only log errors. -->
+  <appender name="CONSOLE_ERRORS" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
   <!-- Logs to the console when the application starts. -->
   <logger name="${LAUNCHER_CLASS}" additivity="false" level="INFO">
     <appender-ref ref="CONSOLE"/>
   </logger>
 
-  <!-- Default logger, logs info to the console. -->
+  <!-- Default logger, logs info to a file. -->
   <root level="INFO">
     <appender-ref ref="FILE" />
   </root>
