@@ -35,6 +35,19 @@
     </dependency>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Logging dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Spring container related dependencies -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <dependency>
@@ -135,15 +148,13 @@
               <goal>repackage</goal>
             </goals>
             <phase>pre-integration-test</phase>
+            <configuration>
+              <classifier>boot</classifier>
+            </configuration>
           </execution>
         </executions>
         <configuration>
-          <classifier>boot</classifier>
-          <folders>
-            <folder>
-              src/test/resources
-            </folder>
-          </folders>
+          <useTestClasspath>true</useTestClasspath>
         </configuration>
       </plugin>
 
@@ -152,7 +163,7 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-source-jar</id>
+            <id>attach-spring-boot-jar</id>
             <phase>package</phase>
             <goals>
               <goal>attach-artifact</goal>
