@@ -1,92 +1,96 @@
 package com.avenida.banten.core.web.shiro;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-/**
+import org.apache.commons.lang3.Validate;
+
+/** Holds the Shiro configuration.
+ *
  * Created by lucas on 13/01/16.
  */
 public class ShiroConfiguration {
 
-  /** The login url, never null. */
+  /** The login URL, it's never null. */
   private String loginUrl;
 
-  /** The login url, never null. */
+  /** The login URL, it's never null. */
   private String successUrl;
 
-  /** The unauthorize url, never null. */
-  private String unauthorizeUrl;
+  /** The unauthorized URL, it's never null. */
+  private String unauthorizedUrl;
 
-  /** List containing all valid endpoints with the appropriate roles. */
-  private List<ShiroUrlRoleMapping> urlRoleMappings;
+  /** List containing all valid end-points with the appropriate roles. */
+  private List<UrlToRoleMapping> urlToRoleMappings;
 
-  /**
-   * ShiroConfiguration constructor.
+  /** Creates a new instance of the configuration.
    *
-   * @param theLoginUrl
-   * @param theSuccessUrl
-   * @param theUnauthorizeUrl
-   * @param theUrlRoleMappings
+   * @param theLoginUrl the login URL, cannot be null.
+   * @param theSuccessUrl the success URl, cannot be null.
+   * @param theUnauthorizedUrl the unauthorized URL, cannot be null.
+   * @param mappings the mappings, cannot be null.
    */
-  public ShiroConfiguration(String theLoginUrl, String theSuccessUrl,
-                            String theUnauthorizeUrl,
-                            List<ShiroUrlRoleMapping> theUrlRoleMappings) {
-    this.loginUrl = theLoginUrl;
-    this.successUrl = theSuccessUrl;
-    this.unauthorizeUrl = theUnauthorizeUrl;
-    this.urlRoleMappings = theUrlRoleMappings;
+  public ShiroConfiguration(final String theLoginUrl,
+      final String theSuccessUrl,
+      final String theUnauthorizedUrl,
+      final List<UrlToRoleMapping> mappings) {
+
+    Validate.notNull(theLoginUrl, "The login URL cannot be null");
+    Validate.notNull(theSuccessUrl, "The success URL cannot be null");
+    Validate.notNull(theUnauthorizedUrl, "The unauthorized URL cannot be null");
+    Validate.notNull(mappings, "The mappings cannot be null");
+
+    loginUrl = theLoginUrl;
+    successUrl = theSuccessUrl;
+    unauthorizedUrl = theUnauthorizedUrl;
+    urlToRoleMappings = mappings;
   }
 
-  /**
-   * ShiroConfiguration constructor.
-   *
-   * @param theLoginUrl
-   * @param theSuccessUrl
-   * @param theUnauthorizeUrl
-   */
-  public ShiroConfiguration(String theLoginUrl, String theSuccessUrl,
-                            String theUnauthorizeUrl) {
-      this.loginUrl = theLoginUrl;
-      this.successUrl = theSuccessUrl;
-      this.unauthorizeUrl = theUnauthorizeUrl;
-      this.urlRoleMappings = new ArrayList<>();
+  /** Creates a new instance of the configuration without mappings.
+  *
+  * @param theLoginUrl the login URL, cannot be null.
+  * @param theSuccessUrl the success URl, cannot be null.
+  * @param theUnauthorizedUrl the unauthorized URL, cannot be null.
+  */
+  public ShiroConfiguration(final String theLoginUrl, final String theSuccessUrl,
+      final String theUnauthorizedUrl) {
+    this(theLoginUrl, theSuccessUrl, theUnauthorizedUrl,
+        new ArrayList<UrlToRoleMapping>());
   }
 
-
-  /**
-   * @return loginUrl.
+  /** Retrieves the login URL.
+   * @return the URL never null.
    */
   public String getLoginUrl() {
     return loginUrl;
   }
 
-  /**
-   * @return successUrl.
+  /** The success URL.
+   * @return the URL never null.
    */
   public String getSuccessUrl() {
     return successUrl;
   }
 
-  /**
-   * @return unauthorizeUrl.
+  /** The Unauthorized URL.
+   * @return the URL never null.
    */
-  public String getUnauthorizeUrl() {
-    return unauthorizeUrl;
+  public String getUnauthorizedUrl() {
+    return unauthorizedUrl;
   }
 
-  /**
-   * @return urlRoleMappings.
+  /** The list of mappings.
+   * @return the mappings never null.
    */
-  public List<ShiroUrlRoleMapping> getUrlRoleMappings() {
-      return urlRoleMappings;
+  public List<UrlToRoleMapping> getUrlRoleMappings() {
+    return Collections.unmodifiableList(urlToRoleMappings);
   }
 
-  /**
-   * Adds urlRoleMappings to the existing list.
-   * @param urlRoleMappings
+  /** Adds a new mapping into the existing list.
+   *
+   * @param urlRoleMappings the new ACLs.
    */
-  public void addUrlRoleMappings(List<ShiroUrlRoleMapping> urlRoleMappings) {
-  this.urlRoleMappings.addAll(urlRoleMappings);
+  public void addUrlRoleMappings(final List<UrlToRoleMapping> urlRoleMappings) {
+    urlRoleMappings.addAll(urlRoleMappings);
   }
 
 }

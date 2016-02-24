@@ -26,50 +26,50 @@ import java.util.List;
  */
 public class ShiroModule implements Module {
 
-    /** {@inheritDoc}.*/
-    @Override
-    public String getName() {
-        return "Shiro-Module";
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public String getName() {
+    return "Shiro-Module";
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public String getNamespace() {
-        return null;
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public String getNamespace() {
+    return null;
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public String getRelativePath() {
-        return "../banten-core";
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public String getRelativePath() {
+    return "../banten-core";
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public Class<?> getPrivateConfiguration() {
-        return null;
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public Class<?> getPrivateConfiguration() {
+    return null;
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public Class<?> getPublicConfiguration() {
-        return ShiroPublicConfiguration.class;
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public Class<?> getPublicConfiguration() {
+    return ShiroPublicConfiguration.class;
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public List<Weblet> getWeblets() {
-        return null;
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public List<Weblet> getWeblets() {
+    return null;
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public void init(final ModuleApiRegistry registry) {
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public void init(final ModuleApiRegistry registry) {
+  }
 
-    /** {@inheritDoc}.*/
-    @Override
-    public ConfigurationApi getConfigurationApi() {
-        return null;
-    }
+  /** {@inheritDoc}. */
+  @Override
+  public ConfigurationApi getConfigurationApi() {
+    return null;
+  }
 }
