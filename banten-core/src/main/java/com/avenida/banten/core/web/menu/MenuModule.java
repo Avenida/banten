@@ -1,9 +1,9 @@
 package com.avenida.banten.core.web.menu;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.web.WebConfigurationApi;
 
 /** The Menu module.
  *
@@ -43,13 +43,12 @@ public class MenuModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
-    return Arrays.asList(new Weblet("menu", "menu/index.html"));
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public void init(final ModuleApiRegistry registry) {
+    registry.get(WebConfigurationApi.class)
+      .addWeblets(
+        Arrays.asList(
+            new Weblet("menu", "menu/index.html")
+        ), this);
   }
 
   /** {@inheritDoc}.*/

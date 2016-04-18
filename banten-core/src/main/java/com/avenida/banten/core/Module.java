@@ -1,7 +1,5 @@
 package com.avenida.banten.core;
 
-import java.util.List;
-
 /** Describes a Module.
  *
  * @author waabox (emi[at]avenida[dot]com)
@@ -39,12 +37,6 @@ public interface Module {
    * @return the public configuration, can be null.
    */
   Class<?> getPublicConfiguration();
-
-  /** Retrieves the list of weblets for this module.
-   *
-   * @return the list of weblets.
-   */
-  List<Weblet> getWeblets();
 
   /** Retrieves the configuration API.
    * @return the configuration API or null.

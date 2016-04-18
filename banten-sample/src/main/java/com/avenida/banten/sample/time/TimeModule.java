@@ -1,7 +1,6 @@
 package com.avenida.banten.sample.time;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.avenida.banten.core.*;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
@@ -43,12 +42,6 @@ public class TimeModule implements Module {
   @Override
   public Class<?> getPublicConfiguration() {
     return TimeConfiguration.class;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public List<Weblet> getWeblets() {
-    return null;
   }
 
   /** {@inheritDoc}.*/

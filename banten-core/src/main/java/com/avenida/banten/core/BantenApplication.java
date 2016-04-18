@@ -4,7 +4,9 @@ package com.avenida.banten.core;
 
 import java.util.*;
 import org.apache.commons.lang3.Validate;
+
 import org.slf4j.*;
+
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.beans.factory.config.*;
@@ -17,7 +19,6 @@ import org.springframework.core.env.*;
 import org.springframework.web.context.support.*;
 import org.springframework.web.servlet.DispatcherServlet;
 import com.avenida.banten.core.beans.CoreBeansConfiguration;
-import com.avenida.banten.core.web.WebletContainer;
 
 /** Bootstrap the Banten's Application.
  *
@@ -62,7 +63,7 @@ public abstract class BantenApplication {
    */
   private SpringApplication application = null;
 
-  /** The application-wise landing url, null if not configured.
+  /** The application-wise landing URL, null if not configured.
    *
    * See HomeServlet for more information.
    */
@@ -165,7 +166,6 @@ public abstract class BantenApplication {
       registerPublicConfiguration(registry, aModule);
       registerPrivateConfiguration(registry, aModule);
       registerApi(registry, aModule);
-      registerWeblets(aModule);
     }
 
     // Initializes the modules
@@ -293,17 +293,6 @@ public abstract class BantenApplication {
     servletRegistrationBean.setLazyInit(true);
 
     registry.registerBeanDefinition(name, servletRegistrationBean);
-  }
-
-  /** Register the weblets into the WebletContainer.
-   *
-   * @param module the module that has the weblets to register. It cannot be
-   * null.
-   */
-  private void registerWeblets(final Module module) {
-    if (module.getWeblets() != null) {
-      WebletContainer.instance().register(module, module.getWeblets());
-    }
   }
 
   /** Register the banten core beans in the provided bean definition registry.

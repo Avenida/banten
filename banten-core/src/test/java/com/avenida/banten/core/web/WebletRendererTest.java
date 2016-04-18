@@ -3,8 +3,6 @@ package com.avenida.banten.core.web;
 import static org.easymock.EasyMock.*;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -86,11 +84,6 @@ public class WebletRendererTest {
     @Override
     public Class<?> getPublicConfiguration() {
       return null;
-    }
-
-    @Override
-    public List<Weblet> getWeblets() {
-      return new LinkedList<>();
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.boot.context.embedded.jetty
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
+import com.avenida.banten.core.web.WebModule;
 import com.avenida.banten.core.web.menu.MenuModule;
 import com.avenida.banten.core.web.sitemesh.SitemeshConfiguration;
 import com.avenida.banten.core.web.sitemesh.SitemeshModule;
@@ -22,6 +23,7 @@ public class SampleApplication extends BantenApplication {
   public SampleApplication() {
     super(
         HibernateModule.class,
+        WebModule.class,
         SitemeshModule.class,
         MenuModule.class,
         TimeModule.class,
@@ -41,7 +43,8 @@ public class SampleApplication extends BantenApplication {
    * @return the Sitemesh's decorator configuration.
    */
   @Bean public SitemeshConfiguration sitemeshConfig() {
-    return new SitemeshConfiguration("xx", "classpath:decorators/");
+    return new SitemeshConfiguration("../banten-sample",
+        "classpath:decorators/");
   }
 
 }

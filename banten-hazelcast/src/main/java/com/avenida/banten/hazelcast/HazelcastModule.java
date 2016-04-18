@@ -1,7 +1,5 @@
 package com.avenida.banten.hazelcast;
 
-import java.util.List;
-
 import com.avenida.banten.core.*;
 
 /** Hazelcast Module.
@@ -38,12 +36,6 @@ public class HazelcastModule implements Module {
   @Override
   public Class<?> getPublicConfiguration() {
     return HazelcastConfiguration.class;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public List<Weblet> getWeblets() {
-    return null;
   }
 
   /** {@inheritDoc}.*/

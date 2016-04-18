@@ -1,7 +1,5 @@
 package com.avenida.banten.core.web.sitemesh;
 
-import java.util.List;
-
 import com.avenida.banten.core.*;
 
 /** Banten module to integrate sitemesh in your application.
@@ -51,12 +49,6 @@ public class SitemeshModule implements Module {
   @Override
   public Class<?> getPublicConfiguration() {
     return SitemeshPublicConfiguration.class;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public List<Weblet> getWeblets() {
-    return null;
   }
 
   /** {@inheritDoc}.*/

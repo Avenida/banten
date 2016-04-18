@@ -3,9 +3,6 @@ package com.avenida.banten.core.web.shiro;
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
 import com.avenida.banten.core.ModuleApiRegistry;
-import com.avenida.banten.core.Weblet;
-
-import java.util.List;
 
 /** Banten module to integrate shiro in your application.
  *
@@ -54,12 +51,6 @@ public class ShiroModule implements Module {
   @Override
   public Class<?> getPublicConfiguration() {
     return ShiroPublicConfiguration.class;
-  }
-
-  /** {@inheritDoc}. */
-  @Override
-  public List<Weblet> getWeblets() {
-    return null;
   }
 
   /** {@inheritDoc}. */

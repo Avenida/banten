@@ -1,7 +1,5 @@
 package com.avenida.banten.emailsender;
 
-import java.util.List;
-
 import com.avenida.banten.core.*;
 
 /** Hibernate's Module.
@@ -36,12 +34,6 @@ public class EmailSenderModule implements Module {
   @Override
   public Class<?> getPublicConfiguration() {
     return EmailSenderConfiguration.class;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public List<Weblet> getWeblets() {
-    return null;
   }
 
   @Override

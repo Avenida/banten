@@ -1,7 +1,6 @@
 package com.avenida.banten.hibernate;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.avenida.banten.core.*;
 
@@ -35,12 +34,6 @@ public class DatabaseTestModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public void init(final ModuleApiRegistry registry) {
     HibernateConfigurationApi api;
     api = registry.get(HibernateConfigurationApi.class);
@@ -50,7 +43,8 @@ public class DatabaseTestModule implements Module {
             new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class),
             new PersistenceUnit(MockEntityWithTuplizer.class,
                 MockEntityWithTuplizerFactory.class)
-    ));
+        )
+    );
   }
 
   @Override

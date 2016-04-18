@@ -1,16 +1,19 @@
-package com.avenida.banten.hibernate;
+package com.avenida.banten.core.web;
 
-import com.avenida.banten.core.*;
+import com.avenida.banten.core.ConfigurationApi;
+import com.avenida.banten.core.Module;
+import com.avenida.banten.core.ModuleApiRegistry;
 
-/** Hibernate's Module.
+/** Web module configuration.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class HibernateModule implements Module {
+public class WebModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
   public String getName() {
-    return "Hibernate-Module";
+    return "banten-web-module";
   }
 
   /** {@inheritDoc}.*/
@@ -22,7 +25,7 @@ public class HibernateModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public String getRelativePath() {
-    return "../banten-hibernate";
+    return null;
   }
 
   /** {@inheritDoc}.*/
@@ -34,17 +37,18 @@ public class HibernateModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPublicConfiguration() {
-    return HibernateConfiguration.class;
-  }
-
-  @Override
-  public void init(final ModuleApiRegistry registry) {
+    return null;
   }
 
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return new HibernateConfigurationApi();
+    return new WebConfigurationApi();
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public void init(final ModuleApiRegistry registry) {
   }
 
 }

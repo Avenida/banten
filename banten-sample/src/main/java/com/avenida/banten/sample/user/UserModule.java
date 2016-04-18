@@ -1,10 +1,9 @@
 package com.avenida.banten.sample.user;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.avenida.banten.core.*;
+import com.avenida.banten.core.web.WebConfigurationApi;
 import com.avenida.banten.core.web.menu.MenuConfigurationApi;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.user.domain.User;
@@ -47,14 +46,6 @@ public class UserModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public List<Weblet> getWeblets() {
-    List<Weblet> weblets = new LinkedList<>();
-    weblets.add(new Weblet("samplepicture", "users/samplePicture.html"));
-    return weblets;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public ConfigurationApi getConfigurationApi() {
     return null;
   }
@@ -69,6 +60,12 @@ public class UserModule implements Module {
             new PersistenceUnit(User.class, UserFactory.class)
         )
      );
+
+    registry.get(WebConfigurationApi.class)
+      .addWeblets(
+          Arrays.asList(
+              new Weblet("samplepicture", "users/samplePicture.html")
+          ), this);
 
     registry.get(MenuConfigurationApi.class)
       .root("Users", "/users")
