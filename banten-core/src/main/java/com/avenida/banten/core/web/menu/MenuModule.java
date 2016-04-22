@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.avenida.banten.core.*;
 import com.avenida.banten.core.web.WebConfigurationApi;
+import com.avenida.banten.core.web.Weblet;
 
 /** The Menu module.
  *

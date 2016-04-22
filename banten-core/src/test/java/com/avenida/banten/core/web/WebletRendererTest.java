@@ -15,7 +15,6 @@ import org.junit.Test;
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
 import com.avenida.banten.core.ModuleApiRegistry;
-import com.avenida.banten.core.Weblet;
 
 public class WebletRendererTest {
 

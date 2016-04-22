@@ -6,7 +6,6 @@ import org.apache.commons.lang3.Validate;
 
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.Weblet;
 
 /** The web configuration API.
  *

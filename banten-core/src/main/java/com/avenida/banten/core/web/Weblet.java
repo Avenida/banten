@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.core.web;
 
 import org.apache.commons.lang3.Validate;
 
