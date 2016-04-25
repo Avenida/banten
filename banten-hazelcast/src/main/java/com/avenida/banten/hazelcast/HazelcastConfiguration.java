@@ -5,6 +5,11 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+
 import org.springframework.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.*;
@@ -13,17 +18,21 @@ import com.hazelcast.client.*;
 import com.hazelcast.client.config.*;
 import com.hazelcast.config.*;
 import com.hazelcast.core.*;
+import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 /** The Hazelcast configuration.
+ *
+ * Enables the {@link EnableCaching} and also declares the bean that expose
+ * the {@link CacheManager}.
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
 @Configuration
+@EnableCaching
 public class HazelcastConfiguration implements EnvironmentAware {
 
   /** The log. */
   private static Logger log = getLogger(HazelcastConfiguration.class);
-
 
   /** Hazelcast Default Port. */
   private static final int DEFAULT_PORT = 5701;
@@ -31,10 +40,19 @@ public class HazelcastConfiguration implements EnvironmentAware {
   /** The environment with the properties loaded. */
   private Environment environment;
 
+  /** Creates a new instance of the {@link CacheManager}.
+   * @param hz the hazelcast instance.
+   * @return the {@link CacheManager}, never null.
+   */
+  @Autowired
+  @Bean public CacheManager cacheManager(final HazelcastInstance hz) {
+    return new HazelcastCacheManager(hz);
+  }
+
   /** Returns the HazelcastInstance. */
   @Bean(name = "banten.hazelcastInstance")
   public synchronized HazelcastInstance hazelcastInstance() {
-    if (booleanValue("hz.node.client")) {
+    if (environment.getProperty("hz.node.client", Boolean.class, false)) {
       return HazelcastClient.newHazelcastClient(clientConfig());
     }
     return Hazelcast.getOrCreateHazelcastInstance(localConfig());
