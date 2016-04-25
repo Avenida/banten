@@ -6,7 +6,7 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten</artifactId>
-  <version>0.11</version>
+  <version>0.12-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Banten</name>
@@ -29,7 +29,7 @@
     <developerConnection>
       scm:git:ssh://git@git.avenida.com:22/diffusion/BANTEN/banten.git
     </developerConnection>
-    <tag>banten-0.11</tag>
+    <tag>banten-0.1</tag>
   </scm>
 
   <distributionManagement>
