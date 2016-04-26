@@ -163,6 +163,15 @@
       <artifactId>spring-test</artifactId>
     </dependency>
 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Misc. dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

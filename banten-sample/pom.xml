@@ -103,15 +103,6 @@
       <artifactId>hibernate-jpa-2.1-api</artifactId>
     </dependency>
 
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <!-- Misc. dependencies. -->
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
-
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
-    </dependency>
-
   </dependencies>
 
   <build>

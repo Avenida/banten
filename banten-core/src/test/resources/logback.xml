@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="false" scan="false">
+
+  <property name="LOG_FILE" value="target/log/test.log"/>
+  <property name="LAUNCHER_CLASS" value="com.avenida.banten.sample.SampleLauncher"/>
+
+  <include resource="com/avenida/banten/core/logback/base.xml" />
+
+  <root level="INFO">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <!-- vim: set ts=2 et sw=2 ai: -->
+</configuration>
+
