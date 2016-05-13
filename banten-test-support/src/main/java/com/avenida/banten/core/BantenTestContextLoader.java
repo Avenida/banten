@@ -8,6 +8,8 @@ import java.util.*;
 import org.springframework.beans.BeanUtils;
 
 import org.springframework.boot.context.web.*;
+import org.springframework.boot.context.web
+  .ServerPortInfoApplicationContextInitializer;
 
 import org.springframework.boot.test.*;
 

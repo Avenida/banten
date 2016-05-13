@@ -10,7 +10,7 @@ import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
 import com.avenida.banten.core.Configurator;
 import com.avenida.banten.core.PersistenceUnit;

@@ -4,18 +4,23 @@ import java.io.IOException;
 import java.util.*;
 
 import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.Validate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.avenida.banten.core.*;
@@ -103,7 +108,7 @@ public class CoreBeansConfiguration {
 
     /** The configured landing url, never null.
      */
-    private String landingUrl;
+    private final String landingUrl;
 
     /** Creates the home servlet.
      *
@@ -120,8 +125,7 @@ public class CoreBeansConfiguration {
     public void service(final HttpServletRequest request,
         final HttpServletResponse response)
             throws ServletException, IOException {
-      RedirectView redirectView;
-      redirectView = new RedirectView(landingUrl);
+      RedirectView redirectView = new RedirectView(landingUrl);
       try {
         redirectView.render(null, request, response);
       } catch (IOException | ServletException e) {
@@ -146,11 +150,10 @@ public class CoreBeansConfiguration {
   @ConditionalOnBean(name = "banten.landingUrl")
   public ServletRegistrationBean homeServlet(
       @Qualifier("banten.landingUrl") final String landingUrl) {
-
     ServletRegistrationBean servletBean = null;
     if (landingUrl != null) {
-      servletBean = new ServletRegistrationBean(new HomeServlet(landingUrl),
-          false, "");
+      HomeServlet servlet = new HomeServlet(landingUrl);
+      servletBean = new ServletRegistrationBean(servlet, false, "");
       servletBean.setOrder(Integer.MAX_VALUE);
     }
     return servletBean;

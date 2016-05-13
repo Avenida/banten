@@ -3,10 +3,7 @@ package com.avenida.banten.hibernate;
 import java.util.*;
 
 import org.hibernate.bytecode.spi.ReflectionOptimizer;
-
 import org.hibernate.mapping.PersistentClass;
-
-import org.hibernate.metamodel.binding.EntityBinding;
 
 import org.hibernate.tuple.*;
 import org.hibernate.tuple.entity.*;
@@ -22,9 +19,6 @@ import com.avenida.banten.core.*;
  */
 public class PlatformTuplizer extends PojoEntityTuplizer {
 
-  /** The reflection optimizer. */
-  private ReflectionOptimizer optimizer;
-
   /** Creates a new instance of the Tuplizer.
    * @param entityMetamodel the entity model.
    * @param mappedEntity the mapped entity.
@@ -32,35 +26,20 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
   public PlatformTuplizer(final EntityMetamodel entityMetamodel,
       final PersistentClass mappedEntity) {
     super(entityMetamodel, mappedEntity);
-    postConstruct();
-  }
-
-  /** Creates a new instance of the Tuplizer.
-   * @param entityMetamodel the entity model.
-   * @param mappedEntity the mapped entity.
-   */
-  public PlatformTuplizer(final EntityMetamodel entityMetamodel,
-      final EntityBinding mappedEntity) {
-    super(entityMetamodel, mappedEntity);
-    postConstruct();
-  }
-
-  /** Hack, check if there are a reflection optimizer within the parent...
-   * using reflection.
-   */
-  private void postConstruct() {
-    DirectFieldAccessor dfa = new DirectFieldAccessor(this);
-    optimizer = (ReflectionOptimizer) dfa.getPropertyValue("optimizer");
   }
 
   /** {@inheritDoc}.*/
   @Override
   protected Instantiator buildInstantiator(
+      final EntityMetamodel entityMetamodel,
       final PersistentClass persistentClass) {
-    if (optimizer == null) {
-      return new BantenInstantiator(persistentClass);
+    Instantiator instantiator;
+    instantiator = super.buildInstantiator(entityMetamodel, persistentClass);
+    try {
+      return new BantenInstantiator(persistentClass, instantiator);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
     }
-    return new BantenInstantiator(persistentClass, optimizer);
   }
 
   /** Instantiator that serch within the PersistenceUnits the ones that
@@ -76,22 +55,29 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
     /** The Hibernate's persistent class, it's never null. */
     private final PersistentClass persistentClass;
 
-    /** Creates a new instance of the Instantiator.
-     * @param aPersistentClass the Hibernate's persistent class.
-     * @param optimizer the reflection optimizer.
+    /** Creates a new instance of the instantiator.
+     * @param aPersistentClass the {@link PersistentClass}, cannot be null.
+     * @param instantiator the {@link Instantiator}, cannot be null.
+     * @throws ClassNotFoundException
      */
     public BantenInstantiator(final PersistentClass aPersistentClass,
-        final ReflectionOptimizer optimizer) {
-      super(aPersistentClass, optimizer.getInstantiationOptimizer());
+        final Instantiator instantiator) throws ClassNotFoundException {
+      super(
+          Class.forName(aPersistentClass.getClassName()),
+          optimizer(instantiator),
+          aPersistentClass.hasEmbeddedIdentifier()
+      );
       persistentClass = aPersistentClass;
     }
 
-    /** Creates a new instance of the Instantiator.
-     * @param aPersistentClass the Hibernate's persistent class.
+    /** Extract the InstantiationOptimizer from the given {@link Instantiator}.
+     * @param instantiator the {@link Instantiator}, cannot be null.
+     * @return the {@link Instantiator} or null.
      */
-    public BantenInstantiator(final PersistentClass aPersistentClass) {
-      super(aPersistentClass, null);
-      persistentClass = aPersistentClass;
+    private static ReflectionOptimizer.InstantiationOptimizer optimizer(
+        final Instantiator instantiator) {
+      return (ReflectionOptimizer.InstantiationOptimizer)
+          new DirectFieldAccessor(instantiator).getPropertyValue("optimizer");
     }
 
     /** {@inheritDoc}.*/

@@ -1,25 +1,21 @@
 package com.avenida.banten.hibernate;
 
-import java.util.*;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.Validate;
-
-import org.apache.tomcat.jdbc.pool.*;
-
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.SessionFactory;
-
-import org.springframework.beans.factory.annotation.*;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.core.env.Environment;
 
-import org.springframework.orm.hibernate4.*;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
-import com.avenida.banten.core.*;
+import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate configuration.
  *
