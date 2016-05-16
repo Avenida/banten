@@ -9,17 +9,22 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.tomcat.jdbc.pool.DataSource;
+
 import org.hibernate.SessionFactory;
+
 import org.hibernate.boot.MetadataBuilder;
 import org.hibernate.boot.MetadataSources;
+
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+import org.springframework.boot.context.properties.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.core.env.Environment;
 
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -66,8 +71,7 @@ public class HibernateConfiguration {
   @Bean(name = "banten.dataSource")
   @ConfigurationProperties(prefix = "db")
   public DataSource dataSource() {
-    DataSource datasource = new DataSource();
-    return datasource;
+    return new DataSource();
   }
 
   /** Defines the transaction manager to use.
@@ -75,8 +79,7 @@ public class HibernateConfiguration {
    * @return the Hibernate Transaction manager.
    * */
   @Bean(name = "banten.transactionManager")
-  @Autowired
-  public HibernateTransactionManager transactionManager(
+  public HibernateTransactionManager bantenTransactionManager(
       final SessionFactory sessionFactory) {
     HibernateTransactionManager manager = new HibernateTransactionManager();
     manager.setSessionFactory(sessionFactory);
@@ -88,12 +91,12 @@ public class HibernateConfiguration {
    * @return the Hibernate's SessionFactory.
    * */
   @Bean(name = "banten.sessionFactory")
-  public SessionFactory bantenSessionFactory() {
+  public SessionFactory bantenSessionFactory(final DataSource dataSource) {
     Validate.notNull(persistenceUnitList,  "The list cannot be null");
 
     StandardServiceRegistryBuilder builder;
     builder = new StandardServiceRegistryBuilder();
-    builder.applySetting("hibernate.connection.datasource", dataSource());
+    builder.applySetting("hibernate.connection.datasource", dataSource);
     builder.applySetting("hibernate.current_session_context_class",
             "org.springframework.orm.hibernate5.SpringSessionContext");
     builder.applySettings(new Configurator("dbHibernate", environment).get());
@@ -115,7 +118,7 @@ public class HibernateConfiguration {
    * @return the transaction handler, it's never null.
    */
   @Bean(name = "banten.transaction")
-  public Transaction transaction(final HibernateTransactionManager tm) {
+  public Transaction bantenTransaction(final HibernateTransactionManager tm) {
     return new Transaction(tm);
   }
 
