@@ -116,8 +116,7 @@ public class BantenTestContextLoader extends AbstractContextLoader {
     try {
       properties.load(new StringReader(content));
       return asMap(properties);
-    }
-    catch (IOException ex) {
+    } catch (IOException ex) {
       throw new IllegalStateException(
           "Unexpected could not load properties from '" + content + "'", ex);
     }
@@ -155,9 +154,8 @@ public class BantenTestContextLoader extends AbstractContextLoader {
     initializers.add(new ServerPortInfoApplicationContextInitializer());
     initializers.addAll(application.getApplication()
         .getInitializers());
-    for (
-        Class<? extends ApplicationContextInitializer<?>> initializerClass :
-          cfg.getContextInitializerClasses()) {
+    for (Class<? extends ApplicationContextInitializer<?>> initializerClass
+            : cfg.getContextInitializerClasses()) {
       initializers.add(BeanUtils.instantiate(initializerClass));
     }
     return initializers;

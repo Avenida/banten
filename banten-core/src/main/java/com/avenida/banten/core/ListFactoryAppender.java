@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.apache.commons.lang3.*;
 
-import org.springframework.beans.*;
 import org.springframework.beans.factory.config.*;
 
 /** Bean post processor that adds additional elements to a target list.
@@ -45,8 +44,7 @@ public class ListFactoryAppender implements BeanPostProcessor {
   @Override
   @SuppressWarnings("unchecked")
   public Object postProcessBeforeInitialization(
-      final Object bean, final String beanName)
-      throws BeansException {
+      final Object bean, final String beanName) {
     if (beanName.equals(targetList)) {
       ((List<Object>) bean).addAll(elements);
     }
@@ -56,8 +54,7 @@ public class ListFactoryAppender implements BeanPostProcessor {
   /** {@inheritDoc}.*/
   @Override
   public Object postProcessAfterInitialization(
-      final Object bean, final String beanName)
-      throws BeansException {
+      final Object bean, final String beanName) {
     return bean;
   }
 

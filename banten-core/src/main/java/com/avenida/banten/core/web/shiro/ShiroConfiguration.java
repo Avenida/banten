@@ -51,7 +51,9 @@ public class ShiroConfiguration {
   * @param theSuccessUrl the success URl, cannot be null.
   * @param theUnauthorizedUrl the unauthorized URL, cannot be null.
   */
-  public ShiroConfiguration(final String theLoginUrl, final String theSuccessUrl,
+  public ShiroConfiguration(
+      final String theLoginUrl,
+      final String theSuccessUrl,
       final String theUnauthorizedUrl) {
     this(theLoginUrl, theSuccessUrl, theUnauthorizedUrl,
         new ArrayList<UrlToRoleMapping>());

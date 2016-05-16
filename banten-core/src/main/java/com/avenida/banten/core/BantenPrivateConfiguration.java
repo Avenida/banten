@@ -36,7 +36,7 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
    * WARNING: do not generally autowire properties, IT IS A BAD PRACTICE!!!!
    * Done here because I did not find another way.
    */
-  @Autowired Environment environment;
+  @Autowired private Environment environment;
 
   /** The module description bean that 'owns' the current application
    * context, never null.
@@ -44,7 +44,7 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
    * WARNING: do not generally autowire properties, IT IS A BAD PRACTICE!!!!
    * Done here because I did not find another way.
    */
-  @Autowired ModuleDescription moduleDescription;
+  @Autowired private ModuleDescription moduleDescription;
 
   /** Bean that supports ${property} in @Value annotations.
    *

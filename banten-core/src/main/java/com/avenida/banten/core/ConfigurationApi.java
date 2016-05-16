@@ -3,9 +3,8 @@ package com.avenida.banten.core;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.Validate;
+
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 

@@ -1,6 +1,5 @@
 package com.avenida.banten.sample.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,8 @@ import com.avenida.banten.sample.user.domain.UserRepository;
 @EnableTransactionManagement
 public class UserMVC {
 
-  @Bean
-  public UserController userController(final UserRepository repository,
+  @Bean public UserController userController(
+      final UserRepository repository,
       final UserFactory userFactory) {
     return new UserController(repository, userFactory);
   }

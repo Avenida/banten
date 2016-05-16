@@ -42,7 +42,7 @@ public abstract class ServletOutputInterceptor extends
 
   /** A servlet output stream that makes the written data as a string.
   */
-  public static class OutputStreamWrapper extends ServletOutputStream {
+  public static final class OutputStreamWrapper extends ServletOutputStream {
 
     /** An output stream where the servlets store its outputs.
      *

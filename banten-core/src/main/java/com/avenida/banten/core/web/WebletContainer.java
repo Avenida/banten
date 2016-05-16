@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class WebletContainer {
+public final class WebletContainer {
 
   /** The log.*/
   private final Logger log = LoggerFactory.getLogger(WebletContainer.class);
@@ -66,7 +66,7 @@ public class WebletContainer {
   }
 
   /** Key for the weblets container map.*/
-  private static class Key {
+  private static final class Key {
 
     /** The module name, it's never null.*/
     private final String moduleName;
@@ -103,7 +103,7 @@ public class WebletContainer {
   }
 
   /** Holds a Weblet for a Module.*/
-  public static class ModuleWeblet {
+  public static final class ModuleWeblet {
 
     /** The module, it's never null.*/
     private final Module module;

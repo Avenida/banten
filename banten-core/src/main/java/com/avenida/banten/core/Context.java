@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Context {
 
   /** The thread local storage, it's never null. */
-  private static final ThreadLocal<ContextData> context = new ThreadLocal<>();
+  private static final ThreadLocal<ContextData> CTX = new ThreadLocal<>();
 
   /** Initializes the context.
    * @param request the servlet request, cannot be null.
@@ -19,32 +19,32 @@ public class Context {
    */
   public static void init(final HttpServletRequest request,
       final HttpServletResponse response) {
-    context.set(new ContextData(request, response));
+    CTX.set(new ContextData(request, response));
   }
 
   /** Destroys the current context.*/
   public static void destroy() {
-    context.remove();
+    CTX.remove();
   }
 
   /** Retrieves the current {@link HttpServletRequest}
    * @return the request or null if it has been destroyed or not initialized.
    */
   public static HttpServletRequest request() {
-    if (context.get() == null) {
+    if (CTX.get() == null) {
       return null;
     }
-    return context.get().getRequest();
+    return CTX.get().getRequest();
   }
 
   /** Retrieves the current {@link HttpServletResponse}
    * @return the response or null if it has been destroyed or not initialized.
    */
   public static HttpServletResponse response() {
-    if (context.get() == null) {
+    if (CTX.get() == null) {
       return null;
     }
-    return context.get().getResponse();
+    return CTX.get().getResponse();
   }
 
 
@@ -52,7 +52,7 @@ public class Context {
    *
    * @author waabox (emi[at]avenida[dot]com)
    */
-  private static class ContextData {
+  private static final class ContextData {
 
     /** The request. */
     private final HttpServletRequest request;

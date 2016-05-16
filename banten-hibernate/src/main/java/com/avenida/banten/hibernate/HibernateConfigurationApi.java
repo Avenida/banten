@@ -3,7 +3,6 @@ package com.avenida.banten.hibernate;
 import java.util.List;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.Module;
 import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate configuration.

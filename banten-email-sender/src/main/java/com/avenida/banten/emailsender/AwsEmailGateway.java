@@ -55,7 +55,7 @@ public class AwsEmailGateway implements EmailGateway {
       AmazonSimpleEmailServiceClient client;
       client = new AmazonSimpleEmailServiceClient(credentials);
 
-      // TODO: the region should be externalized.
+      // TODO [waabox]: the region should be externalized.
       Region region = Region.getRegion(Regions.US_EAST_1);
       client.setRegion(region);
       client.sendEmail(request);

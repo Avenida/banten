@@ -7,7 +7,7 @@ import java.util.*;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class ModuleApiRegistry {
+public final class ModuleApiRegistry {
 
   /** The static inistance. */
   private static ModuleApiRegistry instance = new ModuleApiRegistry();

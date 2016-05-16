@@ -102,16 +102,16 @@ public class Menu {
   }
 
   /** Search within this menu the Menu that matches the given path.
-   * @param path the path, cannot be null.
+   * @param aPath the path, cannot be null.
    * @return the menu or null.
    */
-  Menu searchFor(final String path) {
-    Validate.notNull(path, "The path cannot be null");
+  Menu searchFor(final String aPath) {
+    Validate.notNull(aPath, "The path cannot be null");
     for (Menu menu : childNodes) {
-      if (menu.getPath().equals(path)) {
+      if (menu.getPath().equals(aPath)) {
         return menu;
       } else {
-        Menu candidate = menu.searchFor(path);
+        Menu candidate = menu.searchFor(aPath);
         if (candidate != null) {
           return candidate;
         }

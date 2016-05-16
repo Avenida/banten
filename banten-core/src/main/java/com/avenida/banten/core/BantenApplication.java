@@ -16,7 +16,6 @@ import org.springframework.boot.*;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 
 import org.springframework.context.*;
-import org.springframework.context.annotation.Configuration;
 
 import org.springframework.core.env.*;
 
@@ -121,8 +120,8 @@ public abstract class BantenApplication {
       @Override
       public void initialize(
           final ConfigurableApplicationContext parentContext) {
-        registerCoreBeans((BeanDefinitionRegistry)parentContext);
-        registerModules((BeanDefinitionRegistry)parentContext);
+        registerCoreBeans((BeanDefinitionRegistry) parentContext);
+        registerModules((BeanDefinitionRegistry) parentContext);
       }
 
     });
@@ -147,8 +146,7 @@ public abstract class BantenApplication {
    * @param registry the registry.
    * @throws Error
    */
-  private void registerModules(final BeanDefinitionRegistry registry)
-      throws Error {
+  private void registerModules(final BeanDefinitionRegistry registry) {
     log.info("Registering Banten Modules");
 
     InitContext.init(registry);

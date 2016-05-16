@@ -1,6 +1,5 @@
 package com.avenida.banten.core;
 
-import org.springframework.beans.*;
 import org.springframework.context.*;
 
 /** Service locator that interacts with the Spring's root application context.
@@ -24,8 +23,7 @@ public class ModuleServiceLocator implements ApplicationContextAware {
 
   /** {@inheritDoc}.*/
   @Override
-  public void setApplicationContext(final ApplicationContext ctx)
-      throws BeansException {
+  public void setApplicationContext(final ApplicationContext ctx) {
     context = ctx;
     serviceLocator = this;
   }

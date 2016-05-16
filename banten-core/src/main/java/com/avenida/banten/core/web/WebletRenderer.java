@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import java.io.IOException;
-
 /** Weblet Renderer.
  *
  * @author waabox (emi[at]avenida[dot]com)

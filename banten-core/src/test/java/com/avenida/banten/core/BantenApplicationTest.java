@@ -36,12 +36,14 @@ public class BantenApplicationTest {
 
   public static class SampleApplication extends BantenApplication {
 
+    private static final int APP_PORT = 8080;
+
     public SampleApplication() {
       super(SampleModule.class, SampleModuleB.class);
     }
 
     @Bean public JettyEmbeddedServletContainerFactory jetty() {
-      return new JettyEmbeddedServletContainerFactory("", 8080);
+      return new JettyEmbeddedServletContainerFactory("", APP_PORT);
     }
 
   }
