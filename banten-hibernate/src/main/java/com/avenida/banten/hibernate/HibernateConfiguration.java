@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -32,7 +33,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import com.avenida.banten.core.Configurator;
 import com.avenida.banten.core.PersistenceUnit;
 
-/** Hibernate configuration.
+/** Hibernate's configuration.
  *
  * The property files expect the Hibernate's documentation
  * with a prefix: dbHibernate + <Hibernate's property>
@@ -93,13 +94,20 @@ public class HibernateConfiguration {
   @Bean(name = "banten.sessionFactory")
   public SessionFactory bantenSessionFactory(final DataSource dataSource) {
     Validate.notNull(persistenceUnitList,  "The list cannot be null");
+    Validate.notNull(dataSource, "The datasource cannot be null");
+
+    Map<String, String> hibernateProperties;
+    hibernateProperties = new Configurator("dbHibernate", environment).get();
+
+    Validate.isTrue(hibernateProperties.size() > 0,
+        "Hibernate properties has not been defined");
 
     StandardServiceRegistryBuilder builder;
     builder = new StandardServiceRegistryBuilder();
     builder.applySetting("hibernate.connection.datasource", dataSource);
     builder.applySetting("hibernate.current_session_context_class",
             "org.springframework.orm.hibernate5.SpringSessionContext");
-    builder.applySettings(new Configurator("dbHibernate", environment).get());
+    builder.applySettings(hibernateProperties);
 
     StandardServiceRegistry registry = builder.build();
     MetadataSources sources = new MetadataSources(registry);
