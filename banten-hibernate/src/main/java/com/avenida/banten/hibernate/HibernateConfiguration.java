@@ -1,5 +1,8 @@
 package com.avenida.banten.hibernate;
 
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,14 +10,21 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.Validate;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataBuilder;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
+import com.avenida.banten.core.Configurator;
 import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate configuration.
@@ -32,25 +42,15 @@ import com.avenida.banten.core.PersistenceUnit;
  * db.password
  * db.user
  * db.driver
- * db.pool.active
- *
- * if the property db.pool.active is true, the configuration muse provide:
- *
- * db.pool.maxActive
- * db.pool.initialSize
- * db.pool.maxAge
- * db.pool.maxWait
- * db.pool.logAbandoned
- * db.pool.minIdle
- * db.pool.maxIdle
- * db.pool.testWhileIdle
- * db.pool.validationQuery
- * db.pool.minEvictableTimeMilis
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
 @Configuration
+@EnableConfigurationProperties
 public class HibernateConfiguration {
+
+  /** The log. */
+  private static Logger log = getLogger(HibernateConfiguration.class);
 
   /** The list of persistence units, it's never null. */
   @Autowired @Resource(name = "persistenceUnitList")
@@ -60,19 +60,13 @@ public class HibernateConfiguration {
   @Autowired
   private Environment environment;
 
-  /** The Hibernate's configurator, null until the method getConfigurator()
-   * is called. Do not access this field directly,
-   * use {@link #getConfigurator()} instead.
-   */
-  private HibernateConfigurator hibernateConfigurator;
-
   /** DataSource bean definition.
    * @return the DataSource to be used by the application.
    * */
   @Bean(name = "banten.dataSource")
+  @ConfigurationProperties(prefix = "db")
   public DataSource dataSource() {
     DataSource datasource = new DataSource();
-    datasource.setPoolProperties(getConfigurator().buildPoolProperties());
     return datasource;
   }
 
@@ -80,7 +74,8 @@ public class HibernateConfiguration {
    * @param sessionFactory the session factory.
    * @return the Hibernate Transaction manager.
    * */
-  @Bean(name = "banten.transactionManager") @Autowired
+  @Bean(name = "banten.transactionManager")
+  @Autowired
   public HibernateTransactionManager transactionManager(
       final SessionFactory sessionFactory) {
     HibernateTransactionManager manager = new HibernateTransactionManager();
@@ -95,10 +90,24 @@ public class HibernateConfiguration {
   @Bean(name = "banten.sessionFactory")
   public SessionFactory bantenSessionFactory() {
     Validate.notNull(persistenceUnitList,  "The list cannot be null");
-    LocalSessionFactoryBuilder builder;
-    builder = new LocalSessionFactoryBuilder(dataSource());
-    builder = getConfigurator().configure(builder, persistenceUnitList);
-    return builder.buildSessionFactory();
+
+    StandardServiceRegistryBuilder builder;
+    builder = new StandardServiceRegistryBuilder();
+    builder.applySetting("hibernate.connection.datasource", dataSource());
+    builder.applySetting("hibernate.current_session_context_class",
+            "org.springframework.orm.hibernate5.SpringSessionContext");
+    builder.applySettings(new Configurator("dbHibernate", environment).get());
+
+    StandardServiceRegistry registry = builder.build();
+    MetadataSources sources = new MetadataSources(registry);
+
+    for(PersistenceUnit pu : persistenceUnitList) {
+      log.info("Adding persistence class:[{}]", pu.getPersistenceClass());
+      sources.addAnnotatedClass(pu.getPersistenceClass());
+    }
+
+    MetadataBuilder metadataBuilder = sources.getMetadataBuilder();
+    return metadataBuilder.build().getSessionFactoryBuilder().build();
   }
 
   /** Retrieves the transaction handler for manually TXs handling.
@@ -108,16 +117,6 @@ public class HibernateConfiguration {
   @Bean(name = "banten.transaction")
   public Transaction transaction(final HibernateTransactionManager tm) {
     return new Transaction(tm);
-  }
-
-  /** Retrieves the Hibernate configurator.
-   * @return the Hibernate configurator.
-   */
-  private synchronized HibernateConfigurator getConfigurator() {
-    if (hibernateConfigurator == null) {
-      hibernateConfigurator = new HibernateConfigurator(environment);
-    }
-    return hibernateConfigurator;
   }
 
 }
