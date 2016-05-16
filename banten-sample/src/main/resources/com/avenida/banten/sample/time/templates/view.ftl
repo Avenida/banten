@@ -18,12 +18,12 @@
 
       </div>
 
-      <form role="form" action="save" method="post">
+      <form role="form" action="save" method="post" name="time-form">
         <div class="form-group">
           <label for="gmt">Add new Time in GMT</label>
           <input type="text" class="form-control" name="gmt" id="gmt">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default" name="submit-btn">Submit</button>
       </form>
 
     </div>
