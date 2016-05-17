@@ -19,7 +19,7 @@ public class WebAppModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPublicConfiguration() {
-    return null;
+    return WebAppConfiguration.class;
   }
 
   /** {@inheritDoc}.*/

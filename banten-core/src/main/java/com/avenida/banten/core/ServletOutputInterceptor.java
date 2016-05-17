@@ -1,5 +1,8 @@
 package com.avenida.banten.core;
 
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.OutputStream;
@@ -10,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.lang3.Validate;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** A response wrapper that intercepts the body data written by the servlets.
  *
@@ -32,8 +32,7 @@ public abstract class ServletOutputInterceptor extends
 
   /** The class logger.
    */
-  private static Logger log =
-    LoggerFactory.getLogger(ServletOutputInterceptor.class);
+  private static Logger log = getLogger(ServletOutputInterceptor.class);
 
   /** Indicates whether the data is written through to the original output
    * stream.
@@ -48,7 +47,7 @@ public abstract class ServletOutputInterceptor extends
      *
      * This is never null.
      */
-    private OutputStream outputStream;
+    private final OutputStream outputStream;
 
     /** The original output stream.
      *
