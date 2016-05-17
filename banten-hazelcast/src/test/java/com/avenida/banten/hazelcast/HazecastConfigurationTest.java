@@ -19,12 +19,10 @@ public class HazecastConfigurationTest {
   /** Test that spring has been correctly configured the cache.*/
   @Test
   public void test() {
-    sampleCacheableBean.call("hey");
-    sampleCacheableBean.call("hey");
-    sampleCacheableBean.call("hey");
-    sampleCacheableBean.call("hey");
-    sampleCacheableBean.call("hey");
-    sampleCacheableBean.call("hey");
+
+    for(int i=0; i<10; i++) {
+      sampleCacheableBean.call("hey");
+    }
 
     assertThat(sampleCacheableBean.getCalled(), is(1));
 

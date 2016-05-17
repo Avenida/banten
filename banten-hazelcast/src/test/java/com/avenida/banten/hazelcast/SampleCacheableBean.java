@@ -14,9 +14,6 @@ import com.hazelcast.core.HazelcastInstance;
  */
 public class SampleCacheableBean {
 
-  /** The hazecast instance. */
-  private HazelcastInstance hazelcast;
-
   /** Number of times that the method {@link SampleCacheableBean#call()}
    * has been called.*/
   private int called = 0;
@@ -24,11 +21,8 @@ public class SampleCacheableBean {
   @Autowired
   public SampleCacheableBean(final HazelcastInstance hz) {
     Validate.notNull(hz, "Hazelcast cannot be null.");
-
     hz.getConfig().addCacheConfig(
         new CacheSimpleConfig().setName("default"));
-
-    hazelcast = hz;
   }
 
   @Cacheable(key = "#key", value = "default")

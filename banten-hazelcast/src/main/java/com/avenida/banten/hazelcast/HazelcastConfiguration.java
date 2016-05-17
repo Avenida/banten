@@ -6,11 +6,9 @@ import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 
-import org.springframework.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.*;
 
@@ -29,7 +27,7 @@ import com.hazelcast.spring.cache.HazelcastCacheManager;
  */
 @Configuration
 @EnableCaching
-public class HazelcastConfiguration implements EnvironmentAware {
+public class HazelcastConfiguration {
 
   /** The log. */
   private static Logger log = getLogger(HazelcastConfiguration.class);
@@ -38,13 +36,12 @@ public class HazelcastConfiguration implements EnvironmentAware {
   private static final int DEFAULT_PORT = 5701;
 
   /** The environment with the properties loaded. */
-  private Environment environment;
+  @Autowired private Environment environment;
 
   /** Creates a new instance of the {@link CacheManager}.
    * @param hz the hazelcast instance.
    * @return the {@link CacheManager}, never null.
    */
-  @Autowired
   @Bean public CacheManager cacheManager(final HazelcastInstance hz) {
     return new HazelcastCacheManager(hz);
   }
@@ -185,12 +182,6 @@ public class HazelcastConfiguration implements EnvironmentAware {
   /** Returns the port configuration property. */
   public Integer port() {
     return value("hz.network.port", DEFAULT_PORT, Integer.class);
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public void setEnvironment(final Environment env) {
-    environment = env;
   }
 
 }

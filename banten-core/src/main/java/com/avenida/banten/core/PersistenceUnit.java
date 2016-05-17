@@ -14,6 +14,7 @@ public class PersistenceUnit {
   private final Class<?> persistenceClass;
 
   /** The factory class for this persistence class, can be null.*/
+  @SuppressWarnings("rawtypes")
   private final Class<? extends Factory> factory;
 
   /** Creates a new instance of the persistence unit with an empty factory.
@@ -30,6 +31,7 @@ public class PersistenceUnit {
    * @param theFactory the factory class for the given persistence unit,
    *  cannot be null.
    */
+  @SuppressWarnings("rawtypes")
   public PersistenceUnit(final Class<?> thePersistenceClass,
       final Class<? extends Factory> theFactory) {
     notNull(thePersistenceClass, "The persistence class cannot be null");
@@ -48,6 +50,7 @@ public class PersistenceUnit {
   /** Retrieves the factory for the current persistence class.
    * @return the factory or null.
    */
+  @SuppressWarnings("rawtypes")
   public Class<? extends Factory> getFactory() {
     return factory;
   }

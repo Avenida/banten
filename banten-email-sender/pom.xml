@@ -10,7 +10,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.avenida.banten</groupId>
   <artifactId>banten-email-sender</artifactId>
   <packaging>jar</packaging>
 

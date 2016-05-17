@@ -1,6 +1,5 @@
 package com.avenida.banten.hazelcast;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
@@ -18,7 +17,6 @@ public class HazelcastSampleApplication extends BantenApplication {
     );
   }
 
-  @Autowired
   @Bean public SampleCacheableBean sampleCacheableBean(
       final HazelcastInstance hz) {
     return new SampleCacheableBean(hz);
