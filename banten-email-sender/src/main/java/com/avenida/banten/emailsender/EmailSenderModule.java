@@ -14,24 +14,6 @@ public class EmailSenderModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getRelativePath() {
-    return "../banten-email-sender";
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public Class<?> getPublicConfiguration() {
     return EmailSenderConfiguration.class;
   }

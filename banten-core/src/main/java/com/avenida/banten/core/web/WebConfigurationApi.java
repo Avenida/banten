@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.Module;
+import com.avenida.banten.core.WebModule;
 
 /** The web configuration API.
  *
@@ -19,7 +19,7 @@ public class WebConfigurationApi extends ConfigurationApi {
    * @return this.
    */
   public WebConfigurationApi addWeblets(final List<Weblet> weblets,
-      final Module module) {
+      final WebModule module) {
     Validate.notNull(weblets, "The list of weblets cannot be null");
     Validate.notNull(module, "The module cannot be null");
     WebletContainer.instance().register(module, weblets);

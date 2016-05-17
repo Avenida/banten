@@ -12,22 +12,6 @@ public class DatabaseTestModule implements Module {
   }
 
   @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getRelativePath() {
-    return "../banten-hibernate";
-  }
-
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
-  }
-
-  @Override
   public Class<?> getPublicConfiguration() {
     return DatabaseTestModuleConfiguration.class;
   }

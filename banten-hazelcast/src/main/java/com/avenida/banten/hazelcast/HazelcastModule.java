@@ -16,24 +16,6 @@ public class HazelcastModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getRelativePath() {
-    return "../banten-hazelcast";
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public Class<?> getPublicConfiguration() {
     return HazelcastConfiguration.class;
   }

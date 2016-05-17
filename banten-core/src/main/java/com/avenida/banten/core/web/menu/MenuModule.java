@@ -10,7 +10,7 @@ import com.avenida.banten.core.web.Weblet;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class MenuModule implements Module {
+public class MenuModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override

@@ -31,24 +31,6 @@ public class ShiroModule implements Module {
 
   /** {@inheritDoc}. */
   @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}. */
-  @Override
-  public String getRelativePath() {
-    return "../banten-core";
-  }
-
-  /** {@inheritDoc}. */
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
-  }
-
-  /** {@inheritDoc}. */
-  @Override
   public Class<?> getPublicConfiguration() {
     return ShiroPublicConfiguration.class;
   }

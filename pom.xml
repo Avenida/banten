@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -12,13 +14,54 @@
   <name>Banten</name>
   <description>Banten</description>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>Avenida.com</name>
+    <url>https://www.avenida.com.ar</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>waabox</id>
+      <name>Emiliano Arango</name>
+      <email>emi@avenida.com</email>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>graña</id>
+      <name>Pablo Graña</name>
+      <email>pablo.grana@avenida.com</email>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>ludueña</id>
+      <name>Lucas Ludueña</name>
+      <email>lucas.luduena@avenida.com</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
   <modules>
     <module>banten-core</module>
-    <module>banten-test-support</module>
     <module>banten-hazelcast</module>
     <module>banten-hibernate</module>
     <module>banten-sample</module>
     <module>banten-email-sender</module>
+    <module>banten-test-support</module>
   </modules>
 
   <scm>

@@ -48,7 +48,7 @@ public class BantenApplicationTest {
 
   }
 
-  public static class SampleModule implements Module {
+  public static class SampleModule implements WebModule {
 
     @Override
     public String getName() {
@@ -108,7 +108,7 @@ public class BantenApplicationTest {
 
   }
 
-  public static class SampleModuleB implements Module {
+  public static class SampleModuleB implements WebModule {
 
     @Override
     public String getName() {
@@ -127,7 +127,7 @@ public class BantenApplicationTest {
 
     @Override
     public Class<?> getPrivateConfiguration() {
-      return null;
+      return Object.class;
     }
 
     @Override

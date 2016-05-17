@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
 
-import com.avenida.banten.core.web.WebModule;
+import com.avenida.banten.core.web.WebAppModule;
 import com.avenida.banten.core.web.menu.MenuModule;
 
 import com.avenida.banten.core.web.sitemesh.SitemeshConfiguration;
@@ -31,7 +31,7 @@ public class SampleApplication extends BantenApplication {
   public SampleApplication() {
     super(
         HibernateModule.class,
-        WebModule.class,
+        WebAppModule.class,
         SitemeshModule.class,
         MenuModule.class,
         TimeModule.class,

@@ -8,30 +8,12 @@ import com.avenida.banten.core.ModuleApiRegistry;
  *
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class WebModule implements Module {
+public class WebAppModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
   public String getName() {
     return "banten-web-module";
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getRelativePath() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
   }
 
   /** {@inheritDoc}.*/

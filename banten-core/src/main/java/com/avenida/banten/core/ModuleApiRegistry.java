@@ -4,7 +4,6 @@ import java.util.*;
 
 /** Holds the {@link ConfigurationApi} implementations for each {@link Module}.
  *
- *
  * @author waabox (emi[at]avenida[dot]com)
  */
 public final class ModuleApiRegistry {

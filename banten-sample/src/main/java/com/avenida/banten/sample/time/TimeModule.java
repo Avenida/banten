@@ -12,7 +12,7 @@ import com.avenida.banten.sample.time.domain.Time;
 /** A simple time module.
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class TimeModule implements Module {
+public class TimeModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override

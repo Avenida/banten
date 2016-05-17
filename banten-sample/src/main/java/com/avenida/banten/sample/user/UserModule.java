@@ -13,7 +13,7 @@ import com.avenida.banten.sample.user.domain.UserFactory;
 /** The user module.
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class UserModule implements Module {
+public class UserModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override

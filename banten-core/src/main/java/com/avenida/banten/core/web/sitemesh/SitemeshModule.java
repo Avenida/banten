@@ -29,24 +29,6 @@ public class SitemeshModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public String getNamespace() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public String getRelativePath() {
-    return "../banten-core";
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
-  public Class<?> getPrivateConfiguration() {
-    return null;
-  }
-
-  /** {@inheritDoc}.*/
-  @Override
   public Class<?> getPublicConfiguration() {
     return SitemeshPublicConfiguration.class;
   }

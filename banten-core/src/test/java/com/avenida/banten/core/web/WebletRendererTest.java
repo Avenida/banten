@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.Module;
 import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.WebModule;
 
 public class WebletRendererTest {
 
@@ -57,7 +57,7 @@ public class WebletRendererTest {
     verify(request, response);
   }
 
-  private static class SampleModule implements Module {
+  private static class SampleModule implements WebModule {
 
     @Override
     public String getName() {

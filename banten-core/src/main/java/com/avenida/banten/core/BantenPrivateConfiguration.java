@@ -3,21 +3,16 @@
 package com.avenida.banten.core;
 
 import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.*;
 
 import org.springframework.core.env.Environment;
 
-import org.springframework.web.servlet.config.annotation
-    .ResourceHandlerRegistration;
-import org.springframework.web.servlet.config.annotation
-    .ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation
-    .WebMvcConfigurationSupport;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.springframework.web.servlet.config.annotation.*;
 
 /** The banten base configuration for the module private spring application
  * context.
@@ -31,18 +26,11 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
   /** The log. */
   private static Logger log = getLogger(BantenPrivateConfiguration.class);
 
-  /** The spring environment, never null.
-   *
-   * WARNING: do not generally autowire properties, IT IS A BAD PRACTICE!!!!
-   * Done here because I did not find another way.
-   */
+  /** The spring environment, never null.*/
   @Autowired private Environment environment;
 
   /** The module description bean that 'owns' the current application
    * context, never null.
-   *
-   * WARNING: do not generally autowire properties, IT IS A BAD PRACTICE!!!!
-   * Done here because I did not find another way.
    */
   @Autowired private ModuleDescription moduleDescription;
 
@@ -51,8 +39,7 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
    * @return the configurer that replaces ${property} with the corresponding
    * environment values. Never returns null.
    */
-  @Bean
-  public static PropertySourcesPlaceholderConfigurer
+  @Bean public static PropertySourcesPlaceholderConfigurer
       propertySourcesPlaceholderConfigurer() {
     return new PropertySourcesPlaceholderConfigurer();
   }
@@ -69,18 +56,17 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
 
     ResourceHandlerRegistration registration;
     registration = registry.addResourceHandler("/**");
+
     if (debugMode) {
       registration.addResourceLocations(
           "file:" + moduleDescription.getRelativePath()
           + "/src/main/resources/" + moduleDescription.getClasspath()
           + "/static/");
     }
+
     registration.addResourceLocations("classpath:/"
         + moduleDescription.getClasspath() + "/static/");
-    log.info("classpath:/"
-            + moduleDescription.getClasspath() + "/static/");
-    //registration.setCachePeriod(cachePeriod);
+
+    log.info("classpath:/" + moduleDescription.getClasspath() + "/static/");
   }
 }
-
-

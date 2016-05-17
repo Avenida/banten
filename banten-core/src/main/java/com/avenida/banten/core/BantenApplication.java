@@ -204,8 +204,8 @@ public abstract class BantenApplication {
    * @param registry the bean definition registry.
    * @param module the module.
    */
-  private void registerApi(
-      final BeanDefinitionRegistry registry, final Module module) {
+  private void registerApi(final BeanDefinitionRegistry registry,
+      final Module module) {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
       ModuleApiRegistry.register(api);
@@ -214,26 +214,30 @@ public abstract class BantenApplication {
 
   /** Register the module private configuration.
    *
-   * This creates a dispatcher servlet with a spring context configured with
+   * This creates a dispatcher Servlet with a spring context configured with
    * the module private configuration if the module defines such private
    * configuration.
    *
    * @param registry the bean definition registry. It cannot be null.
    *
-   * @param module the module to register. It cannot be null.
+   * @param aModule the module to register. It cannot be null.
    */
   private void registerPrivateConfiguration(
-      final BeanDefinitionRegistry registry, final Module module) {
+      final BeanDefinitionRegistry registry, final Module aModule) {
 
-    if (module.getPrivateConfiguration() == null) {
-      // No private configuration, bail out.
+    if (!(aModule instanceof WebModule)) {
       return;
     }
 
+    final WebModule module = (WebModule) aModule;
+
+    Validate.notNull(module.getPrivateConfiguration(),
+        "WebModules must declare a private configuration.");
+
     // Banten will prefix the classpaths of the module with this value. This
     // creates a sort of 'namespace' for the module.
-    final String moduleClasspath = module.getClass().getPackage().getName()
-        .replace(".", "/");
+    final String mClasspath;
+    mClasspath = module.getClass().getPackage().getName().replace(".", "/");
 
     String name = "private-" + module.getName();
 
@@ -241,33 +245,37 @@ public abstract class BantenApplication {
 
     AnnotationConfigWebApplicationContext privateContext;
     privateContext = new AnnotationConfigWebApplicationContext() {
-      @Override
-      /**  Hack to create the banten module description.
+
+      /**  Hack to create the Banten's module description.
        *
        * The AnnotationConfigWebApplicationContext is not a
        * BeanDefinitionRegistry, so we override the loadDefinitions to create
        * a singleton for the module description.
        */
-      protected void loadBeanDefinitions(
+      @Override protected void loadBeanDefinitions(
           final DefaultListableBeanFactory beanFactory) {
         super.loadBeanDefinitions(beanFactory);
         ModuleDescription description = new ModuleDescription(
-            module.getName(), moduleClasspath, module.getNamespace(),
-            module.getRelativePath());
+            module.getName(),
+            mClasspath,
+            module.getNamespace(),
+            module.getRelativePath()
+        );
         beanFactory.registerSingleton("banten.moduleDescription", description);
       }
     };
+
     privateContext.register(BantenPrivateConfiguration.class,
         module.getPrivateConfiguration());
 
     // Adds some module information as environment properties of the current
     // environment.
-    ConfigurableEnvironment environment = privateContext.getEnvironment();
-    MutablePropertySources propertySources = environment.getPropertySources();
-    Map<String, Object> moduleProperties = new HashMap<String, Object>();
-    moduleProperties.put("banten.moduleClasspath", moduleClasspath);
-    propertySources.addFirst(new MapPropertySource(
-        "MODULE_PRIVATE_PROPERTIES", moduleProperties));
+    Map<String, Object> properties = new HashMap<>();
+    properties.put("banten.moduleClasspath", mClasspath);
+
+    MapPropertySource source;
+    source = new MapPropertySource("module.properties", properties);
+    privateContext.getEnvironment().getPropertySources().addFirst(source);
 
     // Let the dispatcher servlet initialize the context. The dispatcher
     // servlet will set the parent, do its magic on the context and call

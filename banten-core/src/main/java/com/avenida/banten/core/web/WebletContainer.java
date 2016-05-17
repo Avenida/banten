@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import org.slf4j.*;
 
-import com.avenida.banten.core.Module;
+import com.avenida.banten.core.WebModule;
 
 import java.util.*;
 
@@ -40,7 +40,7 @@ public final class WebletContainer {
    * @param module the module, cannot be null.
    * @param webletList the list of weblets, cannot be null.
    */
-  public void register(final Module module, final List<Weblet> webletList) {
+  public void register(final WebModule module, final List<Weblet> webletList) {
     Validate.notNull(module, "The module name cannot be null");
     Validate.notNull(webletList, "The weblet cannot be null");
     for (Weblet weblet : webletList) {
@@ -106,7 +106,7 @@ public final class WebletContainer {
   public static final class ModuleWeblet {
 
     /** The module, it's never null.*/
-    private final Module module;
+    private final WebModule module;
 
     /** The weblet, it's never null.*/
     private final Weblet weblet;
@@ -116,7 +116,7 @@ public final class WebletContainer {
      * @param aModule the module, cannot be null.
      * @param aWeblet the weblet, cannot be null.
      */
-    private ModuleWeblet(final Module aModule, final Weblet aWeblet) {
+    private ModuleWeblet(final WebModule aModule, final Weblet aWeblet) {
       Validate.notNull(aModule, "The module cannot be null");
       Validate.notNull(aWeblet, "The weblet cannot be null");
       module = aModule;
