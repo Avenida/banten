@@ -36,7 +36,7 @@ public class UserModule implements WebModule {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPrivateConfiguration() {
-    return UserMVC.class;
+    return UserMvc.class;
   }
 
   /** {@inheritDoc}.*/

@@ -18,7 +18,7 @@ import com.avenida.banten.sample.user.domain.UserRepository;
  */
 @Configuration
 @EnableTransactionManagement
-public class UserMVC {
+public class UserMvc {
 
   @Bean public UserController userController(
       final UserRepository repository,

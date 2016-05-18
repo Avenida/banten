@@ -5,22 +5,19 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.avenida.banten.hibernate.Repository;
 
 /** The time repository.
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class TimeRepository {
-
-  /** the session factory. */
-  private final SessionFactory session;
+public class TimeRepository extends Repository {
 
   /** Creates a new instance of the repository.
    * @param sessionFactory the session factory.
    */
-  @Autowired
   public TimeRepository(final SessionFactory sessionFactory) {
-    session = sessionFactory;
+    super(sessionFactory);
   }
 
   /** Retrieves the stored times.
@@ -28,7 +25,7 @@ public class TimeRepository {
    */
   @SuppressWarnings("unchecked")
   public List<Time> getTimes() {
-    Criteria criteria = session.getCurrentSession().createCriteria(Time.class);
+    Criteria criteria = createCriteria(Time.class);
     return criteria.list();
   }
 
@@ -38,7 +35,7 @@ public class TimeRepository {
    */
   @SuppressWarnings("unchecked")
   public List<Time> find(final String gmt) {
-    Criteria criteria = session.getCurrentSession().createCriteria(Time.class);
+    Criteria criteria = createCriteria(Time.class);
     criteria.add(Restrictions.eq("gmt", gmt));
     return criteria.list();
   }
@@ -47,14 +44,14 @@ public class TimeRepository {
    * @param time the time.
    */
   public void save(final Time time) {
-    session.getCurrentSession().saveOrUpdate(time);
+    getCurrentSession().saveOrUpdate(time);
   }
 
   /** Deletes the given time.
    * @param time the time to delete.
    */
   public void delete(final Time time) {
-    session.getCurrentSession().delete(time);
+    getCurrentSession().delete(time);
   }
 
 }

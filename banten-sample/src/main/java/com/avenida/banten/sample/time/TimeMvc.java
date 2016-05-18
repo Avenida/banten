@@ -1,6 +1,5 @@
 package com.avenida.banten.sample.time;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.*;
@@ -19,9 +18,8 @@ import com.avenida.banten.sample.time.domain.TimeRepository;
  */
 @Configuration
 @EnableTransactionManagement
-public class TimeMVC {
+public class TimeMvc {
 
-  @Autowired
   @Bean public TimeController timeController(final TimeRepository repository) {
     return new TimeController(repository);
   }

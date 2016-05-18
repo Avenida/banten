@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 public class DatabaseTestModuleConfiguration {
 
   @Autowired
-  @Bean public Repository repository(final SessionFactory sf) {
-    return new Repository(sf);
+  @Bean public ATestRepository repository(final SessionFactory sf) {
+    return new ATestRepository(sf);
   }
 
   @Bean public MockEntityWithTuplizerFactory mockEntityWithTuplizerFactory() {

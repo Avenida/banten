@@ -35,7 +35,7 @@ public class TimeModule implements WebModule {
   /** {@inheritDoc}.*/
   @Override
   public Class<?> getPrivateConfiguration() {
-    return TimeMVC.class;
+    return TimeMvc.class;
   }
 
   /** {@inheritDoc}.*/

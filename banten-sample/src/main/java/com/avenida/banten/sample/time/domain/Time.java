@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Time {
   private long id;
 
   /** The GMT. */
+  @Column(name = "gmt", nullable = false)
   private String gmt;
 
   /** Creates a new instance of the Time for Hibernate.*/

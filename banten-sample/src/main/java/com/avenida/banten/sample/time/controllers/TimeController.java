@@ -2,6 +2,7 @@ package com.avenida.banten.sample.time.controllers;
 
 import javax.transaction.Transactional;
 
+import org.jsoup.helper.Validate;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +23,7 @@ public class TimeController {
    * @param theTimeRepository the time repository.
    */
   public TimeController(final TimeRepository theTimeRepository) {
+    Validate.notNull(theTimeRepository, "Time repository cannot be null");
     repository = theTimeRepository;
   }
 

@@ -22,7 +22,7 @@ import com.avenida.banten.testsupport.BantenTest;
 @BantenTest(applicationClass = DatabaseTestModuleApplication.class)
 public class HibernateTest {
 
-  @Autowired Repository repository;
+  @Autowired ATestRepository repository;
 
   @Autowired Transaction tx;
 

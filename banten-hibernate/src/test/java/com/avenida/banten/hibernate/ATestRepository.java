@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 /** Test repository.
  * @author waabox (emi[at]avenida[dot]com)
  */
-public class Repository {
+public class ATestRepository {
 
   private SessionFactory sf;
 
   @Autowired
-  public Repository(final SessionFactory sessionFactory) {
+  public ATestRepository(final SessionFactory sessionFactory) {
     sf = sessionFactory;
   }
 
