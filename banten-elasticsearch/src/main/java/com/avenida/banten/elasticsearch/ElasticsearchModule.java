@@ -5,6 +5,7 @@ import com.avenida.banten.core.Module;
 import com.avenida.banten.core.ModuleApiRegistry;
 
 /** Elasticsearch Module.
+ *
  * @author waabox (emi[at]avenida[dot]com)
  */
 public class ElasticsearchModule implements Module {
