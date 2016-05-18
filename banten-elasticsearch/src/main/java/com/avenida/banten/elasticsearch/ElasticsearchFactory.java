@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 
+import org.elasticsearch.common.lang3.Validate;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
@@ -42,31 +43,30 @@ public class ElasticsearchFactory implements DisposableBean {
   /** The Elasticsearch's node. */
   private final Node node;
 
-  /** The Elasticsearch's configuration. */
-  private final ElasticsearchConfigurator config;
-
   /** Creates a new instance of factory.
    *
-   * @param configurator the configurator.
+   * @param config the {@link Configurator}.
    * @param theMappings the list of mappings.
    */
   @SuppressWarnings("resource")
-  public ElasticsearchFactory(final ElasticsearchConfigurator configurator,
+  public ElasticsearchFactory(final ElasticsearchConfigurator config,
      final List<MappingDefinition> theMappings) {
 
-    log.trace("Creating a new elascticsearch instance");
+    Validate.notNull(config, "The configurator cannot be null");
+    Validate.notNull(theMappings, "The mappings cannot be null");
 
-    config = configurator;
+    log.trace("Creating a new ElasticSearch instance");
+
     ImmutableSettings.Builder settings = settingsBuilder();
 
-    Map<String, String> properties = configurator.get();
+    Map<String, String> properties = config.get();
     for(Entry<String, String> entry : properties.entrySet()) {
       settings.put(entry.getKey(), entry.getValue());
     }
 
     if (config.isLocalNode()) {
 
-      log.trace("Starting local elasticsearch instance.");
+      log.trace("Starting local ElasticSearch instance.");
 
       node = NodeBuilder.nodeBuilder().settings(settings.build()).build();
       node.start();
@@ -80,37 +80,36 @@ public class ElasticsearchFactory implements DisposableBean {
 
       client = node.client();
 
-      mappings(theMappings);
+      mappings(theMappings, config);
 
     } else {
       String host = config.getServerHostName();
-      int port = Integer.parseInt(config.getServerPortNumber());
+      Integer port = config.getServerPortNumber();
 
-      log.trace("Connectin elasticsearch to: {}:{}", host, port);
+      log.trace("Connecting to elasticsearch at: {}:{}", host, port);
 
       client = new TransportClient(settings.build())
         .addTransportAddress(new InetSocketTransportAddress(host, port));
 
       node = null;
-
     }
 
-    log.trace("Leaving elascticsearch creation");
-
+    log.trace("Leaving ElasticSearch creation");
   }
 
   /** Generates the mappings for each type of document.
-   * @param theMappings the list of mappings
+   * @param theMappings the list of mappings.
+   * @param config the Elasticsearch configuration.
    */
-  private void mappings(final List<MappingDefinition> mappings) {
+  private void mappings(final List<MappingDefinition> mappings,
+      final ElasticsearchConfigurator config) {
     log.trace("Entering generateMappings");
 
     for (MappingDefinition mapping : mappings) {
-
       String indexName = mapping.indexName();
       log.debug("Working with the index: {}", indexName);
 
-      if (config.dropOnInit()) {
+      if (config.dropIndexOnStartup()) {
         log.debug("Deleting the index: {}", indexName);
         IndexManager.delete(indexName, client);
       }
@@ -122,7 +121,6 @@ public class ElasticsearchFactory implements DisposableBean {
           log.debug("The index: {} has been created!", indexName);
         }
       }
-
     }
 
     log.trace("Leaving generateMappings");
@@ -131,7 +129,7 @@ public class ElasticsearchFactory implements DisposableBean {
   /** Retrieves the client.
    * @return the Elasticsearch's client, never null.
    */
-  public Client client() {
+  Client client() {
     return client;
   }
 
@@ -153,4 +151,5 @@ public class ElasticsearchFactory implements DisposableBean {
       }
     }
   }
+
 }

@@ -4,7 +4,7 @@ import org.springframework.core.env.Environment;
 
 import com.avenida.banten.core.Configurator;
 
-/** Elasticsearch's configurator.
+/** Elasticsearch's {@link Configurator}.
  *
  * Adds extra keys:
  *  cloud.aws.access_key
@@ -47,15 +47,15 @@ public class ElasticsearchConfigurator extends Configurator {
   /** Retrieves the server port number.
    * @return the serverPortNumber
    */
-  public String getServerPortNumber() {
-    return env().getProperty("elasticsearch.port", String.class, "");
+  public Integer getServerPortNumber() {
+    return env().getProperty("elasticsearch.port", Integer.class);
   }
 
   /** Checks whether or not should delete the index on startup.
    * @return true if should delete the index, by default false.
    */
-  public boolean dropOnInit() {
-    return env().getProperty("elasticsearch.dropOnInit",
+  public boolean dropIndexOnStartup() {
+    return env().getProperty("elasticsearch.dropIndexOnStartup",
         Boolean.class, Boolean.FALSE);
   }
 
