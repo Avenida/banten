@@ -59,6 +59,7 @@
     <module>banten-core</module>
     <module>banten-hazelcast</module>
     <module>banten-hibernate</module>
+    <module>banten-elasticsearch</module>
     <module>banten-sample</module>
     <module>banten-email-sender</module>
     <module>banten-test-support</module>
@@ -110,10 +111,14 @@
       </dependency>
       <dependency>
         <groupId>com.avenida.banten</groupId>
+        <artifactId>banten-elasticsearch</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.avenida.banten</groupId>
         <artifactId>banten-email-sender</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
       <!-- Logging dependencies. -->
       <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
@@ -325,6 +330,20 @@
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-wm</artifactId>
         <version>${hazelcast.version}</version>
+      </dependency>
+
+      <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <!-- Elasticsearch dependencies. -->
+      <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>1.5.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch-cloud-aws</artifactId>
+        <version>2.5.1</version>
       </dependency>
 
       <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->

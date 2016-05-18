@@ -108,5 +108,11 @@ public class Configurator {
     properties.remove(key);
   }
 
-}
+  /** Retrieves the Spring's environment.
+   * @return the Spring's environment.
+   */
+  protected Environment env() {
+    return environment;
+  }
 
+}

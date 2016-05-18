@@ -1,0 +1,15 @@
+{
+  "test2":{
+    "dynamic":"strict",
+    "properties":{
+      "id":{
+        "type":"string",
+        "store":true
+      },
+      "description":{
+        "type":"string",
+        "store":true
+      }
+    }
+  }
+}
