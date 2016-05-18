@@ -28,6 +28,9 @@ public class SampleApplicationIntegrationTest {
 
       assertTrue(xmlPage.contains("Chuck Norris CAN get bacon from a cow"));
       assertTrue(xmlPage.contains("Timezones"));
+      // checks the weblet renders the chuck norris image.
+      assertTrue(xmlPage.contains(
+          "http://www.writecamp.org/writecamp//files/copy_images/Vd3MJo.jpg"));
     }
 
     // post to the page a new GTM value.

@@ -49,7 +49,6 @@ public class WebAppConfiguration {
     * @return a {@link FilterRegistrationBean} instance, never null.
     */
    @Bean(name = "banten.webletRenderer")
-   @Autowired
    public FilterRegistrationBean webletRendererFilter(
        final WebletRenderer renderer) {
      FilterRegistrationBean filterBean = new FilterRegistrationBean();

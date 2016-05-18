@@ -3,8 +3,6 @@ package com.avenida.banten.core.web;
 import org.apache.commons.lang3.Validate;
 import org.jsoup.Jsoup;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -21,7 +19,6 @@ public class WebletRenderer {
    *
    * @param webletContainer the weblet container, cannot be null.
    */
-  @Autowired
   public WebletRenderer(final WebletContainer webletContainer) {
     Validate.notNull(webletContainer, "The weblet container cannot be null");
     container = webletContainer;
