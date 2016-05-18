@@ -24,22 +24,7 @@ target/
 */activemq-data/
 
 # Ignore data folder for elasticsearch
-avenida-admin/data/
-avenida-customer-service-admin/data/
-catalog/data/
-checkout-api/data/
-payment/data/
-core/data/
-
-# Ignore folder for generated client for Swagger
-checkout-api/generated/
-user-api/generated/
-
-# Ignore local application configuration.
-application-local.properties
-application-os-slave.properties
-application-admin-master.properties
-rd-admin-master.properties
+*/data/
 
 # Ignore generated logs.
 */logs/
