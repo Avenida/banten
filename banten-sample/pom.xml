@@ -25,9 +25,25 @@
       <groupId>com.avenida.banten</groupId>
       <artifactId>banten-core</artifactId>
     </dependency>
+
     <dependency>
       <groupId>com.avenida.banten</groupId>
       <artifactId>banten-hibernate</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-camel</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-hazelcast</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-elasticsearch</artifactId>
     </dependency>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->

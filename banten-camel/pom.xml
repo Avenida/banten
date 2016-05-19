@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <parent>
+    <groupId>com.avenida.banten</groupId>
+    <artifactId>banten</artifactId>
+    <version>0.12-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>banten-camel</artifactId>
+  <name>Banten Camel</name>
+
+  <dependencies>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Banten modules -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-core</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Camel dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring-boot</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http4</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Logging dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Testing dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-test-support</artifactId>
+    </dependency>
+
+  </dependencies>
+
+</project>

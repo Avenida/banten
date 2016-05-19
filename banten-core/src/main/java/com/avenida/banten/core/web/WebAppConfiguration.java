@@ -69,60 +69,60 @@ public class WebAppConfiguration {
    * Note: this Servlet is very naive. We should allow the application to
    * configure a more complex strategy to select the landing URL.
    */
- private static class HomeServlet extends HttpServlet {
+  private static class HomeServlet extends HttpServlet {
 
-   /** The serial version id. */
-   private static final long serialVersionUID = 1L;
+    /** The serial version id. */
+    private static final long serialVersionUID = 1L;
 
-   /** The configured landing url, never null. */
-   private final String landingUrl;
+    /** The configured landing url, never null. */
+    private final String landingUrl;
 
-   /** Creates the home servlet.
-    *
-    * @param theLandingUrl the landing url. It cannot be null.
-    */
-   public HomeServlet(final String theLandingUrl) {
-     Validate.notNull(theLandingUrl, "The landing page cannot be null.");
-     landingUrl = theLandingUrl;
-   }
+    /** Creates the home Servlet.
+     *
+     * @param theLandingUrl the landing URL. It cannot be null.
+     */
+    public HomeServlet(final String theLandingUrl) {
+      Validate.notNull(theLandingUrl, "The landing page cannot be null.");
+      landingUrl = theLandingUrl;
+    }
 
-   /** {@inheritDoc}.*/
-   @Override
-   public void service(final HttpServletRequest request,
-       final HttpServletResponse response)
-           throws ServletException, IOException {
-     RedirectView redirectView = new RedirectView(landingUrl);
-     try {
-       redirectView.render(null, request, response);
-     } catch (IOException | ServletException e) {
-       throw e;
-     } catch (Exception e) {
-       throw new ServletException("Error redirecting to home page", e);
-     }
-   }
- }
+    /** {@inheritDoc}.*/
+    @Override
+    public void service(final HttpServletRequest request,
+        final HttpServletResponse response)
+            throws ServletException, IOException {
+      RedirectView redirectView = new RedirectView(landingUrl);
+      try {
+        redirectView.render(null, request, response);
+      } catch (IOException | ServletException e) {
+        throw e;
+      } catch (Exception e) {
+        throw new ServletException("Error redirecting to home page", e);
+      }
+    }
+  }
 
- /** Creates the home servlet if the application-wise landing url is defined.
-  *
-  * @param landingUrl the application-wise landing url. Null if not defined.
-  * See BantenApplication.setLandingUrl() for more information.
-  *
-  * @return the home servlet (an instance of HomeServlet) mapped to the root
-  * path of the web application context if the landingUrl is not null. If
-  * landingUrl is null, this operation returns null and the servlet container
-  * will handle all requests to the root path.
-  */
-   @Bean(name = "banten.homeServlet")
-   @ConditionalOnBean(name = "banten.landingUrl")
-   public ServletRegistrationBean homeServlet(
-       @Qualifier("banten.landingUrl") final String landingUrl) {
-     ServletRegistrationBean servletBean = null;
-     if (landingUrl != null) {
-       HomeServlet servlet = new HomeServlet(landingUrl);
-       servletBean = new ServletRegistrationBean(servlet, false, "");
-       servletBean.setOrder(Integer.MAX_VALUE);
-     }
-     return servletBean;
-   }
+  /** Creates the home servlet if the application-wise landing url is defined.
+   *
+   * @param landingUrl the application-wise landing url. Null if not defined.
+   * See BantenApplication.setLandingUrl() for more information.
+   *
+   * @return the home servlet (an instance of HomeServlet) mapped to the root
+   * path of the web application context if the landingUrl is not null. If
+   * landingUrl is null, this operation returns null and the servlet container
+   * will handle all requests to the root path.
+   */
+  @Bean(name = "banten.homeServlet")
+  @ConditionalOnBean(name = "banten.landingUrl")
+  public ServletRegistrationBean homeServlet(
+      @Qualifier("banten.landingUrl") final String landingUrl) {
+  ServletRegistrationBean servletBean = null;
+  if (landingUrl != null) {
+    HomeServlet servlet = new HomeServlet(landingUrl);
+    servletBean = new ServletRegistrationBean(servlet, false, "");
+      servletBean.setOrder(Integer.MAX_VALUE);
+    }
+    return servletBean;
+  }
 
 }

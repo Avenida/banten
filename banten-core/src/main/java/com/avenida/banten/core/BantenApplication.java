@@ -82,13 +82,13 @@ public abstract class BantenApplication {
     moduleClasses = Arrays.asList(modules);
   }
 
-  /** Sets the landing url.
+  /** Sets the landing URL.
    *
    * If called, you must pass a non-null value. If not called, the web
    * application container will define how to handle requests to the root of
    * the web context.
    *
-   * @param theLandingUrl the landing url. It cannot be null.
+   * @param theLandingUrl the landing URL. It cannot be null.
    */
   protected void setLandingUrl(final String theLandingUrl) {
     landingUrl = theLandingUrl;
@@ -233,13 +233,15 @@ public abstract class BantenApplication {
 
     Validate.notNull(module.getPrivateConfiguration(),
         "WebModules must declare a private configuration.");
+    Validate.notNull(module.getNamespace(),
+        "WebModules must declare a namespace.");
 
-    // Banten will prefix the classpaths of the module with this value. This
-    // creates a sort of 'namespace' for the module.
+    /*
+     * Banten will prefix the classpaths of the module with this value.
+     * This creates a sort of 'namespace' for the module.
+     */
     final String mClasspath;
     mClasspath = module.getClass().getPackage().getName().replace(".", "/");
-
-    String name = "private-" + module.getName();
 
     log.info("Registering Private configuration for: {}", module.getName());
 
@@ -268,8 +270,6 @@ public abstract class BantenApplication {
     privateContext.register(BantenPrivateConfiguration.class,
         module.getPrivateConfiguration());
 
-    // Adds some module information as environment properties of the current
-    // environment.
     Map<String, Object> properties = new HashMap<>();
     properties.put("banten.moduleClasspath", mClasspath);
 
@@ -277,21 +277,26 @@ public abstract class BantenApplication {
     source = new MapPropertySource("module.properties", properties);
     privateContext.getEnvironment().getPropertySources().addFirst(source);
 
-    // Let the dispatcher servlet initialize the context. The dispatcher
-    // servlet will set the parent, do its magic on the context and call
-    // refresh.
+    /*
+     * Let the dispatcher Servlet initialize the context. The dispatcher
+     * Servlet will set the parent, do its magic on the context and call
+     * refresh.
+     */
     DispatcherServlet dispatcherServlet;
     dispatcherServlet = new DispatcherServlet(privateContext);
 
-    // Create a bean definition for a bean of type ServletRegistrationBean
-    // that registers the dispatcherServlet in the web context. We cannot
-    // add this to the BantenPrivateConfiguration because we manually create
-    // the dispatcher servlet.
-    ConstructorArgumentValues dispatcherMapping;
-    dispatcherMapping = new ConstructorArgumentValues();
-    dispatcherMapping.addIndexedArgumentValue(0, dispatcherServlet);
-    dispatcherMapping.addIndexedArgumentValue(1,
-        "/" + module.getNamespace() + "/*");
+    /*
+     * Create a bean definition for a bean of type ServletRegistrationBean
+     * that registers the dispatcherServlet in the web context. We cannot
+     * add this to the BantenPrivateConfiguration because we manually create
+     * the dispatcher Servlet.
+     */
+    ConstructorArgumentValues constructor;
+    constructor = new ConstructorArgumentValues();
+    constructor.addIndexedArgumentValue(0, dispatcherServlet);
+    constructor.addIndexedArgumentValue(1, "/" + module.getNamespace() + "/*");
+
+    String name = "private-" + module.getName();
 
     MutablePropertyValues beanNamePropertyValue = new MutablePropertyValues();
     beanNamePropertyValue.add("name", name);
@@ -299,17 +304,17 @@ public abstract class BantenApplication {
     GenericBeanDefinition servletRegistrationBean;
     servletRegistrationBean = new GenericBeanDefinition();
     servletRegistrationBean.setBeanClass(ServletRegistrationBean.class);
-    servletRegistrationBean.setConstructorArgumentValues(dispatcherMapping);
+    servletRegistrationBean.setConstructorArgumentValues(constructor);
     servletRegistrationBean.setPropertyValues(beanNamePropertyValue);
     servletRegistrationBean.setLazyInit(true);
 
     registry.registerBeanDefinition(name, servletRegistrationBean);
   }
 
-  /** Register the banten core beans in the provided bean definition registry.
+  /** Register the Banten's core beans in the provided bean definition registry.
    *
    * The provided registry should correspond to the public application context,
-   * so this operation adds the banten core beans to the public application
+   * so this operation adds the Banten's core beans to the public application
    * context.
    *
    * @param registry the bean definition registry. It cannot be null.

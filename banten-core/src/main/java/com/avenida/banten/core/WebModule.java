@@ -9,7 +9,7 @@ public interface WebModule extends Module {
 
   /** Retrieves the module namespace, typically this will be the Servlet's
    * context path.
-   * @return the name-space, can be null.
+   * @return the name-space, never null.
    */
   String getNamespace();
 
@@ -20,12 +20,14 @@ public interface WebModule extends Module {
   * file system location: <relativePath>/src/main/resources. This makes
   * it possible, for example, to refresh static content sent to the browser.
   *
-  * @return the file systemn relative path, never null.
+  * @return the file system relative path, never null.
   */
   String getRelativePath();
 
-  /** Retrieves the private Module configuration.
-  * @return the configuration, can be null.
+  /** Retrieves the private Module configuration, typically this will contains
+   * the MVC configuration.
+   *
+  * @return the configuration, never null.
   */
   Class<?> getPrivateConfiguration();
 
