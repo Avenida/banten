@@ -46,6 +46,16 @@
       <artifactId>banten-elasticsearch</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-shiro</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-web</artifactId>
+    </dependency>
+
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Logging dependencies. -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->

@@ -61,6 +61,8 @@
     <module>banten-email-sender</module>
     <module>banten-test-support</module>
     <module>banten-camel</module>
+    <module>banten-shiro</module>
+    <module>banten-web</module>
   </modules>
 
   <scm>
@@ -125,6 +127,16 @@
       <dependency>
         <groupId>com.avenida.banten</groupId>
         <artifactId>banten-camel</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.avenida.banten</groupId>
+        <artifactId>banten-shiro</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.avenida.banten</groupId>
+        <artifactId>banten-web</artifactId>
         <version>${project.version}</version>
       </dependency>
 

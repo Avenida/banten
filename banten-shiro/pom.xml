@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.avenida.banten</groupId>
+    <artifactId>banten</artifactId>
+    <version>0.12-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>banten-shiro</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Banten Shiro</name>
+  <description>Banten Shiro</description>
+
+  <dependencies>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Banten modules -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-core</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Apache commons related dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Apache shiro dependencies. -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+    </dependency>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Test dependencies -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.avenida.banten</groupId>
+      <artifactId>banten-test-support</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <!-- vim: set ts=2 et sw=2 ai: -->
+</project>

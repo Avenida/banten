@@ -6,11 +6,10 @@ import org.springframework.transaction.annotation.*;
 
 import org.springframework.web.servlet.*;
 
-import com.avenida.banten.core.web.freemarker.FreeMarkerConfigurer;
-import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
-
 import com.avenida.banten.sample.time.controllers.TimeController;
 import com.avenida.banten.sample.time.domain.TimeRepository;
+import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
+import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
 
 /** The MVC configuration.
  *

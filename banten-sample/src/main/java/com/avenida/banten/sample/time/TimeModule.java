@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 import com.avenida.banten.core.*;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
-
-import com.avenida.banten.core.web.menu.MenuConfigurationApi;
-
 import com.avenida.banten.sample.time.domain.Time;
+import com.avenida.banten.web.menu.MenuConfigurationApi;
 
 /** A simple time module.
  * @author waabox (emi[at]avenida[dot]com)

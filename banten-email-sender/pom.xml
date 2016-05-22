@@ -53,6 +53,12 @@
       <artifactId>spring-test</artifactId>
     </dependency>
 
+    <!-- Freemarker -->
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+    </dependency>
+
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Web related dependencies (including spring) -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->

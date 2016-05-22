@@ -3,12 +3,12 @@ package com.avenida.banten.sample.user;
 import java.util.Arrays;
 
 import com.avenida.banten.core.*;
-import com.avenida.banten.core.web.WebConfigurationApi;
-import com.avenida.banten.core.web.Weblet;
-import com.avenida.banten.core.web.menu.MenuConfigurationApi;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
+import com.avenida.banten.web.WebConfigurationApi;
+import com.avenida.banten.web.Weblet;
+import com.avenida.banten.web.menu.MenuConfigurationApi;
 
 /** The user module.
  * @author waabox (emi[at]avenida[dot]com)

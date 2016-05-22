@@ -7,11 +7,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import org.springframework.web.servlet.ViewResolver;
 
-import com.avenida.banten.core.web.freemarker.FreeMarkerConfigurer;
-import com.avenida.banten.core.web.freemarker.FreeMarkerViewResolver;
 import com.avenida.banten.sample.user.controllers.UserController;
 import com.avenida.banten.sample.user.domain.UserFactory;
 import com.avenida.banten.sample.user.domain.UserRepository;
+import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
+import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
 
 /** The user MVC.
  * @author waabox (emi[at]avenida[dot]com)
