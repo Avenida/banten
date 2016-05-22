@@ -10,8 +10,6 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.avenida.banten.core.ServletOutputInterceptor;
-
 /** A response wrapper that intercepts the data sent by the servlets and makes
  * it available as a string.
  */

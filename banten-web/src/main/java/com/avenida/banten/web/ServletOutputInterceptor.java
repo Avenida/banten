@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.web;
 
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -26,6 +26,8 @@ import org.apache.commons.lang3.Validate;
  * The stream you provide will receive the body sent to the response object.
  * This interceptor has a write through option that, when set, also copies the
  * output to the original response.
+ *
+ * @author waabox (emi[at]avenida[dot]com)
  */
 public abstract class ServletOutputInterceptor extends
     HttpServletResponseWrapper {
