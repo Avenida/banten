@@ -13,7 +13,7 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
  *
  * @see Module#getConfigurationApi()
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public abstract class ConfigurationApi {
 

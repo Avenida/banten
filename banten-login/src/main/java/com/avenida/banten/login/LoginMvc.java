@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 
 /** Login Module MVC configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 public class LoginMvc {

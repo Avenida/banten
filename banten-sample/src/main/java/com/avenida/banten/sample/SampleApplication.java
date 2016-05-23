@@ -17,7 +17,7 @@ import com.avenida.banten.web.sitemesh.SitemeshModule;
 
 /** The Sample application Factory.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SampleApplication extends BantenApplication {
 

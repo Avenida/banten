@@ -33,7 +33,7 @@ import org.springframework.transaction.support.*;
  * WARNING: we do not make any guarantee on the order in which we execute
  * rollback actions.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class Transaction {
 

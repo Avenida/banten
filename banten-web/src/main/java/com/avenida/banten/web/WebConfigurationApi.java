@@ -9,7 +9,7 @@ import com.avenida.banten.core.WebModule;
 
 /** The web configuration API.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class WebConfigurationApi extends ConfigurationApi {
 

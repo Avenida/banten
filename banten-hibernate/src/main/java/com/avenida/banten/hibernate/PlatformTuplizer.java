@@ -15,7 +15,7 @@ import com.avenida.banten.core.*;
 /** Platform Tuplizer that use the Factories declared within
  * the PersistenceUnit.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class PlatformTuplizer extends PojoEntityTuplizer {
 
@@ -45,7 +45,7 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
   /** Instantiator that serch within the PersistenceUnits the ones that
    * has been declared a Factory and use it as Instantiator.
    *
-   * @author waabox (emi[at]avenida[dot]com)
+   * @author waabox (waabox[at]gmail[dot]com)
    */
   public static class BantenInstantiator extends PojoInstantiator {
 

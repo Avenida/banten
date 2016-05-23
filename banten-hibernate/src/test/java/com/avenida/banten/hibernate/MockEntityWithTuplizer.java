@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Tuplizer;
 
 /**
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Entity
 @Table(name = "mock_entity_with_tuplizer")

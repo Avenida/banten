@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import com.avenida.banten.hibernate.Repository;
 
 /** The time repository.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class TimeRepository extends Repository {
 

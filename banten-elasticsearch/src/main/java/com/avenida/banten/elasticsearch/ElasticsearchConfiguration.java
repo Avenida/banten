@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 
 /** The Elasticsearch's Module Configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @EnableConfigurationProperties

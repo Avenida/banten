@@ -6,7 +6,7 @@ import static org.apache.commons.lang3.Validate.*;
  * factory class in order to customize the standard Hibernate's object
  * creation.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class PersistenceUnit {
 

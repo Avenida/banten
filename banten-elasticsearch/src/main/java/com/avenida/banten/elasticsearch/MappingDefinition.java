@@ -3,7 +3,7 @@ import java.io.IOException;
 
 /** Holds the neccesary information in order to: create and map an index.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public interface MappingDefinition {
 

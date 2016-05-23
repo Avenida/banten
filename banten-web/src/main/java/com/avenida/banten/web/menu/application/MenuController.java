@@ -12,7 +12,7 @@ import com.avenida.banten.web.menu.MenuConfigurationApi;
 
 /** The {@link MenuBar} controller.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @RestController
 @RequestMapping("/menu/")

@@ -18,7 +18,7 @@ import org.apache.camel.Exchange;
  *
  * TODO [Use generics instead of Object within the 'body'].
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class MessageRequest {
 

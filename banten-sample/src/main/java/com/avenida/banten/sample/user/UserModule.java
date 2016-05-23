@@ -11,7 +11,7 @@ import com.avenida.banten.web.Weblet;
 import com.avenida.banten.web.menu.MenuConfigurationApi;
 
 /** The user module.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class UserModule implements WebModule {
 

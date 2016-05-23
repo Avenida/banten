@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 /** Initialization context that holds within a {@link ThreadLocal} values
  * that will be used in the Spring's initialization.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class InitContext {
 

@@ -10,7 +10,7 @@ import com.hazelcast.core.HazelcastInstance;
 /** Just a sample singleton bean that counts the number of times that the
  * method called has been called.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SampleCacheableBean {
 

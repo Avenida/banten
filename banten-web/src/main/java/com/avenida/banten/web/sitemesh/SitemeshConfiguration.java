@@ -10,7 +10,7 @@ import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
  * module to their application. Simply add a bean of this type to the banten
  * application subclass or any of the modules.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SitemeshConfiguration {
 

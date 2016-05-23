@@ -7,7 +7,7 @@ import com.hazelcast.core.HazelcastInstance;
 
 /** Just a sample hazelcast application.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class HazelcastSampleApplication extends BantenApplication {
 

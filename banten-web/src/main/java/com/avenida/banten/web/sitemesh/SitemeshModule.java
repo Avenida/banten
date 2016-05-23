@@ -17,7 +17,7 @@ import com.avenida.banten.core.*;
  * module. The SitemeshConfiguration specifies the location of the decorators
  * and the file system relative location of that location.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SitemeshModule implements Module {
 

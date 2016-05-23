@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.avenida.banten.sample.time.domain.*;
 
 /** The time controller.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @RestController
 @RequestMapping("/time")

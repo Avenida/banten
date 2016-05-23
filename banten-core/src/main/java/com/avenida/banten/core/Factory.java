@@ -2,7 +2,7 @@ package com.avenida.banten.core;
 
 /** Base factory interface.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public interface Factory<T> {
 

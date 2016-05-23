@@ -11,7 +11,7 @@ import com.avenida.banten.core.ConfigurationApi;
  *
  * TODO[waabox] please doc me!.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class MenuConfigurationApi extends ConfigurationApi {
 

@@ -4,7 +4,7 @@ import com.avenida.banten.core.*;
 
 /** Camel Module.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class CamelModule implements Module {
 

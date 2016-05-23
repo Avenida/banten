@@ -49,7 +49,7 @@ import com.avenida.banten.core.PersistenceUnit;
  * db.user
  * db.driver
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @EnableConfigurationProperties

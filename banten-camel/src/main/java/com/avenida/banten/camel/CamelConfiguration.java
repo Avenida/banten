@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 /** Camel public configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @Import({

@@ -39,7 +39,7 @@ import org.sitemesh.webapp.WebAppContext;
  * 'XMLHttpRequest'.
  * 3- the requested url contains the string '/api/'
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class BantenSitemeshDecoratorSelector
   implements DecoratorSelector<WebAppContext> {

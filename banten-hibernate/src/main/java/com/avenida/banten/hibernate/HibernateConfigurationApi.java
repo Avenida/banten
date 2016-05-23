@@ -7,7 +7,7 @@ import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class HibernateConfigurationApi extends ConfigurationApi {
 

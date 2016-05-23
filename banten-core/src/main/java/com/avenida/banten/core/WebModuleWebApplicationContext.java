@@ -25,7 +25,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  * configures the {@link WebModule} in order to set the module classpath and
  * its private configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class WebModuleWebApplicationContext
   extends AnnotationConfigWebApplicationContext {

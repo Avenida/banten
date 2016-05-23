@@ -22,7 +22,7 @@ import org.elasticsearch.indices.IndexAlreadyExistsException;
 /** Helper class that holds methods that interact with elasticsearch in order
  * to provide: creation, delete and exists methods.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public final class IndexManager {
 

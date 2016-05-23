@@ -12,7 +12,7 @@ import com.avenida.banten.hibernate.PlatformTuplizer;
 import com.avenida.banten.sample.time.domain.*;
 
 /** The user entity.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Entity
 @Table(name = "users")

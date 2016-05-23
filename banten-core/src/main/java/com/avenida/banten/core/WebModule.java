@@ -3,7 +3,7 @@ package com.avenida.banten.core;
 /** A web module has a private configuration in order to declare endpoints,
  * repositories, etc that will be used within its own context.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public interface WebModule extends Module {
 

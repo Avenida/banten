@@ -3,7 +3,7 @@ package com.avenida.banten.hibernate;
 import com.avenida.banten.core.BantenApplication;
 
 /** Database test module application.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class DatabaseTestModuleApplication extends BantenApplication {
 

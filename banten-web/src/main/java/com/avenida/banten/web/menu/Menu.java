@@ -11,7 +11,7 @@ import org.apache.commons.lang3.*;
  * TODO [waabox] add an attribute that allow us to order the menu.
  * TODO [waabox] please doc.me
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class Menu {
 

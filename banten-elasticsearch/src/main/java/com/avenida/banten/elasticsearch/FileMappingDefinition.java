@@ -9,7 +9,7 @@ import org.apache.commons.lang3.Validate;
 /** A file mapping definition that allows using of a file in order to
  * generate the mapping and settings.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class FileMappingDefinition implements MappingDefinition {
 

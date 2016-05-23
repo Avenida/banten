@@ -11,7 +11,7 @@ import java.util.*;
 
 /** Holds Weblets that modules has been declared.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public final class WebletContainer {
 

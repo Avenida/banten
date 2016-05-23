@@ -8,7 +8,7 @@ import com.avenida.banten.sample.time.domain.Time;
 import com.avenida.banten.web.menu.MenuConfigurationApi;
 
 /** A simple time module.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class TimeModule implements WebModule {
 

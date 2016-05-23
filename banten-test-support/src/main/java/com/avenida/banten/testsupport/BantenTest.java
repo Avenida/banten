@@ -22,7 +22,7 @@ import com.avenida.banten.core.BantenTestContextLoader;
  *
  * to your junit 4 test class.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @ContextConfiguration(loader = BantenTestContextLoader.class)
 @Documented

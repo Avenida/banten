@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import com.avenida.banten.hibernate.Repository;
 
 /** The user repository.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class UserRepository extends Repository {
 

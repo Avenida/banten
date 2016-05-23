@@ -23,7 +23,7 @@ import com.hazelcast.spring.cache.HazelcastCacheManager;
  * Enables the {@link EnableCaching} and also declares the bean that expose
  * the {@link CacheManager}.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @EnableCaching

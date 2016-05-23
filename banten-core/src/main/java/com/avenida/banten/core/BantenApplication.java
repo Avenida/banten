@@ -39,7 +39,7 @@ import org.springframework.context.*;
  *
  *</code>
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public abstract class BantenApplication {
 

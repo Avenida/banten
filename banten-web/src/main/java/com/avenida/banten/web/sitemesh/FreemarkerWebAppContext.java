@@ -20,7 +20,7 @@ import freemarker.template.*;
  * This context use Freemarker instead of the request dispatcher implemented
  * within the Sitemesh's {@link WebAppContext}.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class FreemarkerWebAppContext extends WebAppContext {
 

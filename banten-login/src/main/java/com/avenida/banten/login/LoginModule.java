@@ -6,7 +6,7 @@ import com.avenida.banten.core.WebModule;
 
 /** Login Module description.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class LoginModule implements WebModule {
 
