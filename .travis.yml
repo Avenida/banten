@@ -1,0 +1,11 @@
+language: java
+
+script:
+ - mvn clean install
+
+notifications:
+  email:
+    recipients:
+      - waabox@gmail.com
+    on_success: always # [always|never|change] default: change
+    on_failure: always # [always|never|change] default: always
