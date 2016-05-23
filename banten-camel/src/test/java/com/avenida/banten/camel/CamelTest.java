@@ -1,4 +1,4 @@
-package com.avenida.banten;
+package com.avenida.banten.camel;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.avenida.banten.camel.MessageRequest;
 import com.avenida.banten.camel.MessageResponse;
-import com.avenida.banten.camel.SampleCamelApplication;
 import com.avenida.banten.camel.ServiceBus;
 import com.avenida.banten.testsupport.BantenTest;
 
