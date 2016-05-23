@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.web;
 
 import java.io.IOException;
 

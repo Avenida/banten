@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

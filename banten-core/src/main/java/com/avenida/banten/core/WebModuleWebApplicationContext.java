@@ -57,11 +57,6 @@ public class WebModuleWebApplicationContext
     module = webModule;
     classpath = webModule.getClass().getPackage().getName().replace(".", "/");
 
-    init();
-  }
-
-  /** Initializes the configuration.*/
-  private void init() {
     register(BantenPrivateConfiguration.class,
         module.getPrivateConfiguration());
 
@@ -72,6 +67,7 @@ public class WebModuleWebApplicationContext
     source = new MapPropertySource("module.properties", properties);
     getEnvironment().getPropertySources().addFirst(source);
   }
+
 
   /** {@inheritDoc}.
    *

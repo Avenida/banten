@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.web;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
+
+import com.avenida.banten.web.Context;
 
 public class ContextTest {
 

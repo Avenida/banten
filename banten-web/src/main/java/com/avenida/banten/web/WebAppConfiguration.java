@@ -19,8 +19,6 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.avenida.banten.core.ContextFilter;
-
 /** Web application module public configuration.
  *
  * @author waabox (emi[at]avenida[dot]com)

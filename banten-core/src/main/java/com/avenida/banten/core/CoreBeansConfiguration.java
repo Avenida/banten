@@ -1,12 +1,9 @@
-package com.avenida.banten.core.beans;
+package com.avenida.banten.core;
 
 import java.util.*;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support
-  .PropertySourcesPlaceholderConfigurer;
-
-import com.avenida.banten.core.*;
+import org.springframework.context.support.*;
 
 /** Core bean configuration.
  * @author waabox (emi[at]avenida[dot]com)

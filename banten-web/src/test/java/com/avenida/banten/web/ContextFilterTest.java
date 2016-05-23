@@ -1,4 +1,4 @@
-package com.avenida.banten.core;
+package com.avenida.banten.web;
 
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.springframework.mock.web.MockFilterChain;
+
+import com.avenida.banten.web.Context;
+import com.avenida.banten.web.ContextFilter;
 
 public class ContextFilterTest {
 

@@ -15,8 +15,6 @@ import org.springframework.boot.*;
 
 import org.springframework.context.*;
 
-import com.avenida.banten.core.beans.CoreBeansConfiguration;
-
 /** Bootstrap the Banten's Application.
  *
  * The application creates a {@link SpringApplication} using the {@link Module}
