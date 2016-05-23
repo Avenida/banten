@@ -62,10 +62,6 @@ public class HibernateConfiguration {
   @Autowired @Resource(name = "persistenceUnitList")
   private List<PersistenceUnit> persistenceUnitList;
 
-  /** The Spring's environment. */
-  @Autowired
-  private Environment environment;
-
   /** DataSource bean definition.
    * @return the DataSource to be used by the application.
    * */
@@ -92,7 +88,8 @@ public class HibernateConfiguration {
    * @return the Hibernate's SessionFactory.
    * */
   @Bean(name = "banten.sessionFactory")
-  public SessionFactory bantenSessionFactory(final DataSource dataSource) {
+  public SessionFactory bantenSessionFactory(final DataSource dataSource,
+      final Environment environment) {
     Validate.notNull(persistenceUnitList,  "The list cannot be null");
     Validate.notNull(dataSource, "The datasource cannot be null");
 
