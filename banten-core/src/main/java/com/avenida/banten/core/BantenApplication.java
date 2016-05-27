@@ -23,7 +23,7 @@ import org.springframework.context.*;
  * Each {@link Module} defines public beans within the
  * {@link Module#getModuleConfiguration}, those one will be merge into the
  * main application context. However, configuration declared within the
- * {@link Module#getPrivateConfiguration()} will be isolated; The main or
+ * {@link Module#getMvcConfiguration()} will be isolated; The main or
  * parent {@link ApplicationContext} is the same where {@link Module}s has
  * been declared.
  *

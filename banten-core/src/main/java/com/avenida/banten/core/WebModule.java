@@ -24,11 +24,11 @@ public interface WebModule extends Module {
   */
   String getRelativePath();
 
-  /** Retrieves the private Module configuration, typically this will contains
-   * the MVC configuration.
+  /** Retrieves the MVC configuration, this will be the
+   * private Module configuration.
    *
   * @return the configuration, never null.
   */
-  Class<?> getPrivateConfiguration();
+  Class<?> getMvcConfiguration();
 
 }

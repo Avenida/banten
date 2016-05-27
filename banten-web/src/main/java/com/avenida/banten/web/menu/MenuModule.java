@@ -32,7 +32,7 @@ public class MenuModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getPrivateConfiguration() {
+  public Class<?> getMvcConfiguration() {
     return MenuMvc.class;
   }
 

@@ -65,7 +65,7 @@ public class LoginModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getPrivateConfiguration() {
+  public Class<?> getMvcConfiguration() {
     return LoginMvc.class;
   }
 

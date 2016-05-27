@@ -45,7 +45,7 @@ public class WebModuleWebApplicationContext
   WebModuleWebApplicationContext(final WebModule webModule) {
     Validate.notNull(webModule, "The module cannot be null");
 
-    Validate.notNull(webModule.getPrivateConfiguration(),
+    Validate.notNull(webModule.getMvcConfiguration(),
         "WebModules must declare a private configuration.");
     Validate.notNull(webModule.getNamespace(),
         "WebModules must declare a namespace.");
@@ -58,7 +58,7 @@ public class WebModuleWebApplicationContext
     classpath = webModule.getClass().getPackage().getName().replace(".", "/");
 
     register(BantenPrivateConfiguration.class,
-        module.getPrivateConfiguration());
+        module.getMvcConfiguration());
 
     Map<String, Object> properties = new HashMap<>();
     properties.put("banten.moduleClasspath", classpath);

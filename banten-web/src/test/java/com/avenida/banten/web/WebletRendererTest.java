@@ -80,7 +80,7 @@ public class WebletRendererTest {
     }
 
     @Override
-    public Class<?> getPrivateConfiguration() {
+    public Class<?> getMvcConfiguration() {
       return null;
     }
 

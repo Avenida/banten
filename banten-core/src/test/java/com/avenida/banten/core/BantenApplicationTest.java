@@ -66,7 +66,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public Class<?> getPrivateConfiguration() {
+    public Class<?> getMvcConfiguration() {
       return ModulePrivateConfiguration.class;
     }
 
@@ -126,7 +126,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public Class<?> getPrivateConfiguration() {
+    public Class<?> getMvcConfiguration() {
       return Object.class;
     }
 
