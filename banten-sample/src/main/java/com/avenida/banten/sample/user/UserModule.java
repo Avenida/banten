@@ -3,9 +3,15 @@ package com.avenida.banten.sample.user;
 import java.util.Arrays;
 
 import com.avenida.banten.core.*;
+
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
+
 import com.avenida.banten.sample.user.domain.User;
 import com.avenida.banten.sample.user.domain.UserFactory;
+
+import com.avenida.banten.shiro.ShiroConfigurationApi;
+import com.avenida.banten.shiro.UrlToRoleMapping;
+
 import com.avenida.banten.web.WebConfigurationApi;
 import com.avenida.banten.web.Weblet;
 import com.avenida.banten.web.menu.MenuConfigurationApi;
@@ -57,9 +63,7 @@ public class UserModule implements WebModule {
 
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(
-        Arrays.asList(
-            new PersistenceUnit(User.class, UserFactory.class)
-        )
+          new PersistenceUnit(User.class, UserFactory.class)
      );
 
     registry.get(WebConfigurationApi.class)
@@ -71,6 +75,9 @@ public class UserModule implements WebModule {
     registry.get(MenuConfigurationApi.class)
       .root("Users", "/users")
       .node("List", "/users/users/list.html", "/users");
+
+    registry.get(ShiroConfigurationApi.class)
+      .register(new UrlToRoleMapping("/users/users/list.html", "admin"));
 
   }
 

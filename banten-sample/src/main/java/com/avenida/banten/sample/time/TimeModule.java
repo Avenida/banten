@@ -1,7 +1,5 @@
 package com.avenida.banten.sample.time;
 
-import java.util.Arrays;
-
 import com.avenida.banten.core.*;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
 import com.avenida.banten.sample.time.domain.Time;
@@ -54,9 +52,7 @@ public class TimeModule implements WebModule {
 
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(
-          Arrays.asList(
-              new PersistenceUnit(Time.class)
-          )
+          new PersistenceUnit(Time.class)
       );
 
     registry.get(MenuConfigurationApi.class)

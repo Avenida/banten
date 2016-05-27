@@ -87,6 +87,11 @@ public final class WebletContainer {
     /** {@inheritDoc}. */
     @Override
     public boolean equals(final Object obj) {
+
+      if (obj == null || (!(obj instanceof Key))) {
+        return false;
+      }
+
       Key key = (Key) obj;
       return moduleName.equals(key.moduleName)
           && webletName.equals(key.webletName);

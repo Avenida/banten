@@ -113,8 +113,7 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
       if (!initialized) {
         synchronized (initialized) {
           List<PersistenceUnit> persistenceUnits;
-          persistenceUnits = ModuleServiceLocator.getBean(
-              "persistenceUnitList");
+          persistenceUnits = HibernateConfigurationApi.getPersistenceUnits();
           for(PersistenceUnit pu : persistenceUnits) {
             instance.factories.put(
                 pu.getPersistenceClass().getName(), pu.getFactory());
