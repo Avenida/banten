@@ -33,7 +33,7 @@ public class LoginModule implements WebModule {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return null;
+    return new LoginConfigurationApi();
   }
 
   /** {@inheritDoc}.*/
@@ -41,7 +41,10 @@ public class LoginModule implements WebModule {
   public void init(final ModuleApiRegistry registry) {
 
     registry.get(ShiroConfigurationApi.class)
-      .configureViews("/login/form", "/", "/login/unauthorized")
+      .configureViews(
+          "/login/web/form.html",
+          LoginConfigurationApi.getSuccessUrl(),
+          "/login/web/form.html")
       .registerRealm(BantenLoginRealm.class);
 
     registry.get(HibernateConfigurationApi.class)

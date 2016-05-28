@@ -2,7 +2,7 @@ package com.avenida.banten.sample.time.controllers;
 
 import javax.transaction.Transactional;
 
-import org.jsoup.helper.Validate;
+import org.elasticsearch.common.lang3.Validate;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;

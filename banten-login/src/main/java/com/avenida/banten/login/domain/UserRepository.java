@@ -25,4 +25,8 @@ public class UserRepository extends Repository {
     return (User) criteria.uniqueResult();
   }
 
+  public void save(final User user) {
+    getCurrentSession().saveOrUpdate(user);
+  }
+
 }

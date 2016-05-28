@@ -1,16 +1,16 @@
 package com.avenida.banten.login.shiro;
 
-import javax.transaction.Transactional;
-
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.*;
 
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.domain.UserRepository;
+import com.avenida.banten.hibernate.Transaction;
 import com.avenida.banten.login.domain.Permission;
 
 /** Hibernate's Real that use the {@link User} as principal.
@@ -22,6 +22,9 @@ public class BantenLoginRealm extends AuthorizingRealm {
   /** The user repository, it's never null. */
   @Autowired private UserRepository repository;
 
+  /** The platform transaction. */
+  @Autowired private Transaction transaction;
+
   /** Creates a new instance of the Realm.*/
   public BantenLoginRealm() {
     setName("banten.realm");
@@ -29,36 +32,46 @@ public class BantenLoginRealm extends AuthorizingRealm {
 
   /** {@inheritDoc}.*/
   @Override
-  @Transactional
   protected AuthorizationInfo doGetAuthorizationInfo(
       final PrincipalCollection pc) {
-    String email = (String) pc.getPrimaryPrincipal();
+    try {
+      transaction.start();
 
-    User user = repository.byEmail(email);
+      String email = (String) pc.getPrimaryPrincipal();
 
-    if (user != null) {
-      SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-      for (Permission role : user.getPermissions()) {
-        info.addRole(role.getName());
+      User user = repository.byEmail(email);
+
+      if (user != null) {
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        for (Permission permission : user.getPermissions()) {
+          info.addRole(permission.getName());
+        }
+        return info;
       }
-      return info;
-    }
 
-    return null;
+      return null;
+    } finally {
+      transaction.cleanup();
+    }
   }
 
   /** {@inheritDoc}.*/
   @Override
-  @Transactional
   protected AuthenticationInfo doGetAuthenticationInfo(
       final AuthenticationToken authcToken) {
-    UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-    User user = repository.byEmail(token.getUsername());
-    if (user != null) {
-      return new SimpleAuthenticationInfo(user.getId(), user.getPassword(),
-          getName());
-    } else {
-      return null;
+    try {
+      transaction.start();
+      UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+      User user = repository.byEmail(token.getUsername());
+      if (user != null) {
+        return new SimpleAuthenticationInfo(user.getId(), user.getPassword(),
+            getName());
+      } else {
+        throw new UnknownAccountException(
+            "No account found for user [" + token.getUsername() + "]");
+      }
+    } finally {
+      transaction.cleanup();
     }
   }
 
