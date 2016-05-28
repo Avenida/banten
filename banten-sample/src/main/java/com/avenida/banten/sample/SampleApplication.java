@@ -6,16 +6,16 @@ import org.springframework.boot.context.embedded.jetty
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
-
+import com.avenida.banten.core.ModuleApiRegistry;
 import com.avenida.banten.hibernate.HibernateModule;
-
+import com.avenida.banten.login.LoginConfigurationApi;
 import com.avenida.banten.login.LoginModule;
 
 import com.avenida.banten.sample.time.TimeModule;
 import com.avenida.banten.sample.user.UserModule;
 
 import com.avenida.banten.shiro.ShiroModule;
-
+import com.avenida.banten.web.WebAppConfigurationApi;
 import com.avenida.banten.web.WebAppModule;
 import com.avenida.banten.web.menu.MenuModule;
 
@@ -34,15 +34,15 @@ public class SampleApplication extends BantenApplication {
   /** Creates a new instance of the Sample Application.*/
   public SampleApplication() {
     super(
-        ApplicationConfigurationModule.class,
         HibernateModule.class,
         WebAppModule.class,
         SitemeshModule.class,
         MenuModule.class,
-        TimeModule.class,
-        UserModule.class,
         LoginModule.class,
-        ShiroModule.class
+        ShiroModule.class,
+        // Domain Modules.
+        TimeModule.class,
+        UserModule.class
     );
   }
 
@@ -67,6 +67,16 @@ public class SampleApplication extends BantenApplication {
    */
   @Bean public SampleLoginAccount sampleLoginAccount() {
     return new SampleLoginAccount();
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public void init(final ModuleApiRegistry registry) {
+    registry.get(LoginConfigurationApi.class)
+      .successUrl("/users/users/list.html");
+
+    registry.get(WebAppConfigurationApi.class)
+      .setLandingUrl("/users/users/list.html");
   }
 
 }

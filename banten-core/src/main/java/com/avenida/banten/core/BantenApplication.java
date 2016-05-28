@@ -3,6 +3,7 @@
 package com.avenida.banten.core;
 
 import java.util.*;
+
 import org.apache.commons.lang3.Validate;
 
 import org.slf4j.*;
@@ -41,7 +42,7 @@ import org.springframework.context.*;
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */
-public abstract class BantenApplication {
+public abstract class BantenApplication implements Registry {
 
   /** The log. */
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
@@ -150,6 +151,8 @@ public abstract class BantenApplication {
       aModule.init(moduleRegistry);
     }
 
+    init(moduleRegistry);
+
     moduleRegistry.initApi();
 
     InitContext.destroy();
@@ -196,7 +199,7 @@ public abstract class BantenApplication {
    * @param module the module to register. It cannot be null.
    */
   @SuppressWarnings("resource")
-  private void registerPrivateConfiguration(final Module module,
+  private void registerPrivateConfiguration(final Registry module,
       final BeanDefinitionRegistry registry) {
 
     if (!(module instanceof WebModule)) {
@@ -222,4 +225,9 @@ public abstract class BantenApplication {
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);
   }
+
+  /** {@inheritDoc}.*/
+  public void init(final ModuleApiRegistry registry) {
+  }
+
 }

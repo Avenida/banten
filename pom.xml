@@ -112,11 +112,6 @@
       </dependency>
       <dependency>
         <groupId>com.avenida.banten</groupId>
-        <artifactId>banten-elasticsearch</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.avenida.banten</groupId>
         <artifactId>banten-email-sender</artifactId>
         <version>${project.version}</version>
       </dependency>
