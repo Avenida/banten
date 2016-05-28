@@ -35,7 +35,7 @@ public class SitemeshConfiguration {
    *
    * @param paths the paths to look for decorators for. It cannot be null.
    */
-  public SitemeshConfiguration(final String theRelativePath,
+  SitemeshConfiguration(final String theRelativePath,
       final String ... paths) {
     Validate.notNull(theRelativePath, "The relative path cannot be null");
     Validate.notNull(paths, "The paths cannot be null");

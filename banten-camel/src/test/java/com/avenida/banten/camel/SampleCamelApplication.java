@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
+import com.avenida.banten.core.ModuleApiRegistry;
 
 /** Just a sample application for camel.
  * @author waabox (waabox[at]gmail[dot]com)
@@ -37,6 +38,10 @@ public class SampleCamelApplication extends BantenApplication {
       return tellMe;
     }
 
+  }
+
+  @Override
+  public void init(final ModuleApiRegistry registry) {
   }
 
 }

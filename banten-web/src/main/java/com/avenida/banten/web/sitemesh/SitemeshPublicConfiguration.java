@@ -2,6 +2,7 @@ package com.avenida.banten.web.sitemesh;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -24,6 +25,11 @@ public class SitemeshPublicConfiguration {
       @Value("${debugMode:false}") final boolean debugMode,
       final SitemeshConfiguration configuration)
           throws IOException, TemplateException {
+
+    Validate.notNull(configuration,
+        "in order to use sitemesh in your application you must extend the "
+        + "method init and configure sitemesh using: \n"
+        + "registry.get(SitemeshConfigurationApi.class).configure()");
 
     BantenSitemeshDecoratorSelector selector;
     selector = new BantenSitemeshDecoratorSelector();

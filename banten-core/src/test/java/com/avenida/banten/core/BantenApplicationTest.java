@@ -46,6 +46,10 @@ public class BantenApplicationTest {
       return new JettyEmbeddedServletContainerFactory("", APP_PORT);
     }
 
+    @Override
+    public void init(final ModuleApiRegistry registry) {
+    }
+
   }
 
   public static class SampleModule implements WebModule {

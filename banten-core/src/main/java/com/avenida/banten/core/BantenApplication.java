@@ -226,8 +226,4 @@ public abstract class BantenApplication implements Registry {
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);
   }
 
-  /** {@inheritDoc}.*/
-  public void init(final ModuleApiRegistry registry) {
-  }
-
 }

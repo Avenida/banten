@@ -22,7 +22,6 @@ import com.avenida.banten.web.WebAppConfigurationApi;
 import com.avenida.banten.web.WebAppModule;
 import com.avenida.banten.web.menu.MenuModule;
 
-import com.avenida.banten.web.sitemesh.SitemeshConfiguration;
 import com.avenida.banten.web.sitemesh.SitemeshConfigurationApi;
 import com.avenida.banten.web.sitemesh.SitemeshModule;
 
@@ -75,11 +74,7 @@ public class SampleApplication extends BantenApplication {
       .setLandingUrl("/users/users/list.html");
 
     registry.get(SitemeshConfigurationApi.class)
-      .configure(
-          new SitemeshConfiguration(
-              "../banten-sample",
-              "classpath:decorators/")
-      );
+      .configure("../banten-sample", "classpath:decorators/");
   }
 
 }
