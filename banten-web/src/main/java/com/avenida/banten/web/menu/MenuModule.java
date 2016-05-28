@@ -3,12 +3,12 @@ package com.avenida.banten.web.menu;
 import java.util.Arrays;
 
 import com.avenida.banten.core.*;
-import com.avenida.banten.web.WebConfigurationApi;
+import com.avenida.banten.web.WebAppConfigurationApi;
 import com.avenida.banten.web.Weblet;
 
 /** The Menu module.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class MenuModule implements WebModule {
 
@@ -32,7 +32,7 @@ public class MenuModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public Class<?> getPrivateConfiguration() {
+  public Class<?> getMvcConfiguration() {
     return MenuMvc.class;
   }
 
@@ -45,7 +45,7 @@ public class MenuModule implements WebModule {
   /** {@inheritDoc}.*/
   @Override
   public void init(final ModuleApiRegistry registry) {
-    registry.get(WebConfigurationApi.class)
+    registry.get(WebAppConfigurationApi.class)
       .addWeblets(
         Arrays.asList(
             new Weblet("menu", "menu/index.html")

@@ -6,7 +6,7 @@ import com.avenida.banten.core.Factory;
 import com.avenida.banten.sample.time.domain.TimeRepository;
 
 /** Factory class for Users.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class UserFactory implements Factory<User> {
 

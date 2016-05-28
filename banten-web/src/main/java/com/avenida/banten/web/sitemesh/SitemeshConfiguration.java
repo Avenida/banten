@@ -10,7 +10,7 @@ import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
  * module to their application. Simply add a bean of this type to the banten
  * application subclass or any of the modules.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SitemeshConfiguration {
 
@@ -35,7 +35,7 @@ public class SitemeshConfiguration {
    *
    * @param paths the paths to look for decorators for. It cannot be null.
    */
-  public SitemeshConfiguration(final String theRelativePath,
+  SitemeshConfiguration(final String theRelativePath,
       final String ... paths) {
     Validate.notNull(theRelativePath, "The relative path cannot be null");
     Validate.notNull(paths, "The paths cannot be null");

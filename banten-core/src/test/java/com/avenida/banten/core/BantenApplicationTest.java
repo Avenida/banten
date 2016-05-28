@@ -38,12 +38,18 @@ public class BantenApplicationTest {
 
     private static final int APP_PORT = 8080;
 
-    public SampleApplication() {
-      super(SampleModule.class, SampleModuleB.class);
+    @Override
+    protected Bootstrap bootstrap() {
+      return new Bootstrap(SampleModule.class, SampleModuleB.class);
     }
+
 
     @Bean public JettyEmbeddedServletContainerFactory jetty() {
       return new JettyEmbeddedServletContainerFactory("", APP_PORT);
+    }
+
+    @Override
+    public void init(final ModuleApiRegistry registry) {
     }
 
   }
@@ -66,7 +72,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public Class<?> getPrivateConfiguration() {
+    public Class<?> getMvcConfiguration() {
       return ModulePrivateConfiguration.class;
     }
 
@@ -126,7 +132,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public Class<?> getPrivateConfiguration() {
+    public Class<?> getMvcConfiguration() {
       return Object.class;
     }
 

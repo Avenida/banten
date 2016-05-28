@@ -7,7 +7,7 @@ import org.apache.commons.lang3.Validate;
  *
  * Right now it only provides one operation: request.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ServiceBus {
 

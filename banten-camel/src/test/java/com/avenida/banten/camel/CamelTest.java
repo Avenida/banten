@@ -14,7 +14,7 @@ import com.avenida.banten.camel.ServiceBus;
 import com.avenida.banten.testsupport.BantenTest;
 
 /**
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @BantenTest(applicationClass = SampleCamelApplication.class)

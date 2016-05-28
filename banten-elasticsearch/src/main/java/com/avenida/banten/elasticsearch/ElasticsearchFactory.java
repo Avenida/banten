@@ -30,7 +30,7 @@ import org.springframework.beans.factory.DisposableBean;
  *
  * @see 'https://github.com/elasticsearch/elasticsearch-cloud-aws'
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ElasticsearchFactory implements DisposableBean {
 

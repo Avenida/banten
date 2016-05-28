@@ -3,7 +3,7 @@ package com.avenida.banten.core;
 /** A web module has a private configuration in order to declare endpoints,
  * repositories, etc that will be used within its own context.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public interface WebModule extends Module {
 
@@ -15,7 +15,7 @@ public interface WebModule extends Module {
 
   /** Retrieves the file system relative path of this module.
   *
-  * Modules should return a value of the form "../banten-sample". The banten
+  * Bootstrap should return a value of the form "../banten-sample". The banten
   * application searches for resources exposed as static resources from the
   * file system location: <relativePath>/src/main/resources. This makes
   * it possible, for example, to refresh static content sent to the browser.
@@ -24,11 +24,11 @@ public interface WebModule extends Module {
   */
   String getRelativePath();
 
-  /** Retrieves the private Module configuration, typically this will contains
-   * the MVC configuration.
+  /** Retrieves the MVC configuration, this will be the
+   * private Module configuration.
    *
   * @return the configuration, never null.
   */
-  Class<?> getPrivateConfiguration();
+  Class<?> getMvcConfiguration();
 
 }

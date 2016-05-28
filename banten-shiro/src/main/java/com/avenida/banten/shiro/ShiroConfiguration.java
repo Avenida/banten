@@ -1,98 +1,106 @@
 package com.avenida.banten.shiro;
 
-import java.util.*;
+import javax.servlet.Filter;
 
-import org.apache.commons.lang3.Validate;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.authc.credential.PasswordMatcher;
 
-/** Holds the Shiro configuration.
+import org.apache.shiro.realm.AuthorizingRealm;
+
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.mgt.DefaultFilter;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
+
+/** Shiro Spring configuration.
  *
- * Created by lucas on 13/01/16.
+ * @author waabox (waabox[at]gmail[dot]com)
  */
+@Configuration
 public class ShiroConfiguration {
 
-  /** The login URL, it's never null. */
-  private String loginUrl;
+  @Bean
+  public FilterRegistrationBean shiroFilter(
+      final DefaultWebSecurityManager securityManager) {
 
-  /** The login URL, it's never null. */
-  private String successUrl;
+    ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+    factoryBean.setSecurityManager(securityManager);
 
-  /** The unauthorized URL, it's never null. */
-  private String unauthorizedUrl;
+    factoryBean.getFilters().putAll(DefaultFilter.createInstanceMap(null));
 
-  /** List containing all valid end-points with the appropriate roles. */
-  private List<UrlToRoleMapping> urlToRoleMappings;
+    factoryBean.getFilterChainDefinitionMap().put("*.js*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("*.css*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("*.jpg*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("*.gif*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("*.jpeg*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("/**", "authc");
 
-  /** Creates a new instance of the configuration.
-   *
-   * @param theLoginUrl the login URL, cannot be null.
-   * @param theSuccessUrl the success URl, cannot be null.
-   * @param theUnauthorizedUrl the unauthorized URL, cannot be null.
-   * @param mappings the mappings, cannot be null.
-   */
-  public ShiroConfiguration(final String theLoginUrl,
-      final String theSuccessUrl,
-      final String theUnauthorizedUrl,
-      final List<UrlToRoleMapping> mappings) {
+    for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
+      factoryBean.getFilterChainDefinitionMap().put(mapping.getUrl(),
+          String.format("authc, roles[%s]", mapping.rolesAsString()));
+    }
 
-    Validate.notNull(theLoginUrl, "The login URL cannot be null");
-    Validate.notNull(theSuccessUrl, "The success URL cannot be null");
-    Validate.notNull(theUnauthorizedUrl, "The unauthorized URL cannot be null");
-    Validate.notNull(mappings, "The mappings cannot be null");
+    ShiroViews shiroViews = ShiroConfigurationApi.getShiroViews();
+    factoryBean.setLoginUrl(shiroViews.getLoginUrl());
+    factoryBean.setUnauthorizedUrl(shiroViews.getUnauthorizedUrl());
+    factoryBean.setSuccessUrl(shiroViews.getSuccessUrl());
 
-    loginUrl = theLoginUrl;
-    successUrl = theSuccessUrl;
-    unauthorizedUrl = theUnauthorizedUrl;
-    urlToRoleMappings = mappings;
+    Filter filter;
+    try {
+      filter = ((Filter) factoryBean.getObject());
+    } catch (Exception e) {
+      throw new RuntimeException("Error creating shiro filter.", e);
+    }
+
+    FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+    registration.setName("shiroFilter");
+    registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+
+    return registration;
   }
 
-  /** Creates a new instance of the configuration without mappings.
-  *
-  * @param theLoginUrl the login URL, cannot be null.
-  * @param theSuccessUrl the success URl, cannot be null.
-  * @param theUnauthorizedUrl the unauthorized URL, cannot be null.
-  */
-  public ShiroConfiguration(
-      final String theLoginUrl,
-      final String theSuccessUrl,
-      final String theUnauthorizedUrl) {
-    this(theLoginUrl, theSuccessUrl, theUnauthorizedUrl,
-        new ArrayList<UrlToRoleMapping>());
+  @Bean(name = "securityManager")
+  public DefaultWebSecurityManager securityManager(
+       final AuthorizingRealm realm,
+       final DefaultWebSessionManager sessionManager) {
+    DefaultWebSecurityManager securityManager;
+    securityManager = new DefaultWebSecurityManager();
+    securityManager.setRealm(realm);
+    securityManager.setSessionManager(sessionManager);
+    return securityManager;
   }
 
-  /** Retrieves the login URL.
-   * @return the URL never null.
-   */
-  public String getLoginUrl() {
-    return loginUrl;
+  @Bean
+  @Lazy
+  public DefaultWebSessionManager sessionManager() {
+     DefaultWebSessionManager sessionManager;
+    sessionManager = new DefaultWebSessionManager();
+    return sessionManager;
   }
 
-  /** The success URL.
-   * @return the URL never null.
-   */
-  public String getSuccessUrl() {
-    return successUrl;
+  @Bean(name = "credentialsMatcher")
+  public PasswordMatcher credentialsMatcher() {
+    PasswordMatcher credentialsMatcher = new PasswordMatcher();
+    credentialsMatcher.setPasswordService(passwordService());
+    return credentialsMatcher;
   }
 
-  /** The Unauthorized URL.
-   * @return the URL never null.
-   */
-  public String getUnauthorizedUrl() {
-    return unauthorizedUrl;
+  @Bean(name = "passwordService")
+  public DefaultPasswordService passwordService() {
+    return new DefaultPasswordService();
   }
 
-  /** The list of mappings.
-   * @return the mappings never null.
-   */
-  public List<UrlToRoleMapping> getUrlRoleMappings() {
-    return Collections.unmodifiableList(urlToRoleMappings);
-  }
-
-  /** Adds a new mapping into the existing list.
-   *
-   * @param urlRoleMappings the new ACLs.
-   */
-  public void addUrlRoleMappings(final List<UrlToRoleMapping> urlRoleMappings) {
-    urlRoleMappings.addAll(urlRoleMappings);
+  @Bean
+  public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+    return new LifecycleBeanPostProcessor();
   }
 
 }

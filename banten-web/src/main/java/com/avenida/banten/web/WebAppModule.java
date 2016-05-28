@@ -6,7 +6,7 @@ import com.avenida.banten.core.ModuleApiRegistry;
 
 /** Web module configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class WebAppModule implements Module {
 
@@ -25,7 +25,7 @@ public class WebAppModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return new WebConfigurationApi();
+    return new WebAppConfigurationApi();
   }
 
   /** {@inheritDoc}.*/

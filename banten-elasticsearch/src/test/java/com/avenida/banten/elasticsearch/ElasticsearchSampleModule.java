@@ -10,7 +10,7 @@ import com.avenida.banten.core.ModuleApiRegistry;
 
 /** Just a sample module that maps an Elasticsearch's index.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ElasticsearchSampleModule implements Module {
 

@@ -27,7 +27,7 @@ import org.apache.commons.lang3.Validate;
  * This interceptor has a write through option that, when set, also copies the
  * output to the original response.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public abstract class ServletOutputInterceptor extends
     HttpServletResponseWrapper {

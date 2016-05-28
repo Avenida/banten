@@ -1,6 +1,8 @@
 package com.avenida.banten.elasticsearch;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 
@@ -8,9 +10,16 @@ import com.avenida.banten.core.ConfigurationApi;
 
 /** Elasticsearch's configuration API.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ElasticsearchConfigurationApi extends ConfigurationApi {
+
+  /** The list of mapping definitions.*/
+  private static List<MappingDefinition> mappingDefinitions;
+
+  static {
+    mappingDefinitions = new LinkedList<>();
+  }
 
   /** Register a list of {@link MappingDefinition}s.
    * @param definitions the {@link MappingDefinition}s, cannot be null.
@@ -18,7 +27,14 @@ public class ElasticsearchConfigurationApi extends ConfigurationApi {
   public void mappings(final MappingDefinition...definitions) {
     Validate.notNull(definitions,
         "The list of mapping definitions cannot be null");
-    appendToList("elasticsearch.mappings", Arrays.asList(definitions));
+    mappingDefinitions.addAll(Arrays.asList(definitions));
+  }
+
+  /** Retrieves the mapping definitions.
+   * @return the mapping definitions
+   */
+  public static List<MappingDefinition> getMappingDefinitions() {
+    return mappingDefinitions;
   }
 
 }

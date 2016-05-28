@@ -13,19 +13,11 @@ import org.springframework.core.env.Environment;
 
 /** The Elasticsearch's Module Configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @EnableConfigurationProperties
 public class ElasticsearchConfiguration {
-
-  /** Creates the list that holds the persistence units.
-   * @return the list of persistence units.
-   */
-  @Bean(name = "elasticsearch.mappings")
-  public List<MappingDefinition> elasticsearchMappingDefinitions() {
-    return new LinkedList<>();
-  }
 
   /** The Elasticsearch's {@link Configurator}.
    *
@@ -47,7 +39,7 @@ public class ElasticsearchConfiguration {
   public ElasticsearchFactory elasticsearchFactory(
       final ElasticsearchConfigurator configurator) {
     return new ElasticsearchFactory(configurator,
-        elasticsearchMappingDefinitions());
+        ElasticsearchConfigurationApi.getMappingDefinitions());
   }
 
   /** Retrieves the {@link Client}.

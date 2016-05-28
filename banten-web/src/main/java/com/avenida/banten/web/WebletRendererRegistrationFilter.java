@@ -12,7 +12,7 @@ import java.io.IOException;
 /** Register the {@link WebletRenderer} within the current Request in a
  * request attribute called: "::webletRenderer".
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class WebletRendererRegistrationFilter implements Filter {
 

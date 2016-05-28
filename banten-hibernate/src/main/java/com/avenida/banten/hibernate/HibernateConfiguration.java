@@ -3,10 +3,7 @@ package com.avenida.banten.hibernate;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -18,8 +15,6 @@ import org.hibernate.boot.MetadataSources;
 
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.context.properties.*;
 
@@ -49,7 +44,7 @@ import com.avenida.banten.core.PersistenceUnit;
  * db.user
  * db.driver
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @Configuration
 @EnableConfigurationProperties
@@ -57,10 +52,6 @@ public class HibernateConfiguration {
 
   /** The log. */
   private static Logger log = getLogger(HibernateConfiguration.class);
-
-  /** The list of persistence units, it's never null. */
-  @Autowired @Resource(name = "persistenceUnitList")
-  private List<PersistenceUnit> persistenceUnitList;
 
   /** DataSource bean definition.
    * @return the DataSource to be used by the application.
@@ -90,7 +81,8 @@ public class HibernateConfiguration {
   @Bean(name = "banten.sessionFactory")
   public SessionFactory bantenSessionFactory(final DataSource dataSource,
       final Environment environment) {
-    Validate.notNull(persistenceUnitList,  "The list cannot be null");
+    Validate.notNull(HibernateConfigurationApi.getPersistenceUnits(),
+        "The list cannot be null");
     Validate.notNull(dataSource, "The datasource cannot be null");
 
     Map<String, String> hibernateProperties;
@@ -109,7 +101,7 @@ public class HibernateConfiguration {
     StandardServiceRegistry registry = builder.build();
     MetadataSources sources = new MetadataSources(registry);
 
-    for(PersistenceUnit pu : persistenceUnitList) {
+    for(PersistenceUnit pu : HibernateConfigurationApi.getPersistenceUnits()) {
       log.info("Adding persistence class:[{}]", pu.getPersistenceClass());
       sources.addAnnotatedClass(pu.getPersistenceClass());
     }

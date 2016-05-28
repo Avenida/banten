@@ -6,31 +6,44 @@ import org.springframework.boot.context.embedded.jetty
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
+import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.Bootstrap;
 import com.avenida.banten.hibernate.HibernateModule;
+
+import com.avenida.banten.login.LoginConfigurationApi;
+import com.avenida.banten.login.LoginModule;
 
 import com.avenida.banten.sample.time.TimeModule;
 import com.avenida.banten.sample.user.UserModule;
+
+import com.avenida.banten.shiro.ShiroModule;
+
+import com.avenida.banten.web.WebAppConfigurationApi;
 import com.avenida.banten.web.WebAppModule;
 import com.avenida.banten.web.menu.MenuModule;
-import com.avenida.banten.web.sitemesh.SitemeshConfiguration;
+
+import com.avenida.banten.web.sitemesh.SitemeshConfigurationApi;
 import com.avenida.banten.web.sitemesh.SitemeshModule;
 
 /** The Sample application Factory.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SampleApplication extends BantenApplication {
 
   /** The application's port.*/
   private static final int APPLICATION_PORT = 8080;
 
-  /** Creates a new instance of the Sample Application.*/
-  public SampleApplication() {
-    super(
+  @Override
+  protected Bootstrap bootstrap() {
+    return new Bootstrap(
         HibernateModule.class,
         WebAppModule.class,
         SitemeshModule.class,
         MenuModule.class,
+        LoginModule.class,
+        ShiroModule.class,
+        // Domain Bootstrap.
         TimeModule.class,
         UserModule.class
     );
@@ -44,13 +57,24 @@ public class SampleApplication extends BantenApplication {
     return new JettyEmbeddedServletContainerFactory("", APPLICATION_PORT);
   }
 
-  /** The Sitemesh's decorator configuration.
-   * @return the Sitemesh's decorator configuration.
+  /** Creates a test account for development.
+   * @return a {@link SampleLoginAccount}
    */
-  @Bean public SitemeshConfiguration sitemeshConfig() {
-    return new SitemeshConfiguration("../banten-sample",
-        "classpath:decorators/");
+  @Bean public SampleLoginAccount sampleLoginAccount() {
+    return new SampleLoginAccount();
+  }
+
+  /** {@inheritDoc}.*/
+  @Override
+  public void init(final ModuleApiRegistry registry) {
+    registry.get(LoginConfigurationApi.class)
+      .successUrl("/users/users/list.html");
+
+    registry.get(WebAppConfigurationApi.class)
+      .setLandingUrl("/users/users/list.html");
+
+    registry.get(SitemeshConfigurationApi.class)
+      .configure("../banten-sample", "classpath:decorators/");
   }
 
 }
-

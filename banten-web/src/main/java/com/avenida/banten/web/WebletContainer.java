@@ -11,7 +11,7 @@ import java.util.*;
 
 /** Holds Weblets that modules has been declared.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public final class WebletContainer {
 
@@ -87,6 +87,11 @@ public final class WebletContainer {
     /** {@inheritDoc}. */
     @Override
     public boolean equals(final Object obj) {
+
+      if (obj == null || (!(obj instanceof Key))) {
+        return false;
+      }
+
       Key key = (Key) obj;
       return moduleName.equals(key.moduleName)
           && webletName.equals(key.webletName);

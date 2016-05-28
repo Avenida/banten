@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Holds the current {@link HttpServletRequest} & {@link HttpServletResponse}
  * for the current active request.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class Context {
 
@@ -50,7 +50,7 @@ public class Context {
 
   /** Holds the {@link HttpServletRequest} & {@link HttpServletResponse}.
    *
-   * @author waabox (emi[at]avenida[dot]com)
+   * @author waabox (waabox[at]gmail[dot]com)
    */
   private static final class ContextData {
 

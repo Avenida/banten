@@ -3,6 +3,7 @@
 package com.avenida.banten.core;
 
 import java.util.*;
+
 import org.apache.commons.lang3.Validate;
 
 import org.slf4j.*;
@@ -23,7 +24,7 @@ import org.springframework.context.*;
  * Each {@link Module} defines public beans within the
  * {@link Module#getModuleConfiguration}, those one will be merge into the
  * main application context. However, configuration declared within the
- * {@link Module#getPrivateConfiguration()} will be isolated; The main or
+ * {@link Module#getMvcConfiguration()} will be isolated; The main or
  * parent {@link ApplicationContext} is the same where {@link Module}s has
  * been declared.
  *
@@ -39,15 +40,12 @@ import org.springframework.context.*;
  *
  *</code>
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
-public abstract class BantenApplication {
+public abstract class BantenApplication implements Registry {
 
   /** The log. */
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
-
-  /** The list of modules to bootstrap the application, it's never null.*/
-  private final List<Class<? extends Module>> moduleClasses;
 
   /** The module registry, it's never null. */
   private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
@@ -58,32 +56,11 @@ public abstract class BantenApplication {
    */
   private SpringApplication application = null;
 
-  /** The application-wise landing URL, null if not configured.
+  /** Retrieves the {@link Bootstrap} for this application.
    *
-   * See HomeServlet for more information.
+   * @return the {@link Bootstrap}, never null.
    */
-  private String landingUrl = null;
-
-  /** Creates a new Application with the given modules.
-   * @param modules the list of modules to bootstrap, cannot be null.
-   */
-  @SafeVarargs
-  protected BantenApplication(final Class<? extends Module> ... modules) {
-    Validate.notNull(modules, "The modules cannot be null");
-    moduleClasses = Arrays.asList(modules);
-  }
-
-  /** Sets the landing URL.
-   *
-   * If called, you must pass a non-null value. If not called, the web
-   * application container will define how to handle requests to the root of
-   * the web context.
-   *
-   * @param theLandingUrl the landing URL. It cannot be null.
-   */
-  protected void setLandingUrl(final String theLandingUrl) {
-    landingUrl = theLandingUrl;
-  }
+  protected abstract Bootstrap bootstrap();
 
   /** Gets the currently wrapped spring boot application, creating one if not
    * yet created.
@@ -138,9 +115,14 @@ public abstract class BantenApplication {
    * @throws Error
    */
   private void registerModules(final BeanDefinitionRegistry registry) {
-    log.info("Registering Banten Modules");
+    log.info("Registering Banten Bootstrap");
 
     InitContext.init(registry);
+
+    List<Class<? extends Module>> moduleClasses = bootstrap();
+
+    Validate.notNull(moduleClasses, "The list of modules cannot be null");
+    Validate.notEmpty(moduleClasses, "The list of modules cannot be empty");
 
     List<Module> modulesInitialized = new LinkedList<>();
 
@@ -167,6 +149,8 @@ public abstract class BantenApplication {
       log.info("Initializing the module: {}" , aModule.getName());
       aModule.init(moduleRegistry);
     }
+
+    init(moduleRegistry);
 
     moduleRegistry.initApi();
 
@@ -214,7 +198,7 @@ public abstract class BantenApplication {
    * @param module the module to register. It cannot be null.
    */
   @SuppressWarnings("resource")
-  private void registerPrivateConfiguration(final Module module,
+  private void registerPrivateConfiguration(final Registry module,
       final BeanDefinitionRegistry registry) {
 
     if (!(module instanceof WebModule)) {
@@ -236,12 +220,9 @@ public abstract class BantenApplication {
    */
   private void registerCoreBeans(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
-    if (landingUrl != null) {
-      ObjectFactoryBean.register(registry, String.class, landingUrl,
-          "banten.landingUrl");
-    }
     BeanDefinition coreBean = new GenericBeanDefinition();
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);
   }
+
 }

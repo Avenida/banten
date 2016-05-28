@@ -112,11 +112,6 @@
       </dependency>
       <dependency>
         <groupId>com.avenida.banten</groupId>
-        <artifactId>banten-elasticsearch</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.avenida.banten</groupId>
         <artifactId>banten-email-sender</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -628,7 +623,7 @@
         </executions>
       </plugin>
 
-      <plugin>
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.5</version>
@@ -641,7 +636,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
 
       <plugin>
         <groupId>org.sonatype.plugins</groupId>

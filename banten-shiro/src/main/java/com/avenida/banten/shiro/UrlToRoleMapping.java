@@ -5,9 +5,8 @@ import org.apache.commons.lang3.Validate;
 
 import java.util.*;
 
-
 /** Holds the association between URL and Roles. This association will be used
- * in order to inject the ACLs to shiro.
+ * in order to inject the ACLs to Apache ShiroConfiguration.
  *
  * Created by jordan.cabral on 02/02/16.
  */
@@ -27,11 +26,11 @@ public class UrlToRoleMapping {
    * URL, cannot be null.
    */
   public UrlToRoleMapping(final String theUrl,
-      final List<String> roleList) {
+      final String... roleList) {
     Validate.notNull(theUrl, "The URL cannot be null");
     Validate.notNull(roleList, "The list of roles cannot be null");
     url = theUrl;
-    roles = roleList;
+    roles = Arrays.asList(roleList);
   }
 
   /** Retrieves the Roles associated to this URL.

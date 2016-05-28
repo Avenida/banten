@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 /** A Weblet is a specification of an endpoint that expose pages that will
  * be attached into another one.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class Weblet {
 

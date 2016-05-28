@@ -1,7 +1,7 @@
 package com.avenida.banten.sample;
 
 /** The Sample Application entry point.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class SampleLauncher {
 

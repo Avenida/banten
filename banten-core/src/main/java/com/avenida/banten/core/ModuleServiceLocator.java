@@ -9,7 +9,7 @@ import org.springframework.context.*;
  * This is sometimes necessary when integrating a 3rd party that is not
  * 'spring friendly'.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ModuleServiceLocator implements ApplicationContextAware {
 

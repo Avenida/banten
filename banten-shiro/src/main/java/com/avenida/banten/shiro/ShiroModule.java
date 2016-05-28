@@ -14,25 +14,25 @@ import com.avenida.banten.core.ModuleApiRegistry;
  * selection). You must implement two decorators, as freemarker files named
  * decorator.ftl and decoratorAnonymous.ftl.
  *
- * To configure this module, create a bean of type ShiroConfiguration. You
+ * To configure this module, create a bean of type ShiroConfigurationOld. You
  * can create that bean in your application or in the public configuration of a
- * module. The ShiroConfiguration specifies the location of the decorators
+ * module. The ShiroConfigurationOld specifies the location of the decorators
  * and the file system relative location of that location.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class ShiroModule implements Module {
 
   /** {@inheritDoc}. */
   @Override
   public String getName() {
-    return "Shiro-Module";
+    return "ShiroConfiguration-Module";
   }
 
   /** {@inheritDoc}. */
   @Override
   public Class<?> getPublicConfiguration() {
-    return ShiroPublicConfiguration.class;
+    return ShiroConfiguration.class;
   }
 
   /** {@inheritDoc}. */
@@ -43,6 +43,6 @@ public class ShiroModule implements Module {
   /** {@inheritDoc}. */
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return null;
+    return new ShiroConfigurationApi();
   }
 }

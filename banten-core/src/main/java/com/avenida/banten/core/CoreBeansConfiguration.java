@@ -1,12 +1,10 @@
 package com.avenida.banten.core;
 
-import java.util.*;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.*;
 
 /** Core bean configuration.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class CoreBeansConfiguration {
 
@@ -29,12 +27,4 @@ public class CoreBeansConfiguration {
     return new ModuleServiceLocator();
   }
 
-  /** Creates the list that holds the persistence units.
-   * @return the list of persistence units.
-   */
-  @Bean(name = "persistenceUnitList")
-  public List<PersistenceUnit> persistenceUnitList() {
-    return new LinkedList<>();
-  }
 }
-

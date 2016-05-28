@@ -41,7 +41,7 @@ import com.avenida.banten.testsupport.BantenTest;
  * It is in com.avenida.banten.core so that BantenApplication.getApplication is
  * kept package access.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class BantenTestContextLoader extends AbstractContextLoader {
 

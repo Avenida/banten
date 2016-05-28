@@ -11,7 +11,7 @@ import com.avenida.banten.sample.user.domain.UserFactory;
 import com.avenida.banten.sample.user.domain.UserRepository;
 
 /** The user controller.
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 @RestController
 @RequestMapping("/users/")

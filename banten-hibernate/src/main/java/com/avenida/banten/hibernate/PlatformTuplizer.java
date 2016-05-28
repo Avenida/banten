@@ -1,6 +1,7 @@
 package com.avenida.banten.hibernate;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.hibernate.bytecode.spi.ReflectionOptimizer;
 import org.hibernate.mapping.PersistentClass;
@@ -15,7 +16,7 @@ import com.avenida.banten.core.*;
 /** Platform Tuplizer that use the Factories declared within
  * the PersistenceUnit.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class PlatformTuplizer extends PojoEntityTuplizer {
 
@@ -45,7 +46,7 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
   /** Instantiator that serch within the PersistenceUnits the ones that
    * has been declared a Factory and use it as Instantiator.
    *
-   * @author waabox (emi[at]avenida[dot]com)
+   * @author waabox (waabox[at]gmail[dot]com)
    */
   public static class BantenInstantiator extends PojoInstantiator {
 
@@ -100,7 +101,7 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
     private static FactoryCache instance = new FactoryCache();
 
     /** Whether or not has been initialized. */
-    private static Boolean initialized = false;
+    private static AtomicBoolean initialized = new AtomicBoolean(false);
 
     /** The cache. */
     private Map<String, Class<? extends Factory>> factories = new HashMap<>();
@@ -110,16 +111,15 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
      * @return the factory if exists.
      */
     public static Class<? extends Factory> get(final PersistentClass pc) {
-      if (!initialized) {
+      if (!initialized.get()) {
         synchronized (initialized) {
           List<PersistenceUnit> persistenceUnits;
-          persistenceUnits = ModuleServiceLocator.getBean(
-              "persistenceUnitList");
+          persistenceUnits = HibernateConfigurationApi.getPersistenceUnits();
           for(PersistenceUnit pu : persistenceUnits) {
             instance.factories.put(
                 pu.getPersistenceClass().getName(), pu.getFactory());
           }
-          initialized = true;
+          initialized.set(true);
         }
       }
       return instance.factories.get(pc.getClassName());

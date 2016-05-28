@@ -21,7 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 /** Web application module public configuration.
  *
- * @author waabox (emi[at]avenida[dot]com)
+ * @author waabox (waabox[at]gmail[dot]com)
  */
 public class WebAppConfiguration {
 

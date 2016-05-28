@@ -1,7 +1,5 @@
 package com.avenida.banten.hibernate;
 
-import java.util.Arrays;
-
 import com.avenida.banten.core.*;
 
 public class DatabaseTestModule implements Module {
@@ -22,12 +20,10 @@ public class DatabaseTestModule implements Module {
     HibernateConfigurationApi api;
     api = registry.get(HibernateConfigurationApi.class);
     api.persistenceUnits(
-        Arrays.asList(
-            new PersistenceUnit(MockEntity.class),
-            new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class),
-            new PersistenceUnit(MockEntityWithTuplizer.class,
-                MockEntityWithTuplizerFactory.class)
-        )
+        new PersistenceUnit(MockEntity.class),
+        new PersistenceUnit(MockEntityWithCollectionWithTuplizers.class),
+        new PersistenceUnit(MockEntityWithTuplizer.class,
+            MockEntityWithTuplizerFactory.class)
     );
   }
 
