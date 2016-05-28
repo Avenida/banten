@@ -41,6 +41,6 @@ public class SitemeshModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return null;
+    return new SitemeshConfigurationApi();
   }
 }
