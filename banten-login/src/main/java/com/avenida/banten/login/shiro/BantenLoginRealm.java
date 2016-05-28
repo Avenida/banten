@@ -39,7 +39,7 @@ public class BantenLoginRealm extends AuthorizingRealm {
 
       String email = (String) pc.getPrimaryPrincipal();
 
-      User user = repository.byEmail(email);
+      User user = repository.getByEmail(email);
 
       if (user != null) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -62,7 +62,7 @@ public class BantenLoginRealm extends AuthorizingRealm {
     try {
       transaction.start();
       UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-      User user = repository.byEmail(token.getUsername());
+      User user = repository.getByEmail(token.getUsername());
       if (user != null) {
         return new SimpleAuthenticationInfo(user.getId(), user.getPassword(),
             getName());

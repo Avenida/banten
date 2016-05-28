@@ -18,7 +18,7 @@ public class Permission {
   private Integer id;
 
   /** The permission name. */
-  @Column(name = "name")
+  @Column(name = "name", unique = true)
   private String name;
 
   /** The description for this permission, it's never null.*/
