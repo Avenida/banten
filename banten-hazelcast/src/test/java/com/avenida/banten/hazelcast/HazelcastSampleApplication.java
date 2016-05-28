@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
 import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.Bootstrap;
 import com.hazelcast.core.HazelcastInstance;
 
 /** Just a sample hazelcast application.
@@ -12,10 +13,9 @@ import com.hazelcast.core.HazelcastInstance;
  */
 public class HazelcastSampleApplication extends BantenApplication {
 
-  public HazelcastSampleApplication() {
-    super(
-        HazelcastModule.class
-    );
+  /** {@inheritDoc}.*/
+  protected Bootstrap bootstrap() {
+    return new Bootstrap(HazelcastModule.class);
   }
 
   @Bean public SampleCacheableBean sampleCacheableBean(

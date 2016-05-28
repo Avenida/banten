@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
 import com.avenida.banten.core.ModuleApiRegistry;
-
+import com.avenida.banten.core.Bootstrap;
 import com.avenida.banten.hibernate.HibernateModule;
 
 import com.avenida.banten.login.LoginConfigurationApi;
@@ -34,16 +34,16 @@ public class SampleApplication extends BantenApplication {
   /** The application's port.*/
   private static final int APPLICATION_PORT = 8080;
 
-  /** Creates a new instance of the Sample Application.*/
-  public SampleApplication() {
-    super(
+  @Override
+  protected Bootstrap bootstrap() {
+    return new Bootstrap(
         HibernateModule.class,
         WebAppModule.class,
         SitemeshModule.class,
         MenuModule.class,
         LoginModule.class,
         ShiroModule.class,
-        // Domain Modules.
+        // Domain Bootstrap.
         TimeModule.class,
         UserModule.class
     );

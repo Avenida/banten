@@ -47,9 +47,6 @@ public abstract class BantenApplication implements Registry {
   /** The log. */
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
 
-  /** The list of modules to bootstrap the application, it's never null.*/
-  private final List<Class<? extends Module>> moduleClasses;
-
   /** The module registry, it's never null. */
   private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
 
@@ -59,14 +56,11 @@ public abstract class BantenApplication implements Registry {
    */
   private SpringApplication application = null;
 
-  /** Creates a new Application with the given modules.
-   * @param modules the list of modules to bootstrap, cannot be null.
+  /** Retrieves the {@link Bootstrap} for this application.
+   *
+   * @return the {@link Bootstrap}, never null.
    */
-  @SafeVarargs
-  protected BantenApplication(final Class<? extends Module> ... modules) {
-    Validate.notNull(modules, "The modules cannot be null");
-    moduleClasses = Arrays.asList(modules);
-  }
+  protected abstract Bootstrap bootstrap();
 
   /** Gets the currently wrapped spring boot application, creating one if not
    * yet created.
@@ -121,9 +115,14 @@ public abstract class BantenApplication implements Registry {
    * @throws Error
    */
   private void registerModules(final BeanDefinitionRegistry registry) {
-    log.info("Registering Banten Modules");
+    log.info("Registering Banten Bootstrap");
 
     InitContext.init(registry);
+
+    List<Class<? extends Module>> moduleClasses = bootstrap();
+
+    Validate.notNull(moduleClasses, "The list of modules cannot be null");
+    Validate.notEmpty(moduleClasses, "The list of modules cannot be empty");
 
     List<Module> modulesInitialized = new LinkedList<>();
 

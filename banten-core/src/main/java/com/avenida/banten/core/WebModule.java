@@ -15,7 +15,7 @@ public interface WebModule extends Module {
 
   /** Retrieves the file system relative path of this module.
   *
-  * Modules should return a value of the form "../banten-sample". The banten
+  * Bootstrap should return a value of the form "../banten-sample". The banten
   * application searches for resources exposed as static resources from the
   * file system location: <relativePath>/src/main/resources. This makes
   * it possible, for example, to refresh static content sent to the browser.

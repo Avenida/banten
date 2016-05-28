@@ -38,9 +38,11 @@ public class BantenApplicationTest {
 
     private static final int APP_PORT = 8080;
 
-    public SampleApplication() {
-      super(SampleModule.class, SampleModuleB.class);
+    @Override
+    protected Bootstrap bootstrap() {
+      return new Bootstrap(SampleModule.class, SampleModuleB.class);
     }
+
 
     @Bean public JettyEmbeddedServletContainerFactory jetty() {
       return new JettyEmbeddedServletContainerFactory("", APP_PORT);
