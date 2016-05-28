@@ -36,12 +36,12 @@ public class ShiroConfiguration {
 
     factoryBean.getFilters().putAll(DefaultFilter.createInstanceMap(null));
 
-    factoryBean.getFilterChainDefinitionMap().put("/**", "authc");
     factoryBean.getFilterChainDefinitionMap().put("*.js*", "anon");
     factoryBean.getFilterChainDefinitionMap().put("*.css*", "anon");
     factoryBean.getFilterChainDefinitionMap().put("*.jpg*", "anon");
     factoryBean.getFilterChainDefinitionMap().put("*.gif*", "anon");
     factoryBean.getFilterChainDefinitionMap().put("*.jpeg*", "anon");
+    factoryBean.getFilterChainDefinitionMap().put("/**", "authc");
 
     for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
       factoryBean.getFilterChainDefinitionMap().put(mapping.getUrl(),

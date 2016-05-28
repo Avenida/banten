@@ -12,7 +12,7 @@ import com.avenida.banten.sample.user.domain.UserFactory;
 import com.avenida.banten.shiro.ShiroConfigurationApi;
 import com.avenida.banten.shiro.UrlToRoleMapping;
 
-import com.avenida.banten.web.WebConfigurationApi;
+import com.avenida.banten.web.WebAppConfigurationApi;
 import com.avenida.banten.web.Weblet;
 import com.avenida.banten.web.menu.MenuConfigurationApi;
 
@@ -66,7 +66,7 @@ public class UserModule implements WebModule {
           new PersistenceUnit(User.class, UserFactory.class)
      );
 
-    registry.get(WebConfigurationApi.class)
+    registry.get(WebAppConfigurationApi.class)
       .addWeblets(
           Arrays.asList(
               new Weblet("samplepicture", "users/samplePicture.html")

@@ -58,12 +58,6 @@ public abstract class BantenApplication {
    */
   private SpringApplication application = null;
 
-  /** The application-wise landing URL, null if not configured.
-   *
-   * See HomeServlet for more information.
-   */
-  private String landingUrl = null;
-
   /** Creates a new Application with the given modules.
    * @param modules the list of modules to bootstrap, cannot be null.
    */
@@ -71,18 +65,6 @@ public abstract class BantenApplication {
   protected BantenApplication(final Class<? extends Module> ... modules) {
     Validate.notNull(modules, "The modules cannot be null");
     moduleClasses = Arrays.asList(modules);
-  }
-
-  /** Sets the landing URL.
-   *
-   * If called, you must pass a non-null value. If not called, the web
-   * application container will define how to handle requests to the root of
-   * the web context.
-   *
-   * @param theLandingUrl the landing URL. It cannot be null.
-   */
-  protected void setLandingUrl(final String theLandingUrl) {
-    landingUrl = theLandingUrl;
   }
 
   /** Gets the currently wrapped spring boot application, creating one if not
@@ -236,10 +218,6 @@ public abstract class BantenApplication {
    */
   private void registerCoreBeans(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
-    if (landingUrl != null) {
-      ObjectFactoryBean.register(registry, String.class, landingUrl,
-          "banten.landingUrl");
-    }
     BeanDefinition coreBean = new GenericBeanDefinition();
     coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
     registry.registerBeanDefinition("coreBeansConfiguration", coreBean);

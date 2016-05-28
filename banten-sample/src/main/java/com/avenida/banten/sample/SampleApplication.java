@@ -34,7 +34,7 @@ public class SampleApplication extends BantenApplication {
   /** Creates a new instance of the Sample Application.*/
   public SampleApplication() {
     super(
-        SampleModule.class,
+        ApplicationConfigurationModule.class,
         HibernateModule.class,
         WebAppModule.class,
         SitemeshModule.class,

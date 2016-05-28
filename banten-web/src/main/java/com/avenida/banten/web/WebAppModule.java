@@ -25,7 +25,7 @@ public class WebAppModule implements Module {
   /** {@inheritDoc}.*/
   @Override
   public ConfigurationApi getConfigurationApi() {
-    return new WebConfigurationApi();
+    return new WebAppConfigurationApi();
   }
 
   /** {@inheritDoc}.*/
