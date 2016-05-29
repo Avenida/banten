@@ -9,8 +9,15 @@ package com.avenida.banten.core;
 public interface Registry {
 
   /** Register within the context this module.
+   *
+   * This is not part of Spring, so you cannot inject beans here, or something
+   * related to the spring context.
+   *
+   * This is just a hook between {@link ConfigurationApiRegistry} in order
+   * to share specific configuration.
+   *
    * @param registry the {@link ConfigurationApiRegistry}, never null.
    */
-  void init(ConfigurationApiRegistry registry);
+  void init(final ConfigurationApiRegistry registry);
 
 }
