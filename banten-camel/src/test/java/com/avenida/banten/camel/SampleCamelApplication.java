@@ -6,7 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 /** Just a sample application for camel.
@@ -41,7 +41,7 @@ public class SampleCamelApplication extends BantenApplication {
   }
 
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
 }

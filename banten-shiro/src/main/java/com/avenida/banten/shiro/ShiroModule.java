@@ -2,7 +2,7 @@ package com.avenida.banten.shiro;
 
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 
 /** Banten module to integrate shiro in your application.
  *
@@ -37,7 +37,7 @@ public class ShiroModule implements Module {
 
   /** {@inheritDoc}. */
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
   /** {@inheritDoc}. */

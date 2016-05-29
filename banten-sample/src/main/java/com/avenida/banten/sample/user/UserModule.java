@@ -59,7 +59,7 @@ public class UserModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
 
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(

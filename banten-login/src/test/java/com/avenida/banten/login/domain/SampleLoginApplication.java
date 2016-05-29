@@ -1,7 +1,7 @@
 package com.avenida.banten.login.domain;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 import com.avenida.banten.hibernate.HibernateModule;
@@ -21,7 +21,7 @@ public class SampleLoginApplication extends BantenApplication {
   }
 
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
 }
