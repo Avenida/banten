@@ -30,6 +30,17 @@ public class BantenLoginRealm extends AuthorizingRealm {
     setName("banten.realm");
   }
 
+  /** Creates a new instance of the Realm.
+   * @param theUserRepository the {@link UserRepository}, cannot be null.
+   * @param theTransaction the {@link Transaction}, cannot be null.
+   */
+  public BantenLoginRealm(final UserRepository theUserRepository,
+      final Transaction theTransaction) {
+    this();
+    repository = theUserRepository;
+    transaction = theTransaction;
+  }
+
   /** {@inheritDoc}.*/
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(
