@@ -598,7 +598,7 @@
         <version>2.9.1</version>
         <configuration>
           <configLocation>
-            ${basedir}/../buildtools/checkstyle/avenida-checkstyle-strict.xml
+            ${basedir}/../buildtools/checkstyle/banten-checkstyle-strict.xml
           </configLocation>
           <suppressionsLocation>
             ${basedir}/../buildtools/checkstyle/suppressions.xml
