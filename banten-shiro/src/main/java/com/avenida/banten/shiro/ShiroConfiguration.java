@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.Filter;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.shiro.realm.AuthorizingRealm;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -25,6 +26,12 @@ import org.springframework.core.Ordered;
  */
 @Configuration
 public class ShiroConfiguration {
+
+  /** The min key size for the encryption key, in bytes.*/
+  private static final int MIN_KEY_SIZE = 40;
+
+  /** The max key size for the encryption key, in bytes.*/
+  private static final int MAX_KEY_SIZE = 1024;
 
   /** The shiro filter chain definition, a map of url patters to filters to
    * apply to that url.
@@ -96,6 +103,10 @@ public class ShiroConfiguration {
   public DefaultWebSecurityManager securityManager(
        final AuthorizingRealm realm,
        @Value("${jwt.clientSecret}") final String clientSecret) {
+
+    int keySize = clientSecret.getBytes().length;
+    Validate.isTrue((keySize >= MIN_KEY_SIZE) && (keySize <= MAX_KEY_SIZE));
+
     DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
     sm.setRealm(realm);
     sm.setSessionManager(new BantenWebSessionManager(clientSecret));
