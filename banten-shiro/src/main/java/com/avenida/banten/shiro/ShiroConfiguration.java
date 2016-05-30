@@ -1,23 +1,22 @@
 package com.avenida.banten.shiro;
 
-import javax.servlet.Filter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.apache.shiro.authc.credential.DefaultPasswordService;
-import org.apache.shiro.authc.credential.PasswordMatcher;
+import javax.servlet.Filter;
 
 import org.apache.shiro.realm.AuthorizingRealm;
 
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.mgt.DefaultFilter;
+
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.core.Ordered;
 
 /** Shiro Spring configuration.
@@ -27,80 +26,81 @@ import org.springframework.core.Ordered;
 @Configuration
 public class ShiroConfiguration {
 
+  /** The shiro filter chain definition, a map of url patters to filters to
+   * apply to that url.
+   *
+   * This is written by the ShiroRegistry when a module calls registerEndpoint.
+   */
+  private final Map<String, String> chainDefinitions = new LinkedHashMap<>();
+
+  /** Adds a new chain definition to the list of shiro chain definitions.
+  *
+  * See ShiroRegistry.registerEndpoint for more information.
+  *
+  * @param pattern the url pattern. It cannot be null.
+  *
+  * @param chain the shiro filter chain. It cannot be null.
+  */
+ void addChainDefinition(final String pattern, final String chain) {
+   if (chainDefinitions.isEmpty()) {
+     chainDefinitions.put("/logout", "saveSession, noSessionCreation, logout");
+   }
+   chainDefinitions.put(pattern, "saveSession, noSessionCreation, " + chain);
+ }
+
   @Bean
   public FilterRegistrationBean shiroFilter(
       final DefaultWebSecurityManager securityManager) {
 
-    ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-    factoryBean.setSecurityManager(securityManager);
+    ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
+    bean.setSecurityManager(securityManager);
 
-    factoryBean.getFilters().putAll(DefaultFilter.createInstanceMap(null));
+    //filters.putAll(DefaultFilter.createInstanceMap(null));
+    bean.getFilters().put("saveSession", new BantenSessionStorerFilter());
 
-    factoryBean.getFilterChainDefinitionMap().put("*.js*", "anon");
-    factoryBean.getFilterChainDefinitionMap().put("*.css*", "anon");
-    factoryBean.getFilterChainDefinitionMap().put("*.jpg*", "anon");
-    factoryBean.getFilterChainDefinitionMap().put("*.gif*", "anon");
-    factoryBean.getFilterChainDefinitionMap().put("*.jpeg*", "anon");
-    factoryBean.getFilterChainDefinitionMap().put("/**", "authc");
+    Map<String, String> filterChainMap = bean.getFilterChainDefinitionMap();
+//    filterChainMap.put("*.js*", "anon");
+//    filterChainMap.put("*.css*", "anon");
+//    filterChainMap.put("*.jpg*", "anon");
+//    filterChainMap.put("*.gif*", "anon");
+//    filterChainMap.put("*.jpeg*", "anon");
+
+    addChainDefinition("/**", "authc");
 
     for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
-      factoryBean.getFilterChainDefinitionMap().put(mapping.getUrl(),
+      filterChainMap.put(mapping.getUrl(),
           String.format("authc, roles[%s]", mapping.rolesAsString()));
     }
 
-    ShiroViews shiroViews = ShiroConfigurationApi.getShiroViews();
-    factoryBean.setLoginUrl(shiroViews.getLoginUrl());
-    factoryBean.setUnauthorizedUrl(shiroViews.getUnauthorizedUrl());
-    factoryBean.setSuccessUrl(shiroViews.getSuccessUrl());
+    bean.setFilterChainDefinitionMap(chainDefinitions);
 
-    Filter filter;
+    ShiroViews shiroViews = ShiroConfigurationApi.getShiroViews();
+    bean.setLoginUrl(shiroViews.getLoginUrl());
+    bean.setUnauthorizedUrl(shiroViews.getUnauthorizedUrl());
+    bean.setSuccessUrl(shiroViews.getSuccessUrl());
+
     try {
-      filter = ((Filter) factoryBean.getObject());
+      FilterRegistrationBean registration;
+      registration = new FilterRegistrationBean((Filter) bean.getObject());
+      registration.setName("shiroFilter");
+      registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+
+      return registration;
+
     } catch (Exception e) {
       throw new RuntimeException("Error creating shiro filter.", e);
     }
-
-    FilterRegistrationBean registration = new FilterRegistrationBean(filter);
-    registration.setName("shiroFilter");
-    registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
-
-    return registration;
   }
 
   @Bean(name = "securityManager")
   public DefaultWebSecurityManager securityManager(
        final AuthorizingRealm realm,
-       final DefaultWebSessionManager sessionManager) {
-    DefaultWebSecurityManager securityManager;
-    securityManager = new DefaultWebSecurityManager();
-    securityManager.setRealm(realm);
-    securityManager.setSessionManager(sessionManager);
-    return securityManager;
-  }
-
-  @Bean
-  @Lazy
-  public DefaultWebSessionManager sessionManager() {
-     DefaultWebSessionManager sessionManager;
-    sessionManager = new DefaultWebSessionManager();
-    return sessionManager;
-  }
-
-  @Bean(name = "credentialsMatcher")
-  public PasswordMatcher credentialsMatcher() {
-    PasswordMatcher credentialsMatcher = new PasswordMatcher();
-    credentialsMatcher.setPasswordService(passwordService());
-    return credentialsMatcher;
-  }
-
-  @Bean(name = "passwordService")
-  public DefaultPasswordService passwordService() {
-    return new DefaultPasswordService();
-  }
-
-  @Bean
-  public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-    return new LifecycleBeanPostProcessor();
+       @Value("${jwt.clientSecret}") final String clientSecret) {
+    DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
+    sm.setRealm(realm);
+    sm.setSessionManager(new BantenWebSessionManager(clientSecret));
+    sm.setSubjectFactory(new BantenSubjectFactory());
+    return sm;
   }
 
 }

@@ -36,6 +36,10 @@ public class SampleLoginAccount
       transaction.start();
       userRepository.save(new User("root@banten.org", "root",
           new HashSet<Permission>()));
+      userRepository.save(new User("root2@banten.org", "root",
+          new HashSet<Permission>()));
+      userRepository.save(new User("root3@banten.org", "root",
+          new HashSet<Permission>()));
       transaction.commit();
     } finally {
       transaction.cleanup();

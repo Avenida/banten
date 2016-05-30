@@ -33,11 +33,7 @@ public class ShiroConfigurationApi extends ConfigurationApi {
       final Class<? extends Realm> realm) {
     Validate.notNull(realm, "The realm cannot be null");
 
-    registerBean(
-        new BeanBuilder(realm, false)
-        .markAsLazy()
-        .dependsOn("lifecycleBeanPostProcessor")
-    );
+    registerBean(new BeanBuilder(realm, false).markAsLazy());
 
     realmDefined = true;
     return this;
