@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.apache.shiro.realm.Realm;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 
+import org.apache.shiro.realm.Realm;
+
+import com.avenida.banten.core.BeanBuilder;
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.InitContext;
 
 /** Configuration API for ShiroConfiguration.
  *
@@ -18,7 +18,7 @@ import com.avenida.banten.core.InitContext;
 public class ShiroConfigurationApi extends ConfigurationApi {
 
   /** The realm bean. */
-  private GenericBeanDefinition realmBean;
+  private boolean realmDefined = false;
 
   /** The Shiro views bean. */
   private static ShiroViews shiroViews;
@@ -32,14 +32,14 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   public ShiroConfigurationApi registerRealm(
       final Class<? extends Realm> realm) {
     Validate.notNull(realm, "The realm cannot be null");
-    realmBean = new GenericBeanDefinition();
-    realmBean.setBeanClass(realm);
-    realmBean.setDependsOn("lifecycleBeanPostProcessor");
-    realmBean.setLazyInit(true);
 
-    InitContext.beanDefinitionRegistry().registerBeanDefinition(
-        "banten.realm", realmBean);
+    registerBean(
+        new BeanBuilder(realm, false)
+        .markAsLazy()
+        .dependsOn("lifecycleBeanPostProcessor")
+    );
 
+    realmDefined = true;
     return this;
   }
 
@@ -70,7 +70,8 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   /** {@inheritDoc}.*/
   @Override
   protected void init() {
-    Validate.notNull(realmBean, "ShiroConfiguration Realm _Must_ be defined");
+    Validate.isTrue(realmDefined,
+        "ShiroConfiguration Realm _Must_ be defined");
     Validate.notNull(shiroViews,
         "Shiro views not defined, see ShiroConfigurationApi#configureViews");
   }

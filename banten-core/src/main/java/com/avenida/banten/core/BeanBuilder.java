@@ -108,6 +108,23 @@ public class BeanBuilder {
     registered = true;
   }
 
+  /** Marks this bean as Lazy.
+   * @return this.
+   */
+  public BeanBuilder markAsLazy() {
+    bean.setLazyInit(true);
+    return this;
+  }
+
+  /** Set dependencies for this bean.
+   * @param depends the list of dependency beans.
+   * @return this.
+   */
+  public BeanBuilder dependsOn(final String ... depends) {
+    bean.setDependsOn(depends);
+    return this;
+  }
+
   /** A simple key->value store for the constructor parameter.*/
   public static class ConstructorArgument {
 
@@ -135,11 +152,9 @@ public class BeanBuilder {
 
     /** Retrieves the value, can be null.
      * @return the value or null.
-     *
      */
     public Object getValue() {
       return value;
     }
   }
-
 }

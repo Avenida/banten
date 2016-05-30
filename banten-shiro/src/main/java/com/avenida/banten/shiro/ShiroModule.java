@@ -26,7 +26,7 @@ public class ShiroModule implements Module {
   /** {@inheritDoc}. */
   @Override
   public String getName() {
-    return "ShiroConfiguration-Module";
+    return "Shiro-Module";
   }
 
   /** {@inheritDoc}. */
