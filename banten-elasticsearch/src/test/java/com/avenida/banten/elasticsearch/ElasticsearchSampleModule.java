@@ -6,7 +6,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 
 /** Just a sample module that maps an Elasticsearch's index.
  *
@@ -33,7 +33,7 @@ public class ElasticsearchSampleModule implements Module {
   }
 
   /** {@inheritDoc}.*/
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
     registry.get(ElasticsearchConfigurationApi.class)
     .mappings(
 

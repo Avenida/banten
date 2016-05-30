@@ -5,8 +5,9 @@
     "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 
 <!--
-  Avenida checkstyle strict configuration. This is an adaptation of the
-  checkstyle file for sun coding conventions that supports generics.
+  Banten's check-style strict configuration. 
+  This is an adaptation of the check-style file for sun coding 
+  conventions that supports generics.
 -->
 <module name="Checker">
 

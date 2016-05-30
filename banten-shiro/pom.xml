@@ -39,6 +39,11 @@
       <artifactId>commons-io</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Apache shiro dependencies. -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
@@ -55,6 +60,11 @@
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-spring</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
     </dependency>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->

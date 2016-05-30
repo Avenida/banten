@@ -1,5 +1,3 @@
-/* vim: set et sw=2 cindent fo=qroca: */
-
 package com.avenida.banten.core;
 
 import java.util.*;
@@ -48,7 +46,8 @@ public abstract class BantenApplication implements Registry {
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
 
   /** The module registry, it's never null. */
-  private final ModuleApiRegistry moduleRegistry = ModuleApiRegistry.instance();
+  private final ConfigurationApiRegistry moduleRegistry
+    = ConfigurationApiRegistry.instance();
 
   /** The spring boot application, null if not yet created.
    *
@@ -183,7 +182,7 @@ public abstract class BantenApplication implements Registry {
       final Module module) {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
-      ModuleApiRegistry.register(api);
+      ConfigurationApiRegistry.register(api);
     }
   }
 

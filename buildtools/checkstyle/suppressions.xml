@@ -43,5 +43,4 @@
   <suppress checks="ConstantName" files=".*(Test|Mother)\.java"/>
   <suppress checks="AvoidInlineConditionals" files=".*(Test|Mother)\.java"/>
 
-  <!-- vim: set ts=2 et sw=2 ai: -->
 </suppressions>

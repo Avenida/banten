@@ -49,7 +49,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public void init(final ModuleApiRegistry registry) {
+    public void init(final ConfigurationApiRegistry registry) {
     }
 
   }
@@ -87,7 +87,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public void init(final ModuleApiRegistry registry) {
+    public void init(final ConfigurationApiRegistry registry) {
     }
   }
 
@@ -147,7 +147,7 @@ public class BantenApplicationTest {
     }
 
     @Override
-    public void init(final ModuleApiRegistry registry) {
+    public void init(final ConfigurationApiRegistry registry) {
       registry.get(SampleModuleConfigurationApi.class)
         .configureGlobalString("from module B");
     }

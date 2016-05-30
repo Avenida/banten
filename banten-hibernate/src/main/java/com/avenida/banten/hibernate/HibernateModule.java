@@ -20,7 +20,7 @@ public class HibernateModule implements Module {
   }
 
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
   /** {@inheritDoc}.*/

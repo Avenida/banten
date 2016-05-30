@@ -35,7 +35,7 @@ public class SitemeshModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
   /** {@inheritDoc}.*/

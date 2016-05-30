@@ -2,7 +2,7 @@ package com.avenida.banten.elasticsearch;
 
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.Module;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 
 /** Elasticsearch Module.
  *
@@ -30,7 +30,7 @@ public class ElasticsearchModule implements Module {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
 }

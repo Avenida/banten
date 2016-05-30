@@ -6,8 +6,9 @@ import org.springframework.boot.context.embedded.jetty
 import org.springframework.context.annotation.Bean;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
+
 import com.avenida.banten.hibernate.HibernateModule;
 
 import com.avenida.banten.login.LoginConfigurationApi;
@@ -66,7 +67,7 @@ public class SampleApplication extends BantenApplication {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
     registry.get(LoginConfigurationApi.class)
       .successUrl("/users/users/list.html");
 

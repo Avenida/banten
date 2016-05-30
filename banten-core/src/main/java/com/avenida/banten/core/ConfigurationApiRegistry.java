@@ -2,14 +2,18 @@ package com.avenida.banten.core;
 
 import java.util.*;
 
-/** Holds the {@link ConfigurationApi} implementations for each {@link Module}.
+/** Holds the {@link ConfigurationApi} implementations.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */
-public final class ModuleApiRegistry {
+public final class ConfigurationApiRegistry {
 
   /** The static inistance. */
-  private static ModuleApiRegistry instance = new ModuleApiRegistry();
+  private static ConfigurationApiRegistry instance;
+
+  static {
+    instance = new ConfigurationApiRegistry();
+  }
 
   /** Map that holds the class and implementation of the
    * {@link ConfigurationApi}s.
@@ -17,14 +21,14 @@ public final class ModuleApiRegistry {
   private Map<Class<? extends ConfigurationApi>, ConfigurationApi> apis;
 
   /** Creates a new instance of the Registry.*/
-  private ModuleApiRegistry() {
+  private ConfigurationApiRegistry() {
     apis = new HashMap<>();
   }
 
-  /** Retrieves the {@link ModuleApiRegistry} instance.
-   * @return the {@link ModuleApiRegistry}, never null.
+  /** Retrieves the {@link ConfigurationApiRegistry} instance.
+   * @return the {@link ConfigurationApiRegistry}, never null.
    */
-  static ModuleApiRegistry instance() {
+  static ConfigurationApiRegistry instance() {
     return instance;
   }
 

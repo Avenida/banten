@@ -1,7 +1,7 @@
 package com.avenida.banten.elasticsearch;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 /** Just a Sample Application for testing purposes.
@@ -19,7 +19,7 @@ public class ElasticsearchSampleApplication extends BantenApplication {
   }
 
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
 }

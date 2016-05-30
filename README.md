@@ -15,11 +15,18 @@ This will create the Spring's Application Context.
 
 ```java
   public class SampleApplication extends BantenApplication {
-    public SampleApplication() {
-      super(
+    @Override
+    protected Bootstrap bootstrap() {
+      return new Bootstrap(
         ModuleA.class,
         ModuleB.class
-      )
+      );
     }
+    
+    @Override
+    public void init(final ModuleApiRegistry registry) {
+      // here you should configure modules "application wide"
+    }
+    
   }
 ```

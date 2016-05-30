@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.WebModule;
 import com.avenida.banten.web.Weblet;
 import com.avenida.banten.web.WebletContainer;
@@ -90,7 +90,7 @@ public class WebletRendererTest {
     }
 
     @Override
-    public void init(final ModuleApiRegistry registry) {
+    public void init(final ConfigurationApiRegistry registry) {
     }
 
     @Override

@@ -9,6 +9,13 @@ package com.avenida.banten.core;
  */
 public abstract class ConfigurationApi {
 
+  /** Registers a Bean into global Spring's Application context.
+   * @param builder the bean builder, cannot be null.
+   */
+  protected void registerBean(final BeanBuilder builder) {
+    builder.register(InitContext.beanDefinitionRegistry());
+  }
+
   /** Initialize the configuration API.*/
   protected void init() {
   }

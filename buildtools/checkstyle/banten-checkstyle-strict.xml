@@ -5,20 +5,15 @@
     "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 
 <!--
-  Avenida checkstyle strict configuration. This is an adaptation of the
-  checkstyle file for sun coding conventions that supports generics.
+  Banten's check-style strict configuration. 
+  This is an adaptation of the check-style file for sun coding conventions 
+  that supports generics.
 -->
 <module name="Checker">
 
   <module name="SuppressionFilter">
     <property name="file" value="${checkstyle.suppressions.file}"/>
   </module>
-
-  <!-- Checks that a package.html file exists for each package. Disabled
-  because it is very difficult to write meaningful package.html files. -->
-  <!-- module name="PackageHtml">
-    <property name="severity" value="warning"/>
-  </module -->
 
   <!-- Checks whether files end with a new line. -->
   <module name="NewlineAtEndOfFile"/>
@@ -41,18 +36,6 @@
 
     <property name="cacheFile" value="${checkstyle.cache.file}"/>
 
-    <!-- Checks for Javadoc comments. -->
-    <module name="JavadocMethod">
-      <property name="severity" value="warning"/>
-      <!-- Don't complain if we document RuntimeExceptions. -->
-      <property name="allowUndeclaredRTE" value="true"/>
-    </module>
-    <module name="JavadocType">
-      <property name="severity" value="warning"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="severity" value="warning"/>
-    </module>
     <module name="JavadocStyle">
       <property name="checkEmptyJavadoc" value="true"/>
       <property name="checkFirstSentence" value="false"/>
@@ -94,9 +77,9 @@
     <!-- Checks for Size Violations. -->
     <module name="LineLength"/>
     <module name="MethodLength"/>
-    <module name="ParameterNumber">
+    <!-- module name="ParameterNumber">
       <property name="severity" value="warning"/>
-    </module>
+    </module -->
 
     <!-- Checks for whitespace. -->
     <module name="EmptyForIteratorPad"/>
@@ -136,11 +119,12 @@
     <module name="EqualsHashCode"/>
     <module name="HiddenField"/>
     <module name="IllegalInstantiation"/>
-    <module name="InnerAssignment"/>
+    <!--module name="InnerAssignment"/-->
     <module name="MagicNumber"/>
     <module name="MissingSwitchDefault"/>
-    <module name="SimplifyBooleanExpression"/>
-    <module name="SimplifyBooleanReturn"/>
+    <module name="RedundantThrows"/>
+    <!-- module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/-->
 
     <!-- Checks for class design. -->
 

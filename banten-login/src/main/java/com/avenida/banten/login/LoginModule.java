@@ -1,7 +1,7 @@
 package com.avenida.banten.login;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.PersistenceUnit;
 import com.avenida.banten.core.WebModule;
 
@@ -38,7 +38,7 @@ public class LoginModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
 
     registry.get(ShiroConfigurationApi.class)
       .configureViews(

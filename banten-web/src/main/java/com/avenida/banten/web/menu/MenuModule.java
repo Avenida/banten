@@ -44,7 +44,7 @@ public class MenuModule implements WebModule {
 
   /** {@inheritDoc}.*/
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
     registry.get(WebAppConfigurationApi.class)
       .addWeblets(
         Arrays.asList(

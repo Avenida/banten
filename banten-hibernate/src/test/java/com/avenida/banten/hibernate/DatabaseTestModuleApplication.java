@@ -1,7 +1,7 @@
 package com.avenida.banten.hibernate;
 
 import com.avenida.banten.core.BantenApplication;
-import com.avenida.banten.core.ModuleApiRegistry;
+import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 /** Database test module application.
@@ -18,7 +18,7 @@ public class DatabaseTestModuleApplication extends BantenApplication {
   }
 
   @Override
-  public void init(final ModuleApiRegistry registry) {
+  public void init(final ConfigurationApiRegistry registry) {
   }
 
 }
