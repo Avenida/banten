@@ -32,7 +32,7 @@ public class User {
 
   /** The list of roles for this user, it's never null.*/
   @OneToMany(fetch = FetchType.EAGER)
-  private Set<Permission> permissions;
+  private Set<Role> roles;
 
   /** Creates an empty instance, for Hibernate.*/
   User() {
@@ -44,13 +44,13 @@ public class User {
    * @param thePermissions the set of roles, cannot be null.
    */
   public User(final String theEmail, final String thePassword,
-      final Set<Permission> thePermissions) {
+      final Set<Role> thePermissions) {
     Validate.notNull(theEmail, "The email cannot be null");
     Validate.notNull(thePassword, "The password cannot be null");
     Validate.notNull(thePermissions, "The roles cannot be null");
     email = theEmail;
     password = thePassword;
-    permissions = thePermissions;
+    roles = thePermissions;
   }
 
   /** Retrieves the id.
@@ -77,24 +77,24 @@ public class User {
   /** Retrieves the roles.
    * @return an unmodifiable set of roles.
    */
-  public Set<Permission> getPermissions() {
-    return Collections.unmodifiableSet(permissions);
+  public Set<Role> getRoles() {
+    return Collections.unmodifiableSet(roles);
   }
 
-  /** Assigns a new {@link Permission} to this user.
-   * @param permission the role to assign, cannot be null.
+  /** Assigns a new {@link Role} to this user.
+   * @param role the role to assign, cannot be null.
    */
-  public void assignPermission(final Permission permission) {
-    Validate.notNull(permission, "The role cannot be null");
-    permissions.add(permission);
+  public void assignRole(final Role role) {
+    Validate.notNull(role, "The role cannot be null");
+    roles.add(role);
   }
 
-  /** Unassigns the given {@link Permission} from this user.
-   * @param permission the role to unassign, cannot be null.
+  /** Unassigns the given {@link Role} from this user.
+   * @param role the role to unassign, cannot be null.
    */
-  public void unassignPermission(final Permission permission) {
-    Validate.notNull(permission, "The role cannot be null");
-    permissions.remove(permission);
+  public void unassignRole(final Role role) {
+    Validate.notNull(role, "The role cannot be null");
+    roles.remove(role);
   }
 
 }

@@ -10,7 +10,6 @@ import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 import com.avenida.banten.hibernate.HibernateModule;
-
 import com.avenida.banten.login.LoginConfigurationApi;
 import com.avenida.banten.login.LoginModule;
 

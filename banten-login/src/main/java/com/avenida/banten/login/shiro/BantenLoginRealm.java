@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.domain.UserRepository;
 import com.avenida.banten.hibernate.Transaction;
-import com.avenida.banten.login.domain.Permission;
+import com.avenida.banten.login.domain.Role;
 
 /** Hibernate's Real that use the {@link User} as principal.
  *
@@ -54,7 +54,7 @@ public class BantenLoginRealm extends AuthorizingRealm {
 
       if (user != null) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        for (Permission permission : user.getPermissions()) {
+        for (Role permission : user.getRoles()) {
           info.addRole(permission.getName());
         }
         return info;

@@ -6,7 +6,7 @@ import com.avenida.banten.core.PersistenceUnit;
 import com.avenida.banten.core.WebModule;
 
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
-import com.avenida.banten.login.domain.Permission;
+import com.avenida.banten.login.domain.Role;
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.shiro.BantenLoginRealm;
 
@@ -50,7 +50,7 @@ public class LoginModule implements WebModule {
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(
           new PersistenceUnit(User.class),
-          new PersistenceUnit(Permission.class)
+          new PersistenceUnit(Role.class)
        );
   }
 

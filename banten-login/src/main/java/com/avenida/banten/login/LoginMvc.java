@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 
 import com.avenida.banten.login.application.LoginController;
+
 import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
 import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
 

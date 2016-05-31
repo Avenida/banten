@@ -1,8 +1,10 @@
 package com.avenida.banten.shiro;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
 
@@ -77,6 +79,17 @@ public class ShiroConfigurationApi extends ConfigurationApi {
    */
   public static List<UrlToRoleMapping> getMappings() {
     return mappings;
+  }
+
+  /** Retrieves a set with the defined roles within the application.
+   * @return the list of roles defined for each endpoint in the application.
+   */
+  public static Set<String> getDefinedRoles() {
+    Set<String> defined = new HashSet<>();
+    for (UrlToRoleMapping mapping : mappings) {
+      defined.addAll(mapping.getRoles());
+    }
+    return defined;
   }
 
   /** Retrieves the shiroViews.
