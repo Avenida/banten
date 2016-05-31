@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.Filter;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.shiro.realm.AuthorizingRealm;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -27,57 +26,27 @@ import org.springframework.core.Ordered;
 @Configuration
 public class ShiroConfiguration {
 
-  /** The min key size for the encryption key, in bytes.*/
-  private static final int MIN_KEY_SIZE = 40;
-
-  /** The max key size for the encryption key, in bytes.*/
-  private static final int MAX_KEY_SIZE = 1024;
-
-  /** The shiro filter chain definition, a map of url patters to filters to
-   * apply to that url.
-   *
-   * This is written by the ShiroRegistry when a module calls registerEndpoint.
-   */
-  private final Map<String, String> chainDefinitions = new LinkedHashMap<>();
-
-  /** Adds a new chain definition to the list of shiro chain definitions.
-  *
-  * See ShiroRegistry.registerEndpoint for more information.
-  *
-  * @param pattern the url pattern. It cannot be null.
-  *
-  * @param chain the shiro filter chain. It cannot be null.
-  */
- void addChainDefinition(final String pattern, final String chain) {
-   if (chainDefinitions.isEmpty()) {
-     chainDefinitions.put("/logout", "saveSession, noSessionCreation, logout");
-   }
-   chainDefinitions.put(pattern, "saveSession, noSessionCreation, " + chain);
- }
-
-  @Bean
-  public FilterRegistrationBean shiroFilter(
+  @Bean public FilterRegistrationBean shiroFilter(
       final DefaultWebSecurityManager securityManager) {
 
     ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
     bean.setSecurityManager(securityManager);
 
-    //filters.putAll(DefaultFilter.createInstanceMap(null));
     bean.getFilters().put("saveSession", new BantenSessionStorerFilter());
 
     Map<String, String> filterChainMap = bean.getFilterChainDefinitionMap();
-//    filterChainMap.put("*.js*", "anon");
-//    filterChainMap.put("*.css*", "anon");
-//    filterChainMap.put("*.jpg*", "anon");
-//    filterChainMap.put("*.gif*", "anon");
-//    filterChainMap.put("*.jpeg*", "anon");
 
-    addChainDefinition("/**", "authc");
+    Map<String, String> chainDefinitions = new LinkedHashMap<>();
+
+    chainDefinitions.put("/logout", "saveSession, noSessionCreation, logout");
+    chainDefinitions.put("/**/static/**", "anon");
 
     for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
       filterChainMap.put(mapping.getUrl(),
           String.format("authc, roles[%s]", mapping.rolesAsString()));
     }
+
+    chainDefinitions.put("/**", "saveSession, noSessionCreation, authc");
 
     bean.setFilterChainDefinitionMap(chainDefinitions);
 
@@ -99,13 +68,11 @@ public class ShiroConfiguration {
     }
   }
 
-  @Bean(name = "securityManager")
-  public DefaultWebSecurityManager securityManager(
-       final AuthorizingRealm realm,
-       @Value("${jwt.clientSecret}") final String clientSecret) {
+  @Bean public DefaultWebSecurityManager securityManager(
+      @Value("${jwt.clientSecret}") final String clientSecret,
+      final AuthorizingRealm realm) {
 
-    int keySize = clientSecret.getBytes().length;
-    Validate.isTrue((keySize >= MIN_KEY_SIZE) && (keySize <= MAX_KEY_SIZE));
+    BantenSession.validateKey(clientSecret);
 
     DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
     sm.setRealm(realm);

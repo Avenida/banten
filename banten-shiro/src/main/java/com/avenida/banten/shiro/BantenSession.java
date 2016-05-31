@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.*;
 
 import org.apache.commons.codec.binary.Base64;
-
+import org.apache.commons.lang3.Validate;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -28,6 +28,12 @@ public class BantenSession implements ValidatingSession {
 
   /** The class logger. */
   private final Logger log = getLogger(BantenSession.class);
+
+  /** The min key size for the encryption key, in bytes.*/
+  private static final int MIN_KEY_SIZE = 40;
+
+  /** The max key size for the encryption key, in bytes.*/
+  private static final int MAX_KEY_SIZE = 1024;
 
   /** The encryption algorithm.*/
   private static final String ENCRYPTION_ALGORITHM = "RC4";
@@ -56,6 +62,7 @@ public class BantenSession implements ValidatingSession {
   /** The client secret, it's  never null.*/
   private final byte[] secretKey;
 
+  /** The {@link SecretKeySpec}, it's never null. */
   private final SecretKeySpec keySpec;
 
   /** Creates a new instance of the {@link BantenSession}.
@@ -71,6 +78,8 @@ public class BantenSession implements ValidatingSession {
       final HttpServletRequest theRequest,
       final HttpServletResponse theResponse) {
 
+    validateKey(theClientSecret);
+
     request = theRequest;
     response = theResponse;
     host = theHost;
@@ -85,6 +94,15 @@ public class BantenSession implements ValidatingSession {
         }
       }
     }
+  }
+
+  /** Validates the given key for the RC4 algorithm.
+   * @param key the key to validate, cannot be null.
+   */
+  public static void validateKey(final String key) {
+    Validate.notNull(key, "The key cannot be null");
+    int keySize = key.getBytes().length;
+    Validate.isTrue((keySize >= MIN_KEY_SIZE) && (keySize <= MAX_KEY_SIZE));
   }
 
   /** Encrypts the provided plain text and generates an encrypted string.
