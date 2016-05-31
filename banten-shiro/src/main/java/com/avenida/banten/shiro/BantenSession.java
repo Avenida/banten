@@ -20,7 +20,7 @@ import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.web.servlet.SimpleCookie;
 
-/** A Shiro's session that keeps its information in a cookie using jwt.io.
+/** A Shiro's session that keeps its information in a cookie.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */

@@ -1,12 +1,14 @@
 package com.avenida.banten.shiro;
 
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.Filter;
 
 import org.apache.shiro.realm.AuthorizingRealm;
-
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -26,6 +28,13 @@ import org.springframework.core.Ordered;
 @Configuration
 public class ShiroConfiguration {
 
+  /** The log. */
+  private final Logger log = getLogger(ShiroConfiguration.class);
+
+  /** Configures the Shiro's Filter.
+   * @param securityManager the {@link DefaultSecurityManager}.
+   * @return the {@link FilterRegistrationBean}, never null.
+   */
   @Bean public FilterRegistrationBean shiroFilter(
       final DefaultWebSecurityManager securityManager) {
 
@@ -34,16 +43,18 @@ public class ShiroConfiguration {
 
     bean.getFilters().put("saveSession", new BantenSessionStorerFilter());
 
-    Map<String, String> filterChainMap = bean.getFilterChainDefinitionMap();
-
     Map<String, String> chainDefinitions = new LinkedHashMap<>();
 
     chainDefinitions.put("/logout", "saveSession, noSessionCreation, logout");
     chainDefinitions.put("/**/static/**", "anon");
 
     for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
-      filterChainMap.put(mapping.getUrl(),
-          String.format("authc, roles[%s]", mapping.rolesAsString()));
+      String authc;
+      authc = String.format("authc, roles[%s]", mapping.rolesAsString());
+
+      log.debug("Mapping shiro authc: {}", authc);
+
+      bean.getFilterChainDefinitionMap().put(mapping.getUrl(), authc);
     }
 
     chainDefinitions.put("/**", "saveSession, noSessionCreation, authc");
@@ -68,15 +79,20 @@ public class ShiroConfiguration {
     }
   }
 
+  /** Configures the {@link DefaultWebSecurityManager}.
+   * @param encryptionKey the client secret
+   * @param realm the {@link Realm}, cannot be null.
+   * @return the {@link DefaultWebSecurityManager}, never null.
+   */
   @Bean public DefaultWebSecurityManager securityManager(
-      @Value("${jwt.clientSecret}") final String clientSecret,
+      @Value("${shiro.encryption.key}") final String encryptionKey,
       final AuthorizingRealm realm) {
 
-    BantenSession.validateKey(clientSecret);
+    BantenSession.validateKey(encryptionKey);
 
     DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
     sm.setRealm(realm);
-    sm.setSessionManager(new BantenWebSessionManager(clientSecret));
+    sm.setSessionManager(new BantenWebSessionManager(encryptionKey));
     sm.setSubjectFactory(new BantenSubjectFactory());
     return sm;
   }
