@@ -19,4 +19,10 @@ public class LoginController {
     return new ModelAndView("form");
   }
 
+  @RequestMapping(value = "/unauthorized.html",
+      method = { RequestMethod.GET, RequestMethod.POST })
+  public ModelAndView unauthorized() {
+    return new ModelAndView("unauthorized");
+  }
+
 }
