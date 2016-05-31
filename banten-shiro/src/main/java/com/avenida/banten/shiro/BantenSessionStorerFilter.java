@@ -1,9 +1,7 @@
 package com.avenida.banten.shiro;
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +44,6 @@ public class BantenSessionStorerFilter extends AdviceFilter {
         super.copyBodyToResponse(complete);
       }
     };
-
     chain.doFilter(request, wrappedResponse);
     wrappedResponse.copyBodyToResponse();
   }

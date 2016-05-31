@@ -1,10 +1,10 @@
 package com.avenida.banten.shiro;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import static org.apache.shiro.subject.support.DefaultSubjectContext.*;
 

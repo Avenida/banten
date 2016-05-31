@@ -38,13 +38,13 @@ public class BantenSession implements ValidatingSession {
   /** The encryption algorithm.*/
   private static final String ENCRYPTION_ALGORITHM = "RC4";
 
-  /** The cookie name, it's never null.*/
+  /** The Cookie name, it's never null.*/
   private static final String COOKIE_NAME = "bantenApplicationSession";
 
-  /** The servlet request, never null.*/
+  /** The Servlet's request, never null.*/
   private final HttpServletRequest request;
 
-  /** The servlet response, never null. */
+  /** The Servlet's response, never null. */
   private final HttpServletResponse response;
 
   /**The host that originated the request, never null.*/
@@ -69,8 +69,8 @@ public class BantenSession implements ValidatingSession {
    *
    * @param theClientSecret the client secret, cannot be null.
    * @param theHost the host that originated the request.
-   * @param theRequest the Servlet's request. It cannot be null.
-   * @param theResponse the Servlet's request. It cannot be null.
+   * @param theRequest the Servlet's request, cannot be null.
+   * @param theResponse the Servlet's request, cannot be null.
    */
   public BantenSession(
       final String theClientSecret,
@@ -79,6 +79,9 @@ public class BantenSession implements ValidatingSession {
       final HttpServletResponse theResponse) {
 
     validateKey(theClientSecret);
+
+    Validate.notNull(theRequest, "The request cannot be null");
+    Validate.notNull(theResponse, "The response cannot be null");
 
     request = theRequest;
     response = theResponse;
@@ -112,17 +115,17 @@ public class BantenSession implements ValidatingSession {
   * @return a string with the encrypted data, represented in base64. Never
   * returns null.
   */
- public String encrypt(final byte[] plainText) {
-   try {
-     Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-     cipher.init(Cipher.ENCRYPT_MODE, keySpec);
-     return new Base64(true).encodeToString(cipher.doFinal(plainText));
-   } catch (Exception e) {
-     throw new RuntimeException("Error encrypting message.", e);
-   }
- }
+  public String encrypt(final byte[] plainText) {
+    try {
+      Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
+      cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+      return new Base64(true).encodeToString(cipher.doFinal(plainText));
+    } catch (Exception e) {
+      throw new RuntimeException("Error encrypting message.", e);
+    }
+  }
 
- /** Decrypts the given string and generates a plain array of bytes.
+  /** Decrypts the given string and generates a plain array of bytes.
   *
   * @param cipherText the string to decrypt, as returned by encrypt. It cannot
   * be null.
@@ -163,28 +166,27 @@ public class BantenSession implements ValidatingSession {
   /** Sends the string representation of this session to the client as a
    * browser cookie.
    */
- void save() {
-   String sessionValue = "";
-   SimpleCookie cookie = new SimpleCookie(COOKIE_NAME);
-   if (stopping) {
-     cookie.setMaxAge(0);
-   } else {
-     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-       try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-         oos.writeObject(attributes);
-         oos.close();
-         sessionValue = encrypt(baos.toByteArray());
-       } catch (IOException e) {
-         throw new RuntimeException(e);
-       }
-     } catch (IOException e1) {
-      throw new RuntimeException(e1);
+  void save() {
+    String sessionValue = "";
+    SimpleCookie cookie = new SimpleCookie(COOKIE_NAME);
+    if (stopping) {
+      cookie.setMaxAge(0);
+    } else {
+      try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+          oos.writeObject(attributes);
+          oos.close();
+          sessionValue = encrypt(baos.toByteArray());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      } catch (IOException e1) {
+        throw new RuntimeException(e1);
+      }
     }
-   }
-
-   cookie.setValue(sessionValue);
-   cookie.saveTo(request, response);
- }
+    cookie.setValue(sessionValue);
+    cookie.saveTo(request, response);
+  }
 
   /** {@inheritDoc}.*/
   @Override
@@ -273,4 +275,5 @@ public class BantenSession implements ValidatingSession {
       throw new InvalidSessionException("Session was stopped");
     }
   }
+
 }
