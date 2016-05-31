@@ -15,6 +15,9 @@
 
   <body>
     <div>
+      <a href="/logout">logout</a>
+    </div>
+    <div>
       <@weblet name = "menu" module = "Menu-Module" />
     </div>
     <div>

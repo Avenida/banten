@@ -23,6 +23,14 @@ public class UserRepository extends Repository {
     super(theSessionFactory);
   }
 
+  /** Retrieves a {@link User} by its id.
+   * @param email the id.
+   * @return the {@link User} or null.
+   */
+  public User getById(final long id) {
+    return getCurrentSession().get(User.class, id);
+  }
+
   /** Retrieves a {@link User} by its email.
    * @param email the email, cannot be null.
    * @return the {@link User} or null.

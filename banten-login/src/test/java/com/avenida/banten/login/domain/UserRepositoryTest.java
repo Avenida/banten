@@ -21,8 +21,7 @@ public class UserRepositoryTest {
 
   @Autowired private Transaction transaction;
 
-  @Test
-  public void testSave() {
+  @Test public void testSave() {
     transaction.start();
 
     repository.save(new User("me@waabox.org", "waabox",
@@ -47,6 +46,31 @@ public class UserRepositoryTest {
 
     user.unassignRole((user.getRoles().iterator().next()));
     assertThat(user.getRoles().size(), is(0));
+    transaction.commit();
+
+    transaction.start();
+    assertNotNull(repository.getById(user.getId()));
+    transaction.commit();
+  }
+
+  @Test public void testRoles() {
+
+    transaction.start();
+    repository.save(new Role("ultra-foo"));
+    transaction.commit();
+
+    transaction.start();
+    assertNotNull(repository.getRoleByName("ultra-foo"));
+    transaction.commit();
+
+    transaction.start();
+    boolean found = false;
+    for(Role aRole : repository.getRoles()) {
+      if (aRole.getName().equals("ultra-foo")) {
+        found = true;
+      }
+    }
+    assertTrue("Role ultra-foo not found!", found);
     transaction.commit();
 
   }

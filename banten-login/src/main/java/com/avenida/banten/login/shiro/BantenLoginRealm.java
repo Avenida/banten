@@ -48,9 +48,9 @@ public class BantenLoginRealm extends AuthorizingRealm {
     try {
       transaction.start();
 
-      String email = (String) pc.getPrimaryPrincipal();
+      Long id = (Long) pc.getPrimaryPrincipal();
 
-      User user = repository.getByEmail(email);
+      User user = repository.getById(id);
 
       if (user != null) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();

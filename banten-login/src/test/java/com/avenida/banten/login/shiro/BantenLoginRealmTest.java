@@ -39,8 +39,8 @@ public class BantenLoginRealmTest {
     User user = new User("me@waabox.org", "apassword", permissions);
 
     PrincipalCollection pc = createMock(PrincipalCollection.class);
-    expect(pc.getPrimaryPrincipal()).andReturn("me@waabox.org");
-    expect(userRepository.getByEmail("me@waabox.org")).andReturn(user);
+    expect(pc.getPrimaryPrincipal()).andReturn(1l);
+    expect(userRepository.getById(1l)).andReturn(user);
 
     replay(userRepository, pc);
 
@@ -56,8 +56,8 @@ public class BantenLoginRealmTest {
   @Test public void doGetAuthorizationInfo_userNotFound() {
 
     PrincipalCollection pc = createMock(PrincipalCollection.class);
-    expect(pc.getPrimaryPrincipal()).andReturn("me@waabox.org");
-    expect(userRepository.getByEmail("me@waabox.org")).andReturn(null);
+    expect(pc.getPrimaryPrincipal()).andReturn(1l);
+    expect(userRepository.getById(1l)).andReturn(null);
 
     replay(userRepository, pc);
 

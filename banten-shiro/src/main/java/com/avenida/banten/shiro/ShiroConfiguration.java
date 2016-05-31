@@ -54,7 +54,7 @@ public class ShiroConfiguration {
 
       log.debug("Mapping shiro authc: {}", authc);
 
-      bean.getFilterChainDefinitionMap().put(mapping.getUrl(), authc);
+      chainDefinitions.put(mapping.getUrl(), authc);
     }
 
     chainDefinitions.put("/**", "saveSession, noSessionCreation, authc");
