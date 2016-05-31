@@ -34,6 +34,7 @@ public class SampleApplication extends BantenApplication {
   /** The application's port.*/
   private static final int APPLICATION_PORT = 8080;
 
+  /** {@inheritDoc}.*/
   @Override
   protected Bootstrap bootstrap() {
     return new Bootstrap(

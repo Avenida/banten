@@ -28,7 +28,7 @@ public class UserRepositoryTest {
     repository.save(new User("me@waabox.org", "waabox",
         new HashSet<Role>()));
 
-    repository.save(new Role("test", "a simple permission"));
+    repository.save(new Role("test", "a simple role"));
 
     transaction.commit();
 

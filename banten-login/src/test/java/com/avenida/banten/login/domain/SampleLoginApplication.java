@@ -7,7 +7,9 @@ import com.avenida.banten.core.Bootstrap;
 import com.avenida.banten.hibernate.HibernateModule;
 
 import com.avenida.banten.login.LoginModule;
+import com.avenida.banten.shiro.ShiroConfigurationApi;
 import com.avenida.banten.shiro.ShiroModule;
+import com.avenida.banten.shiro.UrlToRoleMapping;
 
 public class SampleLoginApplication extends BantenApplication {
 
@@ -22,6 +24,8 @@ public class SampleLoginApplication extends BantenApplication {
 
   @Override
   public void init(final ConfigurationApiRegistry registry) {
+    registry.get(ShiroConfigurationApi.class).register(
+        new UrlToRoleMapping("/foo", "foo", "another"));
   }
 
 }

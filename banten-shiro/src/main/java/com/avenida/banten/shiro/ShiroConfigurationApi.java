@@ -1,17 +1,12 @@
 package com.avenida.banten.shiro;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang3.Validate;
 
 import org.apache.shiro.realm.Realm;
 
-import com.avenida.banten.core.BeanBuilder;
-import com.avenida.banten.core.ConfigurationApi;
+import com.avenida.banten.core.*;
 
 /** Configuration API for ShiroConfiguration.
  *
