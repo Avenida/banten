@@ -18,7 +18,7 @@ import static org.easymock.EasyMock.*;
 import org.junit.Test;
 
 import com.avenida.banten.hibernate.Transaction;
-import com.avenida.banten.login.domain.Permission;
+import com.avenida.banten.login.domain.Role;
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.domain.UserRepository;
 
@@ -34,13 +34,13 @@ public class BantenLoginRealmTest {
   }
 
   @Test public void doGetAuthorizationInfo() {
-    Set<Permission> permissions = new HashSet<>();
-    permissions.add(new Permission("execute", "execute a command bleh"));
+    Set<Role> permissions = new HashSet<>();
+    permissions.add(new Role("execute", "execute a command bleh"));
     User user = new User("me@waabox.org", "apassword", permissions);
 
     PrincipalCollection pc = createMock(PrincipalCollection.class);
-    expect(pc.getPrimaryPrincipal()).andReturn("me@waabox.org");
-    expect(userRepository.getByEmail("me@waabox.org")).andReturn(user);
+    expect(pc.getPrimaryPrincipal()).andReturn(1l);
+    expect(userRepository.getById(1l)).andReturn(user);
 
     replay(userRepository, pc);
 
@@ -56,8 +56,8 @@ public class BantenLoginRealmTest {
   @Test public void doGetAuthorizationInfo_userNotFound() {
 
     PrincipalCollection pc = createMock(PrincipalCollection.class);
-    expect(pc.getPrimaryPrincipal()).andReturn("me@waabox.org");
-    expect(userRepository.getByEmail("me@waabox.org")).andReturn(null);
+    expect(pc.getPrimaryPrincipal()).andReturn(1l);
+    expect(userRepository.getById(1l)).andReturn(null);
 
     replay(userRepository, pc);
 
@@ -69,8 +69,8 @@ public class BantenLoginRealmTest {
   }
 
   @Test public void doGetAuthenticationInfo() {
-    Set<Permission> permissions = new HashSet<>();
-    permissions.add(new Permission("execute", "execute a command bleh"));
+    Set<Role> permissions = new HashSet<>();
+    permissions.add(new Role("execute", "execute a command bleh"));
     User user = new User("me@waabox.org", "apassword", permissions);
 
     UsernamePasswordToken at = createMock(UsernamePasswordToken.class);

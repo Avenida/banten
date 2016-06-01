@@ -6,7 +6,8 @@ import com.avenida.banten.core.PersistenceUnit;
 import com.avenida.banten.core.WebModule;
 
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
-import com.avenida.banten.login.domain.Permission;
+
+import com.avenida.banten.login.domain.Role;
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.shiro.BantenLoginRealm;
 
@@ -41,16 +42,18 @@ public class LoginModule implements WebModule {
   public void init(final ConfigurationApiRegistry registry) {
 
     registry.get(ShiroConfigurationApi.class)
+
       .configureViews(
           "/login/web/form.html",
           LoginConfigurationApi.getSuccessUrl(),
-          "/login/web/form.html")
+          "/login/web/unauthorized.html")
+
       .registerRealm(BantenLoginRealm.class);
 
     registry.get(HibernateConfigurationApi.class)
       .persistenceUnits(
           new PersistenceUnit(User.class),
-          new PersistenceUnit(Permission.class)
+          new PersistenceUnit(Role.class)
        );
   }
 

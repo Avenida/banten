@@ -2,6 +2,8 @@ package com.avenida.banten.core;
 
 import java.util.*;
 
+import org.apache.commons.lang3.Validate;
+
 /** Holds the {@link ConfigurationApi} implementations.
  *
  * @author waabox (waabox[at]gmail[dot]com)
@@ -18,7 +20,7 @@ public final class ConfigurationApiRegistry {
   /** Map that holds the class and implementation of the
    * {@link ConfigurationApi}s.
    */
-  private Map<Class<? extends ConfigurationApi>, ConfigurationApi> apis;
+  private final Map<Class<? extends ConfigurationApi>, ConfigurationApi> apis;
 
   /** Creates a new instance of the Registry.*/
   private ConfigurationApiRegistry() {
@@ -41,7 +43,7 @@ public final class ConfigurationApiRegistry {
   }
 
   /** Initializes the APIs.*/
-  void initApi() {
+  void init() {
     Collection<ConfigurationApi> cfgApis = instance.apis.values();
     for(ConfigurationApi cfg : cfgApis) {
       cfg.init();
@@ -49,12 +51,17 @@ public final class ConfigurationApiRegistry {
   }
 
   /** Retrieves the configuration API instance.
+   *
    * @param configurationApiClass the configuration API to get.
-   * @return the configuration API instance, can be null.
+   * @return the configuration API instance, never null.
    */
   @SuppressWarnings("unchecked")
   public <T> T get(final Class<T> configurationApiClass) {
-    return (T) instance.apis.get(configurationApiClass);
+    T api = (T) instance.apis.get(configurationApiClass);
+    Validate.notNull(api, "Api not found: "
+        + configurationApiClass.getName() + " "
+        + "check you application Bootstrap configuration");
+    return api;
   }
 
 }

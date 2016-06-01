@@ -21,14 +21,13 @@ public class UserRepositoryTest {
 
   @Autowired private Transaction transaction;
 
-  @Test
-  public void testSave() {
+  @Test public void testSave() {
     transaction.start();
 
     repository.save(new User("me@waabox.org", "waabox",
-        new HashSet<Permission>()));
+        new HashSet<Role>()));
 
-    repository.savePermission(new Permission("test", "a simple permission"));
+    repository.save(new Role("test", "a simple role"));
 
     transaction.commit();
 
@@ -36,17 +35,42 @@ public class UserRepositoryTest {
     User user = repository.getByEmail("me@waabox.org");
     assertThat(user, notNullValue());
 
-    user.assignPermission(repository.getPermissionByName("test"));
+    user.assignRole(repository.getRoleByName("test"));
 
     transaction.commit();
 
     transaction.start();
     user = repository.getByEmail("me@waabox.org");
     assertThat(user, notNullValue());
-    assertThat(user.getPermissions().iterator().next().getName(), is("test"));
+    assertThat(user.getRoles().iterator().next().getName(), is("test"));
 
-    user.unassignPermission((user.getPermissions().iterator().next()));
-    assertThat(user.getPermissions().size(), is(0));
+    user.unassignRole((user.getRoles().iterator().next()));
+    assertThat(user.getRoles().size(), is(0));
+    transaction.commit();
+
+    transaction.start();
+    assertNotNull(repository.getById(user.getId()));
+    transaction.commit();
+  }
+
+  @Test public void testRoles() {
+
+    transaction.start();
+    repository.save(new Role("ultra-foo"));
+    transaction.commit();
+
+    transaction.start();
+    assertNotNull(repository.getRoleByName("ultra-foo"));
+    transaction.commit();
+
+    transaction.start();
+    boolean found = false;
+    for(Role aRole : repository.getRoles()) {
+      if (aRole.getName().equals("ultra-foo")) {
+        found = true;
+      }
+    }
+    assertTrue("Role ultra-foo not found!", found);
     transaction.commit();
 
   }

@@ -151,7 +151,7 @@ public abstract class BantenApplication implements Registry {
 
     init(moduleRegistry);
 
-    moduleRegistry.initApi();
+    moduleRegistry.init();
 
     InitContext.destroy();
 

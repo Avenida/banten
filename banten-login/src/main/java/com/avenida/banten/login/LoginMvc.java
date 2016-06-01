@@ -6,9 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 
-import com.avenida.banten.login.application.LoginController;
 import com.avenida.banten.web.freemarker.FreeMarkerConfigurer;
 import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
+
+import com.avenida.banten.login.application.LoginController;
+
+import com.avenida.banten.login.domain.CreateRolesFromContextTask;
+import com.avenida.banten.login.domain.UserRepository;
 
 /** Login Module MVC configuration.
  *
@@ -23,6 +27,11 @@ public class LoginMvc {
    */
   @Bean public LoginController loginController() {
     return new LoginController();
+  }
+
+  @Bean public CreateRolesFromContextTask uploadRolesTask(
+      final UserRepository repository) {
+    return new CreateRolesFromContextTask(repository);
   }
 
   @Bean public ViewResolver viewResolver() {

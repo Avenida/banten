@@ -10,7 +10,6 @@ import com.avenida.banten.core.ConfigurationApiRegistry;
 import com.avenida.banten.core.Bootstrap;
 
 import com.avenida.banten.hibernate.HibernateModule;
-
 import com.avenida.banten.login.LoginConfigurationApi;
 import com.avenida.banten.login.LoginModule;
 
@@ -35,6 +34,7 @@ public class SampleApplication extends BantenApplication {
   /** The application's port.*/
   private static final int APPLICATION_PORT = 8080;
 
+  /** {@inheritDoc}.*/
   @Override
   protected Bootstrap bootstrap() {
     return new Bootstrap(

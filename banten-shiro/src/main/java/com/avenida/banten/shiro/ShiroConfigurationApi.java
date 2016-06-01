@@ -1,15 +1,12 @@
 package com.avenida.banten.shiro;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.Validate;
 
 import org.apache.shiro.realm.Realm;
 
-import com.avenida.banten.core.BeanBuilder;
-import com.avenida.banten.core.ConfigurationApi;
+import com.avenida.banten.core.*;
 
 /** Configuration API for ShiroConfiguration.
  *
@@ -25,6 +22,9 @@ public class ShiroConfigurationApi extends ConfigurationApi {
 
   /** The list of URL to Role Mappings. */
   private static List<UrlToRoleMapping> mappings = new LinkedList<>();
+
+  /** The key is the URL and the value the roles. */
+  private static Map<String, List<String>> urlRoles = new HashMap<>();
 
   /** Registers the given Realm into the Spring context.
    * @param realm the realm to register, cannot be null.
@@ -45,6 +45,9 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   public ShiroConfigurationApi register(final UrlToRoleMapping...mapping) {
     Validate.notNull(mapping, "The mappings cannot be null");
     mappings.addAll(Arrays.asList(mapping));
+    for (UrlToRoleMapping urlToRoleMapping : mapping) {
+      urlRoles.put(urlToRoleMapping.getUrl(), urlToRoleMapping.getRoles());
+    }
     return this;
   }
 
@@ -77,6 +80,28 @@ public class ShiroConfigurationApi extends ConfigurationApi {
    */
   public static List<UrlToRoleMapping> getMappings() {
     return mappings;
+  }
+
+  /** Retrieves the roles for the requested url.
+   * @param url the URL.
+   * @return the list of roles or null.
+   */
+  public static List<String> rolesFor(final String url) {
+    if (urlRoles.containsKey(url)) {
+      return urlRoles.get(url);
+    }
+    return new LinkedList<>();
+  }
+
+  /** Retrieves a set with the defined roles within the application.
+   * @return the list of roles defined for each endpoint in the application.
+   */
+  public static Set<String> getDefinedRoles() {
+    Set<String> defined = new HashSet<>();
+    for (UrlToRoleMapping mapping : mappings) {
+      defined.addAll(mapping.getRoles());
+    }
+    return defined;
   }
 
   /** Retrieves the shiroViews.

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.*;
  * factory is {@link MenuConfigurationApi}.
  *
  * TODO [waabox] add an attribute that allow us to order the menu.
- * TODO [waabox] please doc.me
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */
@@ -21,14 +20,11 @@ public class Menu {
   /** The menu node link, can be null.*/
   private final String link;
 
-  /** The menu path, can be null.*/
+  /** The menu path, cannot be null.*/
   private final String path;
 
   /** The list of child nodes, it's never null.*/
   private final List<Menu> childNodes = new LinkedList<>();
-
-  /** Whether or not this Menu is leaf or not. */
-  private final boolean leaf;
 
   /** Creates a new instance of the menu node for 'root' menus.
    * @param aName the name, cannot be null.
@@ -42,7 +38,6 @@ public class Menu {
     displayName = aName;
     path = aPath;
     link = null;
-    leaf = false;
 
   }
 
@@ -61,7 +56,6 @@ public class Menu {
     displayName = aName;
     link = aLink;
     path = aPath;
-    leaf = true;
 
   }
 
@@ -77,6 +71,10 @@ public class Menu {
    */
   public String getLink() {
     return link;
+  }
+
+  public boolean isLeaf() {
+    return link != null;
   }
 
   /** Retrieves the childNodes.
@@ -120,11 +118,19 @@ public class Menu {
     return null;
   }
 
-  /** Retrieves the leaf.
-   * @return the leaf
+  void add(final List<Menu> menus) {
+    childNodes.addAll(menus);
+  }
+
+  /** Creates an empty copy for this menu without childs.
+   * @return the {@link Menu}, never null.
    */
-  public boolean isLeaf() {
-    return leaf;
+  Menu emptyCopy() {
+    if (displayName != null && link != null && path != null) {
+      return new Menu(displayName, link, path);
+    } else {
+      return new Menu(path, displayName);
+    }
   }
 
   /** Retrieves the display name.

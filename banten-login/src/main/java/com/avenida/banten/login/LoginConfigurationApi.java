@@ -13,8 +13,8 @@ public class LoginConfigurationApi extends ConfigurationApi {
   /** The success URL. */
   private static String successUrl = "/";
 
-  /** Sets the success url.
-   * @param theSuccessUrl the success url, cannot be null.
+  /** Sets the success URL.
+   * @param theSuccessUrl the success URL, cannot be null.
    * @return this.
    */
   public LoginConfigurationApi successUrl(final String theSuccessUrl) {

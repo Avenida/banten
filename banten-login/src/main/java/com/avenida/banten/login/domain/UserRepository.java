@@ -1,6 +1,9 @@
 package com.avenida.banten.login.domain;
 
+import java.util.List;
+
 import org.apache.commons.lang3.Validate;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -18,6 +21,14 @@ public class UserRepository extends Repository {
    */
   public UserRepository(final SessionFactory theSessionFactory) {
     super(theSessionFactory);
+  }
+
+  /** Retrieves a {@link User} by its id.
+   * @param email the id.
+   * @return the {@link User} or null.
+   */
+  public User getById(final long id) {
+    return getCurrentSession().get(User.class, id);
   }
 
   /** Retrieves a {@link User} by its email.
@@ -39,23 +50,32 @@ public class UserRepository extends Repository {
     getCurrentSession().saveOrUpdate(user);
   }
 
-  /** Stores a {@link Permission}.
-   * @param permission the {@link Permission} to store, cannot be null.
+  /** Stores a {@link Role}.
+   * @param role the {@link Role} to store, cannot be null.
    */
-  public void savePermission(final Permission permission) {
-    Validate.notNull(permission, "The permission cannot be null");
-    getCurrentSession().saveOrUpdate(permission);
+  public void save(final Role role) {
+    Validate.notNull(role, "The role cannot be null");
+    getCurrentSession().saveOrUpdate(role);
   }
 
-  /** Retrieves a {@link Permission} by its name.
-   * @param name the {@link Permission} name.
-   * @return the {@link Permission} or null.
+  /** Retrieves a {@link Role} by its name.
+   * @param name the {@link Role} name.
+   * @return the {@link Role} or null.
    */
-  public Permission getPermissionByName(final String name) {
-    Validate.notNull(name, "The permission name cannot be null");
-    Criteria criteria = createCriteria(Permission.class);
+  public Role getRoleByName(final String name) {
+    Validate.notNull(name, "The role name cannot be null");
+    Criteria criteria = createCriteria(Role.class);
     criteria.add(Restrictions.eq("name", name));
-    return (Permission) criteria.uniqueResult();
+    return (Role) criteria.uniqueResult();
+  }
+
+  /** Retrieves the defined roles.
+   * @return the list of roles.
+   */
+  @SuppressWarnings("unchecked")
+  public List<Role> getRoles() {
+    Criteria criteria = createCriteria(Role.class);
+    return criteria.list();
   }
 
 }

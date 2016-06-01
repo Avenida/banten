@@ -1,5 +1,3 @@
-/* vim: set et sw=2 cindent fo=qroca: */
-
 package com.avenida.banten.core;
 
 import org.slf4j.Logger;
@@ -55,7 +53,7 @@ public class BantenPrivateConfiguration extends WebMvcConfigurationSupport {
     debugMode = environment.getProperty("debugMode", Boolean.class, false);
 
     ResourceHandlerRegistration registration;
-    registration = registry.addResourceHandler("/**");
+    registration = registry.addResourceHandler("/static/**");
 
     if (debugMode) {
       registration.addResourceLocations(
