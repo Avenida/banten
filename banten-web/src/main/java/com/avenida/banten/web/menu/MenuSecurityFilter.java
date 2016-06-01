@@ -3,31 +3,45 @@ package com.avenida.banten.web.menu;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.shiro.SecurityUtils;
-
-import com.avenida.banten.shiro.ShiroConfigurationApi;
-
 /** Filters the menu based on the active logged in user and its roles.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */
 public class MenuSecurityFilter {
 
-  /** The menu to be filtered, it's never null.*/
-  private final Menu menu;
+  /** The role vote, it's never null.*/
+  private final RoleVoter roleVoter;
+
+  /** The url service, it's never null. */
+  private final SecuredUrlService urlService;
+
+  /** Whether or not should filter the application. */
+  private final boolean isSecured;
 
   /** Creates a new instance of the {@link MenuSecurityFilter}.
-   *
-   * @param theMenu the {@link Menu} to filter, cannot be null.
+   * @param voter the {@link RoleVoter}, cannot be null.
+   * @param theUrlService {@link SecuredUrlService}, cannot be null.
+   * @param isSecuredApplication whether or not should filter based on this
+   * application need to filter the menu.
    */
-  public MenuSecurityFilter(final Menu theMenu) {
-    menu = theMenu;
+  public MenuSecurityFilter(
+      final RoleVoter voter,
+      final SecuredUrlService theUrlService,
+      final boolean isSecuredApplication) {
+    roleVoter = voter;
+    urlService = theUrlService;
+    isSecured = isSecuredApplication;
   }
 
   /** Retrieves a filtered {@link Menu}.
    * @return the {@link Menu}, never null.
    */
-  public Menu filter() {
+  public Menu filter(final Menu menu) {
+
+    if(!isSecured) {
+      return menu;
+    }
+
     Menu filteredMenu = new Menu(menu.getPath(), menu.getDisplayName());
     filteredMenu.add(doFilter(menu));
     return filteredMenu;
@@ -42,10 +56,10 @@ public class MenuSecurityFilter {
     List<Menu> toAdd = new LinkedList<>();
     for(Menu current : theMenu.getChildNodes()) {
       if (current.isLeaf()) {
-        List<String> roles = ShiroConfigurationApi.rolesFor(current.getLink());
+        List<String> roles = urlService.rolesFor(current.getLink());
         boolean hasRole = false;
         for (String role : roles) {
-          if(SecurityUtils.getSubject().hasRole(role)) {
+          if(roleVoter.hasRole(role)) {
             hasRole = true;
           }
         }
