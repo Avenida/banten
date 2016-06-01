@@ -82,11 +82,13 @@ public class ShiroConfigurationApi extends ConfigurationApi {
     return mappings;
   }
 
-  /** Retrieves the roles for the requested url.
-   * @param url the URL.
-   * @return the list of roles or null.
+  /** Retrieves the roles for the requested URL.
+   * @param url the URL, cannot be null.
+   * @return the list of roles, or an empty list if does not have a definition
+   * for the given URL.
    */
   public static List<String> rolesFor(final String url) {
+    Validate.notNull(url, "The url cannot be null");
     if (urlRoles.containsKey(url)) {
       return urlRoles.get(url);
     }
