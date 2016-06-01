@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.avenida.banten.web.menu.MenuConfigurationApi;
+import com.avenida.banten.web.menu.MenuSecurityFilter;
 
 /** The {@link MenuBar} controller.
  *
@@ -21,7 +22,8 @@ public class MenuController {
   @RequestMapping(value = "/index.html", method = RequestMethod.GET)
   public ModelAndView index(final HttpServletRequest request) {
     ModelAndView mav = new ModelAndView("menu");
-    mav.addObject("menu", MenuConfigurationApi.get());
+    mav.addObject("menu",
+        new MenuSecurityFilter(MenuConfigurationApi.get()).filter());
     return mav;
   }
 

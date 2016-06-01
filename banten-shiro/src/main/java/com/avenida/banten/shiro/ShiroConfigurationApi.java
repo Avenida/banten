@@ -23,6 +23,9 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   /** The list of URL to Role Mappings. */
   private static List<UrlToRoleMapping> mappings = new LinkedList<>();
 
+  /** The key is the URL and the value the roles. */
+  private static Map<String, List<String>> urlRoles = new HashMap<>();
+
   /** Registers the given Realm into the Spring context.
    * @param realm the realm to register, cannot be null.
    */
@@ -42,6 +45,9 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   public ShiroConfigurationApi register(final UrlToRoleMapping...mapping) {
     Validate.notNull(mapping, "The mappings cannot be null");
     mappings.addAll(Arrays.asList(mapping));
+    for (UrlToRoleMapping urlToRoleMapping : mapping) {
+      urlRoles.put(urlToRoleMapping.getUrl(), urlToRoleMapping.getRoles());
+    }
     return this;
   }
 
@@ -74,6 +80,17 @@ public class ShiroConfigurationApi extends ConfigurationApi {
    */
   public static List<UrlToRoleMapping> getMappings() {
     return mappings;
+  }
+
+  /** Retrieves the roles for the requested url.
+   * @param url the URL.
+   * @return the list of roles or null.
+   */
+  public static List<String> rolesFor(final String url) {
+    if (urlRoles.containsKey(url)) {
+      return urlRoles.get(url);
+    }
+    return new LinkedList<>();
   }
 
   /** Retrieves a set with the defined roles within the application.

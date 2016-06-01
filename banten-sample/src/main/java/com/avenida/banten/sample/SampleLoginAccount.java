@@ -42,15 +42,24 @@ public class SampleLoginAccount
         userRepository.save(roleAdmin);
       }
 
+      Role roleTime = userRepository.getRoleByName("time");
+      if(roleTime == null) {
+        roleTime = new Role("time");
+        userRepository.save(roleTime);
+      }
+
       Set<Role> rolesForRoot = new HashSet<>();
       rolesForRoot.add(roleAdmin);
+      rolesForRoot.add(roleTime);
+
+      Set<Role> rolesForTime = new HashSet<>();
+      rolesForTime.add(roleTime);
 
       userRepository.save(new User("root@banten.org", "root", rolesForRoot));
 
-      userRepository.save(new User("root2@banten.org", "root",
-          new HashSet<Role>()));
+      userRepository.save(new User("time@banten.org", "root", rolesForTime));
 
-      userRepository.save(new User("root3@banten.org", "root",
+      userRepository.save(new User("noroles@banten.org", "root",
           new HashSet<Role>()));
 
       transaction.commit();

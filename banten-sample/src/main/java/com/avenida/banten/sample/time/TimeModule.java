@@ -62,7 +62,7 @@ public class TimeModule implements WebModule {
       .node("List", "/time/time/view.html", "/time");
 
     registry.get(ShiroConfigurationApi.class)
-      .register(new UrlToRoleMapping("/time/time/view.html", "admin"));
+      .register(new UrlToRoleMapping("/time/time/view.html", "time"));
 
   }
 

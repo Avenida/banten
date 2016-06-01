@@ -31,7 +31,7 @@ public class User {
   private String password;
 
   /** The list of roles for this user, it's never null.*/
-  @OneToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER)
   private Set<Role> roles;
 
   /** Creates an empty instance, for Hibernate.*/
