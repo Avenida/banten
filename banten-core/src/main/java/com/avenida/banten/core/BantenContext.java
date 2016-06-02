@@ -92,4 +92,44 @@ public class BantenContext {
     return webContexts.get(module);
   }
 
+  /** Retrieves a bean declared in {@link WebModule#getMvcConfiguration()} by
+   * its type.
+   * @param module the {@link Module}, cannot be null.
+   * @param type the bean type, cannot be null.
+   * @return the bean instance, or null.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T getBean(
+      final Class<? extends WebModule> module, final Class<?> type) {
+    Validate.notNull(module, "The module class cannot be null");
+    Validate.notNull(type, "The type class cannot be null");
+
+    BantenWebApplicationContext ctx = webContexts.get(module);
+
+    Validate.notNull(ctx, "Context for: " + module.getName() + " not found");
+
+    return (T) ctx.getBean(type);
+  }
+
+  /** Retrieves a bean declared in {@link WebModule#getMvcConfiguration()} by
+   * its name.
+   * @param module the {@link Module}, cannot be null.
+   * @param type the bean type, cannot be null.
+   * @return the bean instance, or null.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T getBean(
+      final Class<? extends WebModule> module,
+      final String beanName,
+      final Class<?> type) {
+    Validate.notNull(module, "The module class cannot be null");
+    Validate.notNull(type, "The type class cannot be null");
+
+    BantenWebApplicationContext ctx = webContexts.get(module);
+
+    Validate.notNull(ctx, "Context for: " + module.getName() + " not found");
+
+    return (T) ctx.getBean(beanName);
+  }
+
 }
