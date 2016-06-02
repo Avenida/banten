@@ -11,7 +11,7 @@ import com.avenida.banten.core.ConfigurationApi;
 public class LoginConfigurationApi extends ConfigurationApi {
 
   /** The success URL. */
-  private static String successUrl = "/";
+  private String successUrl = "/";
 
   /** Sets the success URL.
    * @param theSuccessUrl the success URL, cannot be null.
@@ -26,7 +26,7 @@ public class LoginConfigurationApi extends ConfigurationApi {
   /** Retrieves the success URL.
    * @return the URl never null.
    */
-  public static String getSuccessUrl() {
+  public String getSuccessUrl() {
     return successUrl;
   }
 

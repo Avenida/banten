@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate configuration.
  *

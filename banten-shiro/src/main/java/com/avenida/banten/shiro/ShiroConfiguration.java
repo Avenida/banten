@@ -33,10 +33,12 @@ public class ShiroConfiguration {
 
   /** Configures the Shiro's Filter.
    * @param securityManager the {@link DefaultSecurityManager}.
+   * @param api the {@link ShiroConfigurationApi}, cannot be null.
    * @return the {@link FilterRegistrationBean}, never null.
    */
   @Bean public FilterRegistrationBean shiroFilter(
-      final DefaultWebSecurityManager securityManager) {
+      final DefaultWebSecurityManager securityManager,
+      final ShiroConfigurationApi api) {
 
     ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
     bean.setSecurityManager(securityManager);
@@ -48,7 +50,7 @@ public class ShiroConfiguration {
     chainDefinitions.put("/logout", "saveSession, noSessionCreation, logout");
     chainDefinitions.put("/**/static/**", "anon");
 
-    for (UrlToRoleMapping mapping : ShiroConfigurationApi.getMappings()) {
+    for (UrlToRoleMapping mapping : api.getMappings()) {
       String authc;
       authc = String.format("authc, roles[%s]", mapping.rolesAsString());
 

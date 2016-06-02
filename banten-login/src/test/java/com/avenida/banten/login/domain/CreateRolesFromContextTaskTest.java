@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.avenida.banten.shiro.ShiroConfigurationApi;
 import com.avenida.banten.testsupport.BantenTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,12 +21,13 @@ import com.avenida.banten.testsupport.BantenTest;
 public class CreateRolesFromContextTaskTest {
 
   @Autowired private UserRepository repository;
+  @Autowired private ShiroConfigurationApi api;
   @Autowired private ApplicationContext source;
 
   @Test @Transactional
   public void test() {
     // this only runs when an application context with a web module starts.
-    new CreateRolesFromContextTask(repository).onApplicationEvent(
+    new CreateRolesFromContextTask(repository, api).onApplicationEvent(
         new ContextRefreshedEvent(source));
     assertThat(repository.getRoles().size(), is(2));
   }

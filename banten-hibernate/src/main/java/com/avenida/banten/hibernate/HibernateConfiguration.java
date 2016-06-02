@@ -26,7 +26,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 
 import com.avenida.banten.core.Configurator;
-import com.avenida.banten.core.PersistenceUnit;
 
 /** Hibernate's configuration.
  *
@@ -79,7 +78,8 @@ public class HibernateConfiguration {
    * @return the Hibernate's SessionFactory.
    * */
   @Bean(name = "banten.sessionFactory")
-  public SessionFactory bantenSessionFactory(final DataSource dataSource,
+  public SessionFactory bantenSessionFactory(
+      final DataSource dataSource,
       final Environment environment) {
     Validate.notNull(HibernateConfigurationApi.getPersistenceUnits(),
         "The list cannot be null");

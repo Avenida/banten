@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.avenida.banten.shiro.ShiroConfigurationApi;
 import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
 import com.avenida.banten.web.menu.application.MenuController;
 
@@ -26,8 +27,8 @@ public class MenuMvc {
     return new MenuController(menu, filter);
   }
 
-  @Bean public SecuredUrlService urlService() {
-    return new SecuredUrlService();
+  @Bean public SecuredUrlService urlService(final ShiroConfigurationApi api) {
+    return new SecuredUrlService(api);
   }
 
   @Bean public RoleVoter roleVoter() {

@@ -27,13 +27,19 @@ public class CreateRolesFromContextTask
   /** The {@link UserRepository}, it's never null.*/
   private final UserRepository userRepository;
 
+  /** The {@link ShiroConfigurationApi}, it's never null. */
+  private final ShiroConfigurationApi shiroApi;
+
   /** Creates a new instance of the Task.
    * @param repository the {@link UserRepository}, cannot be null.
-   * @param tx the platform transaction, cannot be null.
+   * @param api the {@link ShiroConfigurationApi}, cannot be null.
    */
-  public CreateRolesFromContextTask(final UserRepository repository) {
+  public CreateRolesFromContextTask(final UserRepository repository,
+      final ShiroConfigurationApi api) {
     Validate.notNull(repository, "The repository cannot be null");
+    Validate.notNull(api, "The api cannot be null");
     userRepository = repository;
+    shiroApi = api;
   }
 
   /** {@inheritDoc}.*/
@@ -45,7 +51,7 @@ public class CreateRolesFromContextTask
 
     List<Role> databaseRoles = userRepository.getRoles();
 
-    for (String roleName : ShiroConfigurationApi.getDefinedRoles()) {
+    for (String roleName : shiroApi.getDefinedRoles()) {
       log.info("Checking role: {}", roleName);
 
       boolean exist = false;

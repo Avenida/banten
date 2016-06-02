@@ -55,6 +55,9 @@ public abstract class BantenApplication implements Registry {
    */
   private SpringApplication application = null;
 
+  /** The list of initialized modules, it's never null.*/
+  private List<Module> modules = new LinkedList<>();
+
   /** Retrieves the {@link Bootstrap} for this application.
    *
    * @return the {@link Bootstrap}, never null.
@@ -123,11 +126,9 @@ public abstract class BantenApplication implements Registry {
     Validate.notNull(moduleClasses, "The list of modules cannot be null");
     Validate.notEmpty(moduleClasses, "The list of modules cannot be empty");
 
-    List<Module> modulesInitialized = new LinkedList<>();
-
     for(Class<? extends Module> moduleClass : moduleClasses) {
       try {
-        modulesInitialized.add(moduleClass.newInstance());
+        modules.add(moduleClass.newInstance());
       } catch (Exception e) {
         log.error("Cannot instantiate the module: {}", moduleClass);
         log.error("{} should have an empty constructor", moduleClass);
@@ -136,7 +137,7 @@ public abstract class BantenApplication implements Registry {
     }
 
     // Register the beans into the Application Context.
-    for (Module aModule : modulesInitialized) {
+    for (Module aModule : modules) {
       log.info("Registering: {}" , aModule.getName());
       registerPublicConfiguration(aModule, registry);
       registerPrivateConfiguration(aModule, registry);
@@ -144,7 +145,7 @@ public abstract class BantenApplication implements Registry {
     }
 
     // Initializes the modules
-    for (Module aModule : modulesInitialized) {
+    for (Module aModule : modules) {
       log.info("Initializing the module: {}" , aModule.getName());
       aModule.init(moduleRegistry);
     }
@@ -183,6 +184,11 @@ public abstract class BantenApplication implements Registry {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
       ConfigurationApiRegistry.register(api);
+      ObjectFactoryBean.register(
+          registry,
+          api.getClass(),
+          api, module.getName() + "." + api.getClass().getName()
+      );
     }
   }
 

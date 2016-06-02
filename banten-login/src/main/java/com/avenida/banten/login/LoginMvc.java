@@ -13,6 +13,7 @@ import com.avenida.banten.login.application.LoginController;
 
 import com.avenida.banten.login.domain.CreateRolesFromContextTask;
 import com.avenida.banten.login.domain.UserRepository;
+import com.avenida.banten.shiro.ShiroConfigurationApi;
 
 /** Login Module MVC configuration.
  *
@@ -30,8 +31,9 @@ public class LoginMvc {
   }
 
   @Bean public CreateRolesFromContextTask uploadRolesTask(
-      final UserRepository repository) {
-    return new CreateRolesFromContextTask(repository);
+      final UserRepository repository,
+      final ShiroConfigurationApi api) {
+    return new CreateRolesFromContextTask(repository, api);
   }
 
   @Bean public ViewResolver viewResolver() {
