@@ -1,11 +1,11 @@
 package com.avenida.banten.hibernate;
 
 import org.apache.commons.lang3.Validate;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
-/** Base repository.
+import org.hibernate.*;
+
+/** Base repository that holds the {@link SessionFactory} and provides
+ * convenient methods in order to work with the Hibernate's environment.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */

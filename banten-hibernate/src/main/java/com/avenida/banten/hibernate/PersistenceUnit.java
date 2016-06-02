@@ -49,6 +49,13 @@ public class PersistenceUnit {
     return persistenceClass;
   }
 
+  /** Retrieves the persistence class name that will be mapped by Hibernate.
+   * @return the persistence class name, it's never null.
+   */
+  public String getPersistenceClassName() {
+    return persistenceClass.getName();
+  }
+
   /** Retrieves the factory for the current persistence class.
    * @return the factory or null.
    */

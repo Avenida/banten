@@ -1,8 +1,6 @@
 package com.avenida.banten.hibernate;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.avenida.banten.core.ConfigurationApi;
 

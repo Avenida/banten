@@ -56,7 +56,7 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
     /** The Hibernate's persistent class, it's never null. */
     private final PersistentClass persistentClass;
 
-    /** Creates a new instance of the instantiator.
+    /** Creates a new instance of the {@link Instantiator}.
      * @param aPersistentClass the {@link PersistentClass}, cannot be null.
      * @param instantiator the {@link Instantiator}, cannot be null.
      * @throws ClassNotFoundException
@@ -115,9 +115,9 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
         synchronized (initialized) {
           List<PersistenceUnit> persistenceUnits;
           persistenceUnits = HibernateConfigurationApi.getPersistenceUnits();
-          for(PersistenceUnit pu : persistenceUnits) {
-            instance.factories.put(
-                pu.getPersistenceClass().getName(), pu.getFactory());
+          for(PersistenceUnit persistenceUnit : persistenceUnits) {
+            String name = persistenceUnit.getPersistenceClassName();
+            instance.factories.put(name, persistenceUnit.getFactory());
           }
           initialized.set(true);
         }

@@ -62,6 +62,7 @@ public class HibernateConfiguration {
   }
 
   /** Defines the transaction manager to use.
+   *
    * @param sessionFactory the session factory.
    * @return the Hibernate Transaction manager.
    * */
@@ -74,6 +75,7 @@ public class HibernateConfiguration {
   }
 
   /** Hibernate's LocalSession Factory.
+   *
    * @param dataSource the data source.
    * @return the Hibernate's SessionFactory.
    * */
@@ -81,6 +83,7 @@ public class HibernateConfiguration {
   public SessionFactory bantenSessionFactory(
       final DataSource dataSource,
       final Environment environment) {
+
     Validate.notNull(HibernateConfigurationApi.getPersistenceUnits(),
         "The list cannot be null");
     Validate.notNull(dataSource, "The datasource cannot be null");
@@ -111,7 +114,8 @@ public class HibernateConfiguration {
   }
 
   /** Retrieves the transaction handler for manually TXs handling.
-   * @param tm the transaction manager.
+   *
+   * @param tm the {@link HibernateTransactionManager}.
    * @return the transaction handler, it's never null.
    */
   @Bean(name = "banten.transaction")
