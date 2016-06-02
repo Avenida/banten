@@ -1,12 +1,15 @@
 package com.avenida.banten.core;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.Validate;
 
 /** BantenContext holds the initialized {@link Module}s and also its
  * {@link ConfigurationApi}.
@@ -24,6 +27,9 @@ public class BantenContext {
   /** The module registry, it's never null. */
   private final ConfigurationApiRegistry moduleRegistry;
 
+  /** Holds a key value with the registered web modules.*/
+  private final Map<Class<?>, BantenWebApplicationContext> webContexts;
+
   /** Creates a new instance of the {@link BantenContext}.
    * @param bootstrap the {@link Bootstrap} that holds the modules.
    */
@@ -34,6 +40,7 @@ public class BantenContext {
 
     moduleRegistry = ConfigurationApiRegistry.instance();
     modules = new LinkedList<>();
+    webContexts = new HashMap<>();
 
     for(Class<? extends Module> moduleClass : bootstrap) {
       try {
@@ -64,6 +71,23 @@ public class BantenContext {
   /** Initializes the {@link ConfigurationApiRegistry}.*/
   void initRegistry() {
     moduleRegistry.init();
+  }
+
+  /** Registers the {@link BantenWebApplicationContext} into this context.
+   * @param context the {@link BantenWebApplicationContext}, cannot be null.
+   */
+  public void register(final BantenWebApplicationContext context) {
+    webContexts.put(context.getModule().getClass(), context);
+  }
+
+  /** Retrieves the {@link BantenWebApplicationContext} for the given
+   * {@link Module} class.
+   * @param module the {@link Module} class, cannot be null.
+   * @return the {@link BantenWebApplicationContext} or null.
+   */
+  public BantenWebApplicationContext getWebApplicationContext(
+      final Class<? extends Module> module) {
+    return webContexts.get(module);
   }
 
 }

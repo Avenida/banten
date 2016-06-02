@@ -32,8 +32,14 @@ public class BantenApplicationTest {
 
     // Checks private beans.
     assertThat(ctx.containsBean("modulePrivateStringBean"), is(false));
+    BantenContext context = ctx.getBean(BantenContext.class);
+    assertThat(context, notNullValue());
 
-    assertThat(ctx.getBean(BantenContext.class), notNullValue());
+    String beanFromPrivate = (String) context.getWebApplicationContext(
+        SampleModule.class).getBean("modulePrivateStringBean");
+
+    assertThat(beanFromPrivate, notNullValue());
+    assertThat(beanFromPrivate, is("a private value"));
 
   }
 

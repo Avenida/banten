@@ -137,7 +137,7 @@ public abstract class BantenApplication implements Registry {
 
     InitContext.destroy();
 
-    log.info("Finish the registration of the BantenContext modules");
+    log.info("Finish the registration of the Banten's modules");
   }
 
   /** Register the Module.
@@ -146,7 +146,8 @@ public abstract class BantenApplication implements Registry {
    *
    * @param module the module to register. It cannot be null.
    */
-  private void registerPublicConfiguration(final Module module,
+  private void registerPublicConfiguration(
+      final Module module,
       final BeanDefinitionRegistry registry) {
     if (module.getPublicConfiguration() != null) {
       BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
@@ -183,17 +184,18 @@ public abstract class BantenApplication implements Registry {
    *
    * @param module the module to register. It cannot be null.
    */
-  @SuppressWarnings("resource")
-  private void registerPrivateConfiguration(final Registry module,
-      final BeanDefinitionRegistry registry) {
+  private void registerPrivateConfiguration(
+      final Module module, final BeanDefinitionRegistry registry) {
 
     if (!(module instanceof WebModule)) {
       return;
     }
 
-    WebModuleWebApplicationContext context;
-    context = new WebModuleWebApplicationContext((WebModule) module);
+    BantenWebApplicationContext context;
+    context = new BantenWebApplicationContext((WebModule) module);
     context.register(registry);
+
+    bantenContext.register(context);
   }
 
   /** Register the BantenContext's core beans in the provided bean definition
