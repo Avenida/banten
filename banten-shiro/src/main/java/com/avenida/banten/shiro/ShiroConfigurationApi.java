@@ -18,7 +18,7 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   private boolean realmDefined = false;
 
   /** The Shiro views bean. */
-  private static ShiroViews shiroViews;
+  private ShiroViews shiroViews;
 
   /** The list of URL to Role Mappings. */
   private List<UrlToRoleMapping> mappings = new LinkedList<>();
@@ -109,7 +109,7 @@ public class ShiroConfigurationApi extends ConfigurationApi {
   /** Retrieves the shiroViews.
    * @return the shiroViews
    */
-  public static ShiroViews getShiroViews() {
+  public ShiroViews getShiroViews() {
     return shiroViews;
   }
 

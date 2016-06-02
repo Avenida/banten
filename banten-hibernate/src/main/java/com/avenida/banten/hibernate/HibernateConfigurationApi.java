@@ -6,7 +6,13 @@ import java.util.List;
 
 import com.avenida.banten.core.ConfigurationApi;
 
-/** Hibernate configuration.
+/** Hibernate's configuration.
+ *
+ * I need to use static references for the persistenceUnits because I need
+ * it within the {@link PlatformTuplizer.FactoryCache#get()}.
+ *
+ * TODO [waabox] use the Hibernate Services in order to provide those
+ * classes, for now, it's ok, however it's a little bit dark this.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */

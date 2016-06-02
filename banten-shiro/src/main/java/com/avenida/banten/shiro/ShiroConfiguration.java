@@ -63,7 +63,7 @@ public class ShiroConfiguration {
 
     bean.setFilterChainDefinitionMap(chainDefinitions);
 
-    ShiroViews shiroViews = ShiroConfigurationApi.getShiroViews();
+    ShiroViews shiroViews = api.getShiroViews();
     bean.setLoginUrl(shiroViews.getLoginUrl());
     bean.setUnauthorizedUrl(shiroViews.getUnauthorizedUrl());
     bean.setSuccessUrl(shiroViews.getSuccessUrl());
