@@ -132,7 +132,7 @@ public abstract class BantenApplication implements Registry {
     // Callback for configure modules at 'application level'.
     init(bantenContext.getModuleRegistry());
 
-    // Init the registry.
+    // Initialize the registry for each module.
     bantenContext.initRegistry();
 
     InitContext.destroy();
@@ -165,7 +165,7 @@ public abstract class BantenApplication implements Registry {
       final Module module) {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
-      ConfigurationApiRegistry.register(api);
+      bantenContext.register(api);
       ObjectFactoryBean.register(
           registry,
           api.getClass(),

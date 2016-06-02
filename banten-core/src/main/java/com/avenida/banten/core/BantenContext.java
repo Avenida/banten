@@ -1,13 +1,8 @@
 package com.avenida.banten.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.Validate;
 
@@ -38,7 +33,7 @@ public class BantenContext {
     Validate.notNull(bootstrap, "The list of modules cannot be null");
     Validate.notEmpty(bootstrap, "The list of modules cannot be empty");
 
-    moduleRegistry = ConfigurationApiRegistry.instance();
+    moduleRegistry = new ConfigurationApiRegistry();
     modules = new LinkedList<>();
     webContexts = new HashMap<>();
 
@@ -76,8 +71,15 @@ public class BantenContext {
   /** Registers the {@link BantenWebApplicationContext} into this context.
    * @param context the {@link BantenWebApplicationContext}, cannot be null.
    */
-  public void register(final BantenWebApplicationContext context) {
+  void register(final BantenWebApplicationContext context) {
     webContexts.put(context.getModule().getClass(), context);
+  }
+
+  /** Registers a new {@link ConfigurationApi} into the {@link BantenContext}.
+   * @param api the {@link ConfigurationApi}, cannot be null.
+   */
+  void register(final ConfigurationApi api) {
+    moduleRegistry.register(api);
   }
 
   /** Retrieves the {@link BantenWebApplicationContext} for the given
