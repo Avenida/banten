@@ -40,7 +40,7 @@ public class WebModuleWebApplicationContext
 
   /** Creates a new instance of the
    *  {@link AnnotationConfigWebApplicationContext}.
-   * @param webModule the Banten's web module, cannot be null.
+   * @param webModule the BantenContext's web module, cannot be null.
    */
   WebModuleWebApplicationContext(final WebModule webModule) {
     Validate.notNull(webModule, "The module cannot be null");
@@ -71,7 +71,7 @@ public class WebModuleWebApplicationContext
 
   /** {@inheritDoc}.
    *
-   * Hack to create the Banten's module description.
+   * Hack to create the BantenContext's module description.
    *
    * The {@link WebModuleWebApplicationContext} is not a
    * {@link BeanDefinitionRegistry}, so we override the loadDefinitions

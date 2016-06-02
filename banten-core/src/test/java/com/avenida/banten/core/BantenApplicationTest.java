@@ -32,6 +32,9 @@ public class BantenApplicationTest {
 
     // Checks private beans.
     assertThat(ctx.containsBean("modulePrivateStringBean"), is(false));
+
+    assertThat(ctx.getBean(BantenContext.class), notNullValue());
+
   }
 
   public static class SampleApplication extends BantenApplication {
