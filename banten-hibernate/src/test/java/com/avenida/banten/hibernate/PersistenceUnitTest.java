@@ -1,9 +1,12 @@
-package com.avenida.banten.core;
+package com.avenida.banten.hibernate;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
+
+import com.avenida.banten.core.Factory;
+import com.avenida.banten.hibernate.PersistenceUnit;
 
 public class PersistenceUnitTest {
 

@@ -1,6 +1,8 @@
-package com.avenida.banten.core;
+package com.avenida.banten.hibernate;
 
 import static org.apache.commons.lang3.Validate.*;
+
+import com.avenida.banten.core.Factory;
 
 /** A persistence unit defines a Hibernate's persistence class and also its
  * factory class in order to customize the standard Hibernate's object
