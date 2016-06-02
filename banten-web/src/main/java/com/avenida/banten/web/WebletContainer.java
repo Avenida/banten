@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import org.slf4j.*;
 
-import com.avenida.banten.core.Module;
 import com.avenida.banten.core.WebModule;
 
 import java.util.*;
