@@ -35,8 +35,8 @@ public class MenuMvc {
     return new RoleVoter();
   }
 
-  @Bean public Menu menu() {
-    return MenuConfigurationApi.get();
+  @Bean public Menu menu(final MenuConfigurationApi api) {
+    return api.get();
   }
 
   @Bean public MenuSecurityFilter filter(

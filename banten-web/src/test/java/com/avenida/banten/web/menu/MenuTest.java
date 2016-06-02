@@ -14,7 +14,7 @@ public class MenuTest {
 
   @Test public void test() {
 
-    new MenuConfigurationApi()
+    MenuConfigurationApi api = new MenuConfigurationApi()
 
       .root("Admin", "/Admin")
       .root("Time", "/Time")
@@ -22,11 +22,11 @@ public class MenuTest {
       .node("Users-Admin", "/users/admin.html", "/Admin/users")
       .node("Time-Admin", "/Time/admin.html", "/Admin/time")
       .node("Time View", "/Time/view.html", "/Time")
-      .node("Time View 2", "/Time/view.html", "/Time/view")
+      .node("Time View 2", "/Time/view.html", "/Time/view");
 
-    .init();
+    api.init();
 
-    Menu m = MenuConfigurationApi.get();
+    Menu m = api.get();
     List<Menu> childNodes = m.getChildNodes();
 
     Menu adminNodes = childNodes.get(0);
