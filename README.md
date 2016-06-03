@@ -32,5 +32,7 @@ This will create the Spring's Application Context.
 ```
 Your pom.xml
 
-Yes, we are in maven central, take a look at banten-sample using the banten version 1.0!
+Yes, we are in maven central ( http://search.maven.org/#search%7Cga%7C1%7Ccom.avenida.banten ), take a look at banten-sample using the banten version 1.0!
+
+
 
