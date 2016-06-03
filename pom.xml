@@ -49,7 +49,6 @@
     <module>banten-hibernate</module>
     <module>banten-elasticsearch</module>
     <module>banten-sample</module>
-    <module>banten-email-sender</module>
     <module>banten-test-support</module>
     <module>banten-camel</module>
     <module>banten-shiro</module>
@@ -108,11 +107,6 @@
       <dependency>
         <groupId>com.avenida.banten</groupId>
         <artifactId>banten-elasticsearch</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.avenida.banten</groupId>
-        <artifactId>banten-email-sender</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
