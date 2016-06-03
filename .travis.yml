@@ -6,6 +6,6 @@ script:
 notifications:
   email:
     recipients:
-      - waabox@gmail.com
+      - me@waabox.org
     on_success: always # [always|never|change] default: change
     on_failure: always # [always|never|change] default: always
