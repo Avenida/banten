@@ -63,7 +63,7 @@
       scm:git:git@github.com:waabox/banten.git
     </connection>
     <developerConnection>
-      scm:git:git@github.com:waabox/banten.git  
+      scm:git:git@github.com:waabox/banten.git
     </developerConnection>
     <tag>banten-0.1</tag>
   </scm>
@@ -559,9 +559,12 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.5.3</version>
         <configuration>
-          <pushChanges>false</pushChanges>
+          <pushChanges>true</pushChanges>
           <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
           <localCheckout>true</localCheckout>
+          <goals>deploy</goals>
         </configuration>
       </plugin>
 
@@ -634,21 +637,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!--plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin-->
 
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
