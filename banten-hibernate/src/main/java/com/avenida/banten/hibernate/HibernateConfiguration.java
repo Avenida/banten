@@ -3,18 +3,23 @@ package com.avenida.banten.hibernate;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
+import org.hibernate.EntityMode;
 import org.hibernate.SessionFactory;
 
+import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataBuilder;
 import org.hibernate.boot.MetadataSources;
 
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import org.hibernate.mapping.PersistentClass;
 
 import org.springframework.boot.context.properties.*;
 
@@ -25,6 +30,7 @@ import org.springframework.core.env.Environment;
 
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 
+import com.avenida.banten.core.BantenContext;
 import com.avenida.banten.core.Configurator;
 
 /** Hibernate's configuration.
@@ -82,10 +88,13 @@ public class HibernateConfiguration {
   @Bean(name = "banten.sessionFactory")
   public SessionFactory bantenSessionFactory(
       final DataSource dataSource,
-      final Environment environment) {
+      final Environment environment,
+      final BantenContext bantenContext,
+      final HibernateConfigurationApi api) throws Exception {
 
-    Validate.notNull(HibernateConfigurationApi.getPersistenceUnits(),
-        "The list cannot be null");
+    List<PersistenceUnit> persistenceUnits = api.getPersistenceUnits();
+
+    Validate.notNull(persistenceUnits, "The list cannot be null");
     Validate.notNull(dataSource, "The datasource cannot be null");
 
     Map<String, String> hibernateProperties;
@@ -99,18 +108,31 @@ public class HibernateConfiguration {
     builder.applySetting("hibernate.connection.datasource", dataSource);
     builder.applySetting("hibernate.current_session_context_class",
             "org.springframework.orm.hibernate5.SpringSessionContext");
+
+    builder.addService(this.getClass(), new HibernateTuplizerService(
+        persistenceUnits, bantenContext));
+
     builder.applySettings(hibernateProperties);
 
     StandardServiceRegistry registry = builder.build();
     MetadataSources sources = new MetadataSources(registry);
 
-    for(PersistenceUnit pu : HibernateConfigurationApi.getPersistenceUnits()) {
+    for(PersistenceUnit pu : persistenceUnits) {
       log.info("Adding persistence class:[{}]", pu.getPersistenceClass());
       sources.addAnnotatedClass(pu.getPersistenceClass());
     }
 
     MetadataBuilder metadataBuilder = sources.getMetadataBuilder();
-    return metadataBuilder.build().getSessionFactoryBuilder().build();
+
+    Metadata metadata = metadataBuilder.build();
+
+    for (PersistentClass pc : metadata.getEntityBindings()) {
+      if (api.hasCustomFactory(Class.forName(pc.getClassName()))) {
+        pc.addTuplizer(EntityMode.POJO, PlatformTuplizer.class.getName());
+      }
+    }
+
+    return metadata.getSessionFactoryBuilder().build();
   }
 
   /** Retrieves the transaction handler for manually TXs handling.

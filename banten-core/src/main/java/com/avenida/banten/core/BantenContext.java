@@ -1,6 +1,7 @@
 package com.avenida.banten.core;
 
 import org.slf4j.*;
+import org.springframework.context.ApplicationContext;
 
 import java.util.*;
 
@@ -23,7 +24,10 @@ public class BantenContext {
   private final ConfigurationApiRegistry moduleRegistry;
 
   /** Holds a key value with the registered web modules.*/
-  private final Map<Class<?>, BantenWebApplicationContext> webContexts;
+  private final Map<Class<?>, BantenWebApplicationContext> contexts;
+
+  /** The parent context.*/
+  private ApplicationContext parentContext;
 
   /** Creates a new instance of the {@link BantenContext}.
    * @param bootstrap the {@link Bootstrap} that holds the modules.
@@ -35,7 +39,7 @@ public class BantenContext {
 
     moduleRegistry = new ConfigurationApiRegistry();
     modules = new LinkedList<>();
-    webContexts = new HashMap<>();
+    contexts = new HashMap<>();
 
     for(Class<? extends Module> moduleClass : bootstrap) {
       try {
@@ -68,11 +72,18 @@ public class BantenContext {
     moduleRegistry.init();
   }
 
+  /** Registers the parent {@link ApplicationContext}.
+   * @param ctx the {@link ApplicationContext} cannot be null.
+   */
+  void registerParentApplicationContext(final ApplicationContext ctx) {
+    parentContext = ctx;
+  }
+
   /** Registers the {@link BantenWebApplicationContext} into this context.
    * @param context the {@link BantenWebApplicationContext}, cannot be null.
    */
   void register(final BantenWebApplicationContext context) {
-    webContexts.put(context.getModule().getClass(), context);
+    contexts.put(context.getModule().getClass(), context);
   }
 
   /** Registers a new {@link ConfigurationApi} into the {@link BantenContext}.
@@ -89,7 +100,7 @@ public class BantenContext {
    */
   public BantenWebApplicationContext getWebApplicationContext(
       final Class<? extends Module> module) {
-    return webContexts.get(module);
+    return contexts.get(module);
   }
 
   /** Retrieves a bean declared in {@link WebModule#getMvcConfiguration()} by
@@ -99,11 +110,11 @@ public class BantenContext {
    * @return the bean instance, or null.
    */
   public <T> T getBean(
-      final Class<? extends WebModule> module, final Class<T> type) {
+      final Class<? extends Module> module, final Class<T> type) {
     Validate.notNull(module, "The module class cannot be null");
     Validate.notNull(type, "The type class cannot be null");
 
-    BantenWebApplicationContext ctx = webContexts.get(module);
+    BantenWebApplicationContext ctx = contexts.get(module);
 
     Validate.notNull(ctx, "Context for: " + module.getName() + " not found");
 
@@ -118,17 +129,39 @@ public class BantenContext {
    */
   @SuppressWarnings("unchecked")
   public <T> T getBean(
-      final Class<? extends WebModule> module,
+      final Class<? extends Module> module,
       final String beanName,
       final Class<?> type) {
     Validate.notNull(module, "The module class cannot be null");
     Validate.notNull(type, "The type class cannot be null");
 
-    BantenWebApplicationContext ctx = webContexts.get(module);
+    BantenWebApplicationContext ctx = contexts.get(module);
 
     Validate.notNull(ctx, "Context for: " + module.getName() + " not found");
 
     return (T) ctx.getBean(beanName);
+  }
+
+  /** Retrieves a bean declared in the parent {@link ApplicationContext} by
+   * its type.
+   * @param module the {@link Module}, cannot be null.
+   * @param type the bean type, cannot be null.
+   * @return the bean instance, or null.
+   */
+  public <T> T getBean(final Class<T> type) {
+    Validate.notNull(type, "The type class cannot be null");
+    return (T) parentContext.getBean(type);
+  }
+
+  /** Retrieves a bean declared in the parent {@link ApplicationContext} by
+   * its name.
+   * @param type the bean type, cannot be null.
+   * @return the bean instance, or null.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T getBean(final String beanName, final Class<?> type) {
+    Validate.notNull(type, "The type class cannot be null");
+    return (T) parentContext.getBean(beanName);
   }
 
 }

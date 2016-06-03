@@ -6,9 +6,6 @@ import javax.persistence.*;
 
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.Tuplizer;
-
-import com.avenida.banten.hibernate.PlatformTuplizer;
 import com.avenida.banten.sample.time.domain.*;
 
 /** The user entity.
@@ -16,7 +13,6 @@ import com.avenida.banten.sample.time.domain.*;
  */
 @Entity
 @Table(name = "users")
-@Tuplizer(impl = PlatformTuplizer.class)
 public class User {
 
   /** The id. */

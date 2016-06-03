@@ -79,6 +79,9 @@ public abstract class BantenApplication implements Registry {
        */
       @Override
       public void initialize(final ConfigurableApplicationContext parent) {
+
+        bantenContext.registerParentApplicationContext(parent);
+
         BeanDefinitionRegistry registry;
         registry = (BeanDefinitionRegistry) parent;
 

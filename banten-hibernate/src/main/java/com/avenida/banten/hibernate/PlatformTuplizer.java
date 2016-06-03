@@ -1,8 +1,5 @@
 package com.avenida.banten.hibernate;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.hibernate.bytecode.spi.ReflectionOptimizer;
 import org.hibernate.mapping.PersistentClass;
 
@@ -34,10 +31,15 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
   protected Instantiator buildInstantiator(
       final EntityMetamodel entityMetamodel,
       final PersistentClass persistentClass) {
+
+    HibernateTuplizerService service = entityMetamodel.getSessionFactory()
+        .getServiceRegistry().getService(HibernateTuplizerService.class);
+
     Instantiator instantiator;
     instantiator = super.buildInstantiator(entityMetamodel, persistentClass);
+
     try {
-      return new BantenInstantiator(persistentClass, instantiator);
+      return new BantenInstantiator(persistentClass, instantiator, service);
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
@@ -56,19 +58,25 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
     /** The Hibernate's persistent class, it's never null. */
     private final PersistentClass persistentClass;
 
+    /** The hibernate service. */
+    private final HibernateTuplizerService service;
+
     /** Creates a new instance of the {@link Instantiator}.
      * @param aPersistentClass the {@link PersistentClass}, cannot be null.
      * @param instantiator the {@link Instantiator}, cannot be null.
      * @throws ClassNotFoundException
      */
     public BantenInstantiator(final PersistentClass aPersistentClass,
-        final Instantiator instantiator) throws ClassNotFoundException {
+        final Instantiator instantiator,
+        final HibernateTuplizerService tuplizerService)
+            throws ClassNotFoundException {
       super(
           Class.forName(aPersistentClass.getClassName()),
           optimizer(instantiator),
           aPersistentClass.hasEmbeddedIdentifier()
       );
       persistentClass = aPersistentClass;
+      service = tuplizerService;
     }
 
     /** Extract the InstantiationOptimizer from the given {@link Instantiator}.
@@ -85,44 +93,12 @@ public class PlatformTuplizer extends PojoEntityTuplizer {
     @SuppressWarnings("rawtypes")
     @Override
     public Object instantiate() {
-      Class<? extends Factory> factoryClass = FactoryCache.get(persistentClass);
-      if(factoryClass != null) {
-        return ModuleServiceLocator.getBean(factoryClass).create();
+      Factory factory = service.factoryFor(persistentClass);
+      if(factory != null) {
+        return factory.create();
       }
       return super.instantiate();
     }
   }
 
-  /** Cache for the Factory classes.*/
-  @SuppressWarnings("rawtypes")
-  private static class FactoryCache {
-
-    /** The instance. */
-    private static FactoryCache instance = new FactoryCache();
-
-    /** Whether or not has been initialized. */
-    private static AtomicBoolean initialized = new AtomicBoolean(false);
-
-    /** The cache. */
-    private Map<String, Class<? extends Factory>> factories = new HashMap<>();
-
-    /** Retrieves the factory class by its class name.
-     * @param name the class name.
-     * @return the factory if exists.
-     */
-    public static Class<? extends Factory> get(final PersistentClass pc) {
-      if (!initialized.get()) {
-        synchronized (initialized) {
-          List<PersistenceUnit> persistenceUnits;
-          persistenceUnits = HibernateConfigurationApi.getPersistenceUnits();
-          for(PersistenceUnit persistenceUnit : persistenceUnits) {
-            String name = persistenceUnit.getPersistenceClassName();
-            instance.factories.put(name, persistenceUnit.getFactory());
-          }
-          initialized.set(true);
-        }
-      }
-      return instance.factories.get(pc.getClassName());
-    }
-  }
 }
