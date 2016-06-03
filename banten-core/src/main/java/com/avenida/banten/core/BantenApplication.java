@@ -1,9 +1,5 @@
 package com.avenida.banten.core;
 
-import java.util.*;
-
-import org.apache.commons.lang3.Validate;
-
 import org.slf4j.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -45,21 +41,18 @@ public abstract class BantenApplication implements Registry {
   /** The log. */
   private final Logger log = LoggerFactory.getLogger(BantenApplication.class);
 
-  /** The module registry, it's never null. */
-  private final ConfigurationApiRegistry moduleRegistry
-    = ConfigurationApiRegistry.instance();
-
-  /** The spring boot application, null if not yet created.
-   *
-   * This is initialized with getApplication().
+  /** The spring boot application, null until the method
+   * {@link BantenApplication#getApplication()} is called.
    */
   private SpringApplication application = null;
 
-  /** Retrieves the {@link Bootstrap} for this application.
-   *
-   * @return the {@link Bootstrap}, never null.
-   */
-  protected abstract Bootstrap bootstrap();
+  /** The {@link BantenContext}, it's never null. */
+  private final BantenContext bantenContext;
+
+  /** Creates a new instance of the {@link BantenApplication}.*/
+  public BantenApplication() {
+    bantenContext = new BantenContext(bootstrap());
+  }
 
   /** Gets the currently wrapped spring boot application, creating one if not
    * yet created.
@@ -82,13 +75,15 @@ public abstract class BantenApplication implements Registry {
         new ApplicationContextInitializer<ConfigurableApplicationContext>() {
 
       /** Initializes the application context.
-       * @param parentContext the parent application context.
+       * @param parent the parent {@link ConfigurableApplicationContext}.
        */
       @Override
-      public void initialize(
-          final ConfigurableApplicationContext parentContext) {
-        registerCoreBeans((BeanDefinitionRegistry) parentContext);
-        registerModules((BeanDefinitionRegistry) parentContext);
+      public void initialize(final ConfigurableApplicationContext parent) {
+        BeanDefinitionRegistry registry;
+        registry = (BeanDefinitionRegistry) parent;
+
+        registerCoreBeans(registry);
+        registerModules(registry);
       }
 
     });
@@ -98,45 +93,30 @@ public abstract class BantenApplication implements Registry {
     return application;
   }
 
-  /** Run the Spring application.
+  /** Run the Spring's Application.
+   *
    * This action creates and refresh the new application context.
    *
    * @param args the command line arguments.
-   *
-   * @return the new Spring's ApplicationContext.
+   * @return the new Spring's {@link ApplicationContext}.
    */
   public final ConfigurableApplicationContext run(final String[] args) {
     return getApplication().run(args);
   }
 
-  /** Register the modules within the Spring's root application context.
-   * @param registry the registry.
-   * @throws Error
+  /** Register the modules within the Spring's root application context, the
+   * performs the {@link ConfigurationApi}'s initialization.
+   *
+   * @param registry the {@link BeanDefinitionRegistry}.
+   * @throws Error if cannot create the {@link Module} instance,
    */
   private void registerModules(final BeanDefinitionRegistry registry) {
-    log.info("Registering Banten Bootstrap");
+    log.info("Registering BantenContext Bootstrap");
 
     InitContext.init(registry);
 
-    List<Class<? extends Module>> moduleClasses = bootstrap();
-
-    Validate.notNull(moduleClasses, "The list of modules cannot be null");
-    Validate.notEmpty(moduleClasses, "The list of modules cannot be empty");
-
-    List<Module> modulesInitialized = new LinkedList<>();
-
-    for(Class<? extends Module> moduleClass : moduleClasses) {
-      try {
-        modulesInitialized.add(moduleClass.newInstance());
-      } catch (Exception e) {
-        log.error("Cannot instantiate the module: {}", moduleClass);
-        log.error("{} should have an empty constructor", moduleClass);
-        throw new Error(e);
-      }
-    }
-
     // Register the beans into the Application Context.
-    for (Module aModule : modulesInitialized) {
+    for (Module aModule : bantenContext.getModules()) {
       log.info("Registering: {}" , aModule.getName());
       registerPublicConfiguration(aModule, registry);
       registerPrivateConfiguration(aModule, registry);
@@ -144,18 +124,20 @@ public abstract class BantenApplication implements Registry {
     }
 
     // Initializes the modules
-    for (Module aModule : modulesInitialized) {
+    for (Module aModule : bantenContext.getModules()) {
       log.info("Initializing the module: {}" , aModule.getName());
-      aModule.init(moduleRegistry);
+      aModule.init(bantenContext.getModuleRegistry());
     }
 
-    init(moduleRegistry);
+    // Callback for configure modules at 'application level'.
+    init(bantenContext.getModuleRegistry());
 
-    moduleRegistry.init();
+    // Initialize the registry for each module.
+    bantenContext.initRegistry();
 
     InitContext.destroy();
 
-    log.info("Finish the registration of the Banten modules");
+    log.info("Finish the registration of the Banten's modules");
   }
 
   /** Register the Module.
@@ -164,7 +146,8 @@ public abstract class BantenApplication implements Registry {
    *
    * @param module the module to register. It cannot be null.
    */
-  private void registerPublicConfiguration(final Module module,
+  private void registerPublicConfiguration(
+      final Module module,
       final BeanDefinitionRegistry registry) {
     if (module.getPublicConfiguration() != null) {
       BeanDefinition moduleDef = new AnnotatedGenericBeanDefinition(
@@ -182,7 +165,12 @@ public abstract class BantenApplication implements Registry {
       final Module module) {
     ConfigurationApi api = module.getConfigurationApi();
     if (api != null) {
-      ConfigurationApiRegistry.register(api);
+      bantenContext.register(api);
+      ObjectFactoryBean.register(
+          registry,
+          api.getClass(),
+          api, module.getName() + "." + api.getClass().getName()
+      );
     }
   }
 
@@ -196,32 +184,45 @@ public abstract class BantenApplication implements Registry {
    *
    * @param module the module to register. It cannot be null.
    */
-  @SuppressWarnings("resource")
-  private void registerPrivateConfiguration(final Registry module,
-      final BeanDefinitionRegistry registry) {
+  private void registerPrivateConfiguration(
+      final Module module, final BeanDefinitionRegistry registry) {
 
     if (!(module instanceof WebModule)) {
       return;
     }
 
-    WebModuleWebApplicationContext context;
-    context = new WebModuleWebApplicationContext((WebModule) module);
+    BantenWebApplicationContext context;
+    context = new BantenWebApplicationContext((WebModule) module);
     context.register(registry);
+
+    bantenContext.register(context);
   }
 
-  /** Register the Banten's core beans in the provided bean definition registry.
+  /** Register the BantenContext's core beans in the provided bean definition
+   * registry.
    *
    * The provided registry should correspond to the public application context,
-   * so this operation adds the Banten's core beans to the public application
-   * context.
+   * so this operation adds the BantenContext's core beans to the public
+   * application context.
    *
    * @param registry the bean definition registry. It cannot be null.
    */
   private void registerCoreBeans(final BeanDefinitionRegistry registry) {
     log.info("Registering core beans");
-    BeanDefinition coreBean = new GenericBeanDefinition();
-    coreBean.setBeanClassName(CoreBeansConfiguration.class.getName());
-    registry.registerBeanDefinition("coreBeansConfiguration", coreBean);
+
+    ObjectFactoryBean.register(registry, BantenContext.class,
+        bantenContext, "banten.bantenContext");
+
+    GenericBeanDefinition coreBean = new GenericBeanDefinition();
+    coreBean.setBeanClass(CoreBeansConfiguration.class);
+    registry.registerBeanDefinition(
+        CoreBeansConfiguration.class.getName(), coreBean);
   }
+
+  /** Retrieves the {@link Bootstrap} for this application.
+   *
+   * @return the {@link Bootstrap}, never null.
+   */
+  protected abstract Bootstrap bootstrap();
 
 }

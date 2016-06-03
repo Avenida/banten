@@ -39,7 +39,7 @@ public class HazelcastConfiguration {
   @Autowired private Environment environment;
 
   /** Creates a new instance of the {@link CacheManager}.
-   * @param hz the hazelcast instance.
+   * @param hz the Hazelcast's instance.
    * @return the {@link CacheManager}, never null.
    */
   @Bean public CacheManager cacheManager(final HazelcastInstance hz) {

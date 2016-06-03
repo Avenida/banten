@@ -1,6 +1,8 @@
-package com.avenida.banten.core;
+package com.avenida.banten.hibernate;
 
 import static org.apache.commons.lang3.Validate.*;
+
+import com.avenida.banten.core.Factory;
 
 /** A persistence unit defines a Hibernate's persistence class and also its
  * factory class in order to customize the standard Hibernate's object
@@ -45,6 +47,13 @@ public class PersistenceUnit {
    */
   public Class<?> getPersistenceClass() {
     return persistenceClass;
+  }
+
+  /** Retrieves the persistence class name that will be mapped by Hibernate.
+   * @return the persistence class name, it's never null.
+   */
+  public String getPersistenceClassName() {
+    return persistenceClass.getName();
   }
 
   /** Retrieves the factory for the current persistence class.

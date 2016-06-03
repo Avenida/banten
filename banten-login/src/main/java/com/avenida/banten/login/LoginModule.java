@@ -2,11 +2,10 @@ package com.avenida.banten.login;
 
 import com.avenida.banten.core.ConfigurationApi;
 import com.avenida.banten.core.ConfigurationApiRegistry;
-import com.avenida.banten.core.PersistenceUnit;
 import com.avenida.banten.core.WebModule;
 
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
-
+import com.avenida.banten.hibernate.PersistenceUnit;
 import com.avenida.banten.login.domain.Role;
 import com.avenida.banten.login.domain.User;
 import com.avenida.banten.login.shiro.BantenLoginRealm;
@@ -45,7 +44,7 @@ public class LoginModule implements WebModule {
 
       .configureViews(
           "/login/web/form.html",
-          LoginConfigurationApi.getSuccessUrl(),
+          registry.get(LoginConfigurationApi.class).getSuccessUrl(),
           "/login/web/unauthorized.html")
 
       .registerRealm(BantenLoginRealm.class);

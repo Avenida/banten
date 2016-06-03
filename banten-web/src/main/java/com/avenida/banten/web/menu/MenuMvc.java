@@ -1,7 +1,5 @@
 package com.avenida.banten.web.menu;
 
-import java.io.IOException;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.avenida.banten.shiro.ShiroConfigurationApi;
+
 import com.avenida.banten.web.freemarker.FreeMarkerViewResolver;
 import com.avenida.banten.web.menu.application.MenuController;
-
-import freemarker.template.TemplateException;
 
 /** Menu MVC configuration.
  * @author waabox (waabox[at]gmail[dot]com)
@@ -23,9 +21,25 @@ public class MenuMvc {
   /** Retrieves the {@link MenuController}.
    * @return the {@link MenuController}, never null.
    */
-  @Bean
-  public MenuController menuController() {
-    return new MenuController();
+  @Bean public MenuController menuController(
+      final MenuConfigurationApi api,
+      final MenuSecurityFilter filter) {
+    return new MenuController(api.get(), filter);
+  }
+
+  @Bean public SecuredUrlService urlService(final ShiroConfigurationApi api) {
+    return new SecuredUrlService(api);
+  }
+
+  @Bean public RoleVoter roleVoter() {
+    return new RoleVoter();
+  }
+
+  @Bean public MenuSecurityFilter filter(
+      final SecuredUrlService urlService,
+      final RoleVoter voter,
+      @Value("${menu.filterBySecurity}") final boolean isSecured) {
+    return new MenuSecurityFilter(voter, urlService, isSecured);
   }
 
   @Bean public ViewResolver viewResolver() {
@@ -33,8 +47,7 @@ public class MenuMvc {
   }
 
   @Bean public FreeMarkerConfigurer freemarkerConfig(
-      @Value("${debugMode:false}") final boolean debugMode) throws IOException,
-      TemplateException {
+      @Value("${debugMode:false}") final boolean debugMode) {
     return new com.avenida.banten.web.freemarker.FreeMarkerConfigurer(
         debugMode, "../banten-web",
         "classpath:com/avenida/banten/web/menu/templates");

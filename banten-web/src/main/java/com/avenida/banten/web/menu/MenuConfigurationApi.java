@@ -19,10 +19,10 @@ public class MenuConfigurationApi extends ConfigurationApi {
   private static Logger log = getLogger(MenuConfigurationApi.class);
 
   /** The list of nodes. */
-  private static List<Menu> nodes = new LinkedList<>();
+  private final List<Menu> nodes = new LinkedList<>();
 
   /** The root menu. */
-  private static Menu menu = new Menu("/", "root");
+  private final Menu menu = new Menu("/", "root");
 
   /** Register a menu node.
    * @param node the menu node.
@@ -35,7 +35,7 @@ public class MenuConfigurationApi extends ConfigurationApi {
    *
    * @return the menu, never never null.
    */
-  public static Menu get() {
+  public Menu get() {
     return menu;
   }
 
@@ -46,8 +46,8 @@ public class MenuConfigurationApi extends ConfigurationApi {
     // Sort the node list by path.
     Collections.sort(nodes, new Comparator<Menu>() {
       @Override
-      public int compare(final Menu o1, final Menu o2) {
-        return o1.getPath().compareTo(o2.getPath());
+      public int compare(final Menu menuA, final Menu menuB) {
+        return menuA.getPath().compareTo(menuB.getPath());
       }
     });
 

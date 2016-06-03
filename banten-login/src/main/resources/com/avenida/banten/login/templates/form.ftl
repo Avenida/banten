@@ -23,6 +23,9 @@
                 <div style="margin-top:10px" class="form-group">
                   <div class="col-sm-12 controls">
                     <button class="btn btn-success" type="submit" name="submit-btn">Login</button>
+                    <#if loginFailure>
+                      <span><b style="color:red">The username or password is incorrect</b></span>
+                    </#if>
                   </div>
                 </div>
              </form> 

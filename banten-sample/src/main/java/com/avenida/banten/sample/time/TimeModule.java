@@ -2,6 +2,7 @@ package com.avenida.banten.sample.time;
 
 import com.avenida.banten.core.*;
 import com.avenida.banten.hibernate.HibernateConfigurationApi;
+import com.avenida.banten.hibernate.PersistenceUnit;
 import com.avenida.banten.sample.time.domain.Time;
 import com.avenida.banten.shiro.ShiroConfigurationApi;
 import com.avenida.banten.shiro.UrlToRoleMapping;

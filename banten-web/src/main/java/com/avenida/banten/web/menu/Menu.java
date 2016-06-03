@@ -73,6 +73,9 @@ public class Menu {
     return link;
   }
 
+  /** Checks whether or not this menu is leaf.
+   * @return true if this menu is leaf.
+   */
   public boolean isLeaf() {
     return link != null;
   }
@@ -118,8 +121,12 @@ public class Menu {
     return null;
   }
 
-  void add(final List<Menu> menus) {
-    childNodes.addAll(menus);
+  /** Add a list of {@link Menu#getChildNodes()}.
+   * @param menuList the list of {@link Menu} to add, cannot be null.
+   */
+  void add(final List<Menu> menuList) {
+    Validate.notNull(menuList);
+    childNodes.addAll(menuList);
   }
 
   /** Creates an empty copy for this menu without childs.

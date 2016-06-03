@@ -24,12 +24,13 @@ public class WebletRenderer {
     container = webletContainer;
   }
 
-  /** Renders the given weblet by its name.
+  /** Renders the given {@link Weblet} by its name.
    *
-   * @param moduleName the module name, cannot be null.
-   * @param webletName the weblet name, cannot be null.
-   * @param request the current HTTP Servlet request, cannot be null.
-   * @param response the current HTTP Servlet response, cannot be null.
+   * @param moduleName the {@link Module} name, cannot be null.
+   * @param webletName the {@link Weblet} name, cannot be null.
+   * @param request the current {@link HttpServletRequest}, cannot be null.
+   * @param response the current {@link HttpServletResponse}, cannot be null.
+   *
    * @return the String with the Weblet's execution output.
    *
    * @throws ServletException for the request dispatcher.
@@ -52,9 +53,6 @@ public class WebletRenderer {
     RequestDispatcher dispatcher;
     dispatcher = request.getRequestDispatcher(moduleWeblet.endpoint());
 
-    // WARN: this may throw a Cannot expose request attribute '...' because of
-    // an existing model object of the same name. It is solved somewhere in
-    // katari.
     dispatcher.include(request, wrappedResponse);
 
     String page = wrappedResponse.getResponseAsString();

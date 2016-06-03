@@ -9,18 +9,18 @@ import org.apache.commons.lang3.Validate;
  */
 public class Weblet {
 
-  /** The weblet name, this value should be unique within the module,
-   * cannot be null.
+  /** The Weblet's name, this value should be unique within the module,
+   * it's never null.
    */
   private final String name;
 
-  /** The endpoint URL, cannot be null. */
+  /** The endpoint URL, it's never null.*/
   private final String endpoint;
 
-  /** Creates a new weblet instance.
+  /** Creates a new {@link Weblet} instance.
    *
-   * @param theName the weblet name, cannot be null.
-   * @param theEndpoint the weblet endpoint, cannot be null.
+   * @param theName the {@link Weblet#name}, cannot be null.
+   * @param theEndpoint the {@link Weblet#endpoint}, cannot be null.
    */
   public Weblet(final String theName, final String theEndpoint) {
     Validate.notNull(theName, "the name cannot be null");

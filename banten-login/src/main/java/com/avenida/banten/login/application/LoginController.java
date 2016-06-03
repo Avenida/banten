@@ -1,5 +1,7 @@
 package com.avenida.banten.login.application;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +17,11 @@ public class LoginController {
 
   @RequestMapping(value = "/form.html",
       method = { RequestMethod.GET, RequestMethod.POST })
-  public ModelAndView form() {
-    return new ModelAndView("form");
+  public ModelAndView form(final HttpServletRequest request) {
+    ModelAndView mav = new ModelAndView("form");
+    Object failure = request.getAttribute("shiroLoginFailure");
+    mav.addObject("loginFailure",  failure != null);
+    return mav;
   }
 
   @RequestMapping(value = "/unauthorized.html",

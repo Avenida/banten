@@ -27,10 +27,10 @@ import org.springframework.web.servlet.DispatcherServlet;
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */
-public class WebModuleWebApplicationContext
+public class BantenWebApplicationContext
   extends AnnotationConfigWebApplicationContext {
 
-  private final Logger log = getLogger(WebModuleWebApplicationContext.class);
+  private final Logger log = getLogger(BantenWebApplicationContext.class);
 
   /** The web module for this web application context, it's never null. */
   private final WebModule module;
@@ -40,9 +40,9 @@ public class WebModuleWebApplicationContext
 
   /** Creates a new instance of the
    *  {@link AnnotationConfigWebApplicationContext}.
-   * @param webModule the Banten's web module, cannot be null.
+   * @param webModule the BantenContext's web module, cannot be null.
    */
-  WebModuleWebApplicationContext(final WebModule webModule) {
+  BantenWebApplicationContext(final WebModule webModule) {
     Validate.notNull(webModule, "The module cannot be null");
 
     Validate.notNull(webModule.getMvcConfiguration(),
@@ -71,9 +71,9 @@ public class WebModuleWebApplicationContext
 
   /** {@inheritDoc}.
    *
-   * Hack to create the Banten's module description.
+   * Hack to create the BantenContext's module description.
    *
-   * The {@link WebModuleWebApplicationContext} is not a
+   * The {@link BantenWebApplicationContext} is not a
    * {@link BeanDefinitionRegistry}, so we override the loadDefinitions
    * to create a singleton for the module description.
    */
@@ -94,6 +94,13 @@ public class WebModuleWebApplicationContext
    */
   private String getName() {
     return "private-" + module.getName();
+  }
+
+  /** Retrieves the {@link Module}.
+   * @return the {@link Module}, never null.
+   */
+  public WebModule getModule() {
+    return module;
   }
 
   /** Creates a new {@link GenericBeanDefinition} that holds a

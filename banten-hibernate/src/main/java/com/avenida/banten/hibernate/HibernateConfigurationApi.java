@@ -1,13 +1,16 @@
 package com.avenida.banten.hibernate;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.avenida.banten.core.ConfigurationApi;
-import com.avenida.banten.core.PersistenceUnit;
 
-/** Hibernate configuration.
+/** Hibernate's configuration.
+ *
+ * I need to use static references for the persistenceUnits because I need
+ * it within the {@link PlatformTuplizer.FactoryCache#get()}.
+ *
+ * TODO [waabox] use the Hibernate Services in order to provide those
+ * classes, for now, it's ok, however it's a little bit dark this.
  *
  * @author waabox (waabox[at]gmail[dot]com)
  */

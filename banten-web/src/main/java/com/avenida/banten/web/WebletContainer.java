@@ -118,8 +118,8 @@ public final class WebletContainer {
 
     /** Creates a new Entry.
      *
-     * @param aModule the module, cannot be null.
-     * @param aWeblet the weblet, cannot be null.
+     * @param aModule the {@link Module}, cannot be null.
+     * @param aWeblet the {@link Weblet}, cannot be null.
      */
     private ModuleWeblet(final WebModule aModule, final Weblet aWeblet) {
       Validate.notNull(aModule, "The module cannot be null");

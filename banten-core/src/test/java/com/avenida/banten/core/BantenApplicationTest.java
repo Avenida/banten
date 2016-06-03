@@ -10,6 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.avenida.banten.core.BantenApplicationTest
+  .ModulePrivateConfiguration.SampleBeanCalledA;
+
 public class BantenApplicationTest {
 
   public static String configuredString = null;
@@ -32,6 +35,20 @@ public class BantenApplicationTest {
 
     // Checks private beans.
     assertThat(ctx.containsBean("modulePrivateStringBean"), is(false));
+    BantenContext context = ctx.getBean(BantenContext.class);
+    assertThat(context, notNullValue());
+
+    String beanFromPrivate = context.getBean(
+        SampleModule.class, "modulePrivateStringBean", String.class);
+
+    assertThat(beanFromPrivate, notNullValue());
+    assertThat(beanFromPrivate, is("a private value"));
+
+    SampleBeanCalledA beanFromPrivateA = context.getBean(
+        SampleModule.class, SampleBeanCalledA.class);
+
+    assertThat(beanFromPrivateA, notNullValue());
+
   }
 
   public static class SampleApplication extends BantenApplication {
@@ -112,6 +129,13 @@ public class BantenApplicationTest {
       return "a private value";
     }
 
+    @Bean public SampleBeanCalledA getA() {
+      return new SampleBeanCalledA();
+    }
+
+
+    public static class SampleBeanCalledA {
+    }
   }
 
   public static class SampleModuleB implements WebModule {
