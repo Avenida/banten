@@ -105,7 +105,7 @@ public class BantenSession implements ValidatingSession {
   public static void validateKey(final String key) {
     Validate.notNull(key, "The key cannot be null");
     int keySize = key.getBytes().length;
-    Validate.isTrue((keySize >= MIN_KEY_SIZE) && (keySize <= MAX_KEY_SIZE));
+    Validate.isTrue(keySize >= MIN_KEY_SIZE && keySize <= MAX_KEY_SIZE);
   }
 
   /** Encrypts the provided plain text and generates an encrypted string.

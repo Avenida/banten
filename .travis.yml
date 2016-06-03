@@ -1,11 +1,11 @@
 language: java
 
 script:
- - mvn clean install
+ - mvn clean install -Dgpg.skip=true -Dgpg.passphrase=travis
 
 notifications:
   email:
     recipients:
-      - waabox@gmail.com
+      - me@waabox.org
     on_success: always # [always|never|change] default: change
     on_failure: always # [always|never|change] default: always

@@ -8,14 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Tuplizer;
-
 /**
  * @author waabox (waabox[at]gmail[dot]com)
  */
 @Entity
 @Table(name = "mock_entity_with_tuplizer")
-@Tuplizer(impl = PlatformTuplizer.class)
 public class MockEntityWithTuplizer {
 
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
