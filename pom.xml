@@ -5,7 +5,7 @@
 
   <groupId>com.avenida.banten</groupId>
   <artifactId>banten</artifactId>
-  <version>0.12</version>
+  <version>0.12-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Banten</name>
@@ -56,7 +56,7 @@
     <developerConnection>
       scm:git:git@github.com:waabox/banten.git
     </developerConnection>
-    <tag>banten-0.12</tag>
+    <tag>banten-0.1</tag>
   </scm>
 
   <distributionManagement>
