@@ -624,14 +624,40 @@
       </plugin>
 
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <generateBackupPoms>false</generateBackupPoms>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.3</version>
+        <version>1.6</version>
         <extensions>true</extensions>
         <configuration>
-           <serverId>ossrh</serverId>
-           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-           <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          <serverId>oss.sonatype.org</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <description>${project.version}</description>
+        </configuration>
+        <executions>
+          <execution>
+            <id>deploy-to-sonatype</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+              <goal>release</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
         </configuration>
       </plugin>
 
