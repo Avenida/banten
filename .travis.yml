@@ -1,7 +1,7 @@
 language: java
 
 script:
- - mvn clean install -Dgpg.skip=true
+ - mvn clean install -Dgpg.skip=true -Dgpg.passphrase=travis
 
 notifications:
   email:
