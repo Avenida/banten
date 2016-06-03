@@ -98,9 +98,8 @@ public class BantenContext {
    * @param type the bean type, cannot be null.
    * @return the bean instance, or null.
    */
-  @SuppressWarnings("unchecked")
   public <T> T getBean(
-      final Class<? extends WebModule> module, final Class<?> type) {
+      final Class<? extends WebModule> module, final Class<T> type) {
     Validate.notNull(module, "The module class cannot be null");
     Validate.notNull(type, "The type class cannot be null");
 
